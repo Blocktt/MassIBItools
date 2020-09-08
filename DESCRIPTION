@@ -1,11 +1,30 @@
 Package: MassIBItools
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Used to calculate Massachusetts DEP IBI Metrics and scores, and produce output files 
+Version: 0.1.0.900
+Authors@R: c(
+  person("Ben", "Block", email="Ben.Block@tetratech.com", role=c("cre", "aut")),
+  person("Erik W.","Leppo", role="aut"),
+  person("Jen", "Stamp", role= "aut"))
+Maintainer: Ben Block <Ben.Block@tetratech.com>
+Description: Tools to calculate multi-metric index in R and Shiny.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 7.1.1
+Imports:
+  BioMonTools,
+  shiny,
+  DT,
+  ggplot2,
+  readxl,
+  reshape2,
+  dplyr,
+  maps,
+  tidyr,
+  shinyjs,
+  knitr,
+  rmarkdown,
+  leaflet
+VignetteBuilder: knitr
+URL: https://github.com/Blocktt/MassIBItools
