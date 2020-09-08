@@ -1,0 +1,12 @@
+name: MassIBItools
+title: MassIBItools
+username:
+account: tetratech-wtr-wne
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2771730
+bundleId: 3607906
+url: https://tetratech-wtr-wne.shinyapps.io/MassIBItools/
+when: 1599596130.82529
+asMultiple: FALSE
+asStatic: FALSE

@@ -503,6 +503,8 @@ shinyServer(function(input, output, session) {
 
         leaflet() %>%
           addTiles() %>%
+          addProviderTiles("CartoDB.Positron", group="Positron") %>%
+          addProviderTiles(providers$Stamen.TonerLite, group="Toner Lite") %>%
           addCircleMarkers(data = WH_data, lat = ~LAT, lng = ~LONG
                            , group = "WESTHIGHLANDS", popup = paste("SampleID:", WH_data$SAMPLEID, "<br>"
                                                                     ,"Site Class:", WH_data$INDEX_REGION, "<br>"
@@ -537,10 +539,12 @@ shinyServer(function(input, output, session) {
           addLegend(pal = qpal,
                     values = scale_range,
                     position = "bottomright",
-                    title = "Values",
+                    title = "Index Scores",
                     opacity = 1) %>%
           addLayersControl(overlayGroups = c("WESTHIGHLANDS", "CENTRALHILLS"),
-                           options = layersControlOptions(collapsed = FALSE))
+                           baseGroups = c("OSM (default)", "Positron", "Toner Lite"),
+                           options = layersControlOptions(collapsed = FALSE))%>%
+          addMiniMap(toggleDisplay = TRUE)
 
 
       }) ##renderLeaflet~END
