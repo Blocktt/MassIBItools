@@ -6,13 +6,13 @@ A shiny app used to calculate IBI scores for given sites using benthic macroinve
 
 ## Badges
 
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Blocktt/MIEGLEtools/graphs/commit-activity)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Blocktt/MassIBItools/graphs/commit-activity)
 [![GitHub
-license](https://img.shields.io/github/license/Blocktt/MIEGLEtools)](https://github.com/Blocktt/MIEGLEtools/blob/master/LICENSE)
+license](https://img.shields.io/github/license/Blocktt/MassIBItools)](https://github.com/Blocktt/MassIBItools/blob/master/LICENSE)
 [![GitHub
-issues](https://img.shields.io/github/issues-raw/Blocktt/MIEGLEtools)](https://github.com/Blocktt/MIEGLEtools/issues)
+issues](https://img.shields.io/github/issues-raw/Blocktt/MassIBItools)](https://github.com/Blocktt/MassIBItools/issues)
 [![Github all
-releases](https://img.shields.io/github/downloads/Blocktt/MIEGLEtools/total)](https://github.com/Blocktt/MIEGLEtools/releases)
+releases](https://img.shields.io/github/downloads/Blocktt/MassIBItools/total)](https://github.com/Blocktt/MassIBItools/releases)
 
 ## Installation
 
