@@ -13,14 +13,14 @@ library(knitr)
 library(maps)
 library(rmarkdown)
 library(tidyr)
-library(MIEGLEtools)
+library(MassIBItools)
 library(leaflet)
 # library(plotly)
 library(shinyjs) # used for download button enable
 
 
 # Drop-down boxes
-MMIs <- c("MIEGLE_2020")
+MMIs <- c("MassDEP_Kick_2019")
 Community <- c("bugs")
 
 
@@ -35,32 +35,18 @@ source(file.path(".", "external", "metric.values.MA.R"))
 
 # define which metrics michigan wants to keep in indices
 
-MichMetrics <- c("nt_CruMol"
-                 ,"pi_ffg_pred"
-                 ,"pi_ffg_shred"
-                 ,"pi_habit_cling"
-                 ,"pi_CruMol"
-                 ,"nt_tv_toler"
-                 ,"pt_NonIns"
-                 ,"pi_habit_climb"
-                 ,"pi_EPT"
-                 ,"pi_EPTNoBaeHydro"
-                 ,"pi_tv_toler"
-                 ,"nt_EPT"
-                 ,"pi_Cru"
+MassMetrics <- c("nt_total"
+                 ,"pt_EPT"
+                 ,"pi_EphemNoCaeBae"
+                 ,"pi_ffg_filt"
+                 ,"pt_ffg_pred"
                  ,"pt_tv_intol"
-                 ,"nt_NonIns"
-                 ,"pi_ffg_scrap"
-                 ,"pi_IsopGastHiru"
-                 ,"pi_NonIns"
                  ,"pi_Pleco"
-                 ,"pt_tv_toler"
-                 ,"pi_ffg_col"
-                 ,"pi_habit_sprawl"
-                 ,"nt_Trich"
-                 ,"nt_habit_cling"
+                 ,"pi_ffg_shred"
                  ,"pi_tv_intol"
-)# END MichMetricss
+                 ,"x_Becks"
+
+)# END MassMetricss
 
 
 # https://stackoverflow.com/questions/51292957/is-there-a-way-to-open-a-users-vignette-in-a-shiny-link
