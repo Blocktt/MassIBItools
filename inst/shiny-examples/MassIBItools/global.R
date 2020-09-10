@@ -49,21 +49,12 @@ MassMetrics <- c("nt_total"
 )# END MassMetricss
 
 
-# https://stackoverflow.com/questions/51292957/is-there-a-way-to-open-a-users-vignette-in-a-shiny-link
-# Function to get link to a package Vignette
-# get_vignette_link <- function(...) {
-#   x <- vignette(...)
-#   if (nzchar(out <- x$PDF)) {
-#     ext <- tools::file_ext(out)
-#     port <- if (tolower(ext) == "html")
-#       tools::startDynamicHelp(NA)
-#     else 0L
-#     if (port > 0L) {
-#       out <- sprintf("http://127.0.0.1:%d/library/%s/doc/%s",
-#                      port, basename(x$Dir), out)
-#       return(out)
-#     }
-#   }
-#   stop("no html help found")
-# }
+#### GIS/Map data ####
+
+dir_data <- file.path(".","GIS_Data")
+
+## Central Hills / Western Highlands Regions
+region_shape <- rgdal::readOGR(file.path(dir_data, "BugClasses_20200910.shp"))
+
+
 

@@ -68,6 +68,9 @@ shinyServer(function(input, output, session) {
                              sep = input$sep, quote = input$quote, stringsAsFactors = FALSE)
 
         required_columns <- c("INDEX_NAME"
+                              ,"STATIONID"
+                              ,"COLLDATE"
+                              ,"COLLMETH"
                               ,"SAMPLEID"
                               ,"LAT"
                               ,"LONG"
@@ -100,6 +103,19 @@ shinyServer(function(input, output, session) {
                                                                  paste("Required columns missing from the data:\n")
                                                                  , paste("* ", col_missing, collapse = "\n")))
         )##END ~ validate() code
+
+        ########################### MAP Observer test
+        observe({
+          inFile<- input$fn_input
+          if(is.null(inFile))
+            return(NULL)
+          df_input
+          updateSelectInput(session, "siteid.select", choices = as.character(sort(unique(df_input[, "SAMPLEID"]))))
+        })
+
+
+        ##############
+
 
 
         #message(getwd())
@@ -233,7 +249,7 @@ shinyServer(function(input, output, session) {
             # save each file separately
 
             # columns to keep
-            keep_cols <- c("Lat", "Long")
+            keep_cols <- c("Lat", "Long", "STATIONID", "COLLDATE", "COLLMETH")
 
             #df_metval <- BioMonTools::metric.values(fun.DF = df_data, fun.Community = "bugs", fun.MetricNames = MichMetrics, boo.Shiny = TRUE)
 
@@ -505,6 +521,14 @@ shinyServer(function(input, output, session) {
           addTiles() %>%
           addProviderTiles("CartoDB.Positron", group="Positron") %>%
           addProviderTiles(providers$Stamen.TonerLite, group="Toner Lite") %>%
+          addPolygons(data = region_shape
+                      , color = "blue"
+                      , weight = 5
+                      , fill = FALSE
+                      , label = region_shape$BugClass
+                      , group = "Regions"
+
+          ) %>%
           addCircleMarkers(data = WH_data, lat = ~LAT, lng = ~LONG
                            , group = "WESTHIGHLANDS", popup = paste("SampleID:", WH_data$SAMPLEID, "<br>"
                                                                     ,"Site Class:", WH_data$INDEX_REGION, "<br>"
@@ -541,12 +565,46 @@ shinyServer(function(input, output, session) {
                     position = "bottomright",
                     title = "Index Scores",
                     opacity = 1) %>%
-          addLayersControl(overlayGroups = c("WESTHIGHLANDS", "CENTRALHILLS"),
+          addLayersControl(overlayGroups = c("WESTHIGHLANDS", "CENTRALHILLS", "Regions"),
                            baseGroups = c("OSM (default)", "Positron", "Toner Lite"),
                            options = layersControlOptions(collapsed = FALSE))%>%
           addMiniMap(toggleDisplay = TRUE)
 
 
       }) ##renderLeaflet~END
+
+    # Map that filters output data to only a single site
+    observeEvent(input$siteid.select,{
+      req(!is.null(map_data$df_metsc))
+
+      df_data <- map_data$df_metsc
+
+      #
+      df_filtered <- df_data[df_data$SAMPLEID == input$siteid.select, ]
+
+      #
+      # get centroid (use mean just in case have duplicates)
+      view.cent <- c(mean(df_filtered$LONG), mean(df_filtered$LAT))
+      #
+      # modify map
+      leafletProxy("mymap") %>%
+        #clearShapes() %>%  # removes all layers
+        removeShape("layer_site_selected") %>%
+        #addPolylines(data=filteredData()
+        addCircles(data=df_filtered
+                   , lng=~LONG
+                   , lat=~LAT
+                   , popup= paste("SampleID:", df_filtered$SAMPLEID, "<br>"
+                                 ,"Site Class:", df_filtered$INDEX_REGION, "<br>"
+                                 ,"<b> Index Value:</b>", round(df_filtered$Index, 2), "<br>"
+                                 ,"<b> Narrative:</b>", df_filtered$Index_Nar)
+                   , color = "black"
+                   , group = "Sites_selected"
+                   , layerId = "layer_site_selected"
+                   , radius=30) %>%
+
+        setView(view.cent[1], view.cent[2], zoom = 16) # 1= whole earth
+
+    }) ## observeEvent(input$siteid.select ~ END
 
 })##shinyServer~END

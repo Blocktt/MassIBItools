@@ -104,11 +104,24 @@ shinyUI(navbarPage("Massachusetts IBI Calculator v0.1.0.900",
             ),## tabPanel~END
             tabPanel("Site and Scores Map"
                      , titlePanel("Site and Scores Map")
-                     , h4("The map below will be generated once metric values and scores have been calculated.")
-                     , h4("Sites are clustered when zoomed out for increased visibility - zoom in for added detail!")
-                     , h4("Sites are color coded by their Index Score value - click on a site for more info!")
-                     ,leafletOutput("mymap", width = 1000, height = 500)
+                     , h5("The map below will be generated once metric values and scores have been calculated.")
+                     , h5("Sites are clustered when zoomed out for increased visibility - zoom in for added detail!")
+                     , h5("Sites are color coded by their Index Score value - click on a site for more info!")
+                     , sidebarLayout(
+                       sidebarPanel(
+                         helpText("Use the drop down menu to select a Sample ID.")
+                         ,selectInput("siteid.select", "Select Sample ID:"
+                                       , "")##selectInput~END
+
+                         , br()
+                         #, actionButton("zoom.comid", "Zoom to Selected ComID")
+                         , p("After choosing a Sample ID the map will zoom to its location.")
+
+                       )##sidebarPanel.END
+                       , mainPanel(
+                         tags$style(type = "text/css", "#map {height: calc(100vh - 80px) !important;}")
+                         , leafletOutput("mymap", height = "85vh")
+                       )##mainPanel.END
             ) ## tabPanel~END
         )## navbarPage~END
-)## shinyUI~END
-
+))## shinyUI~END
