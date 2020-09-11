@@ -24,7 +24,7 @@
 # library(shinyjs) # used for download button enable
 
 # Define UI for application that draws a histogram
-shinyUI(navbarPage("Massachusetts IBI Calculator v0.1.0.900",
+shinyUI(navbarPage("Massachusetts Stream IBI Calculator v0.1.0.904",
                    tabPanel("Calculator",
                             # SideBar
                             sidebarLayout(

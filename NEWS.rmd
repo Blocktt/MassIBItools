@@ -17,6 +17,10 @@ knitr::opts_chunk$set(
 cat(paste0("Last Update: ",Sys.time()))
 ```
 
+MassIBItools v0.1.0.904 (2020-09-11)
+================
+* Created additions to mappping capabilities - site selector, toggle of background layers, and region layers. 
+
 MassIBItools v0.1.0.900 (2020-09-08)
 ================
 
