@@ -20,7 +20,7 @@ library(shinyjs) # used for download button enable
 
 
 # Drop-down boxes
-MMIs <- c("MassDEP_Kick_2019")
+MMI <- "MassDEP_2019_Bugs"
 Community <- c("bugs")
 
 
@@ -55,6 +55,10 @@ dir_data <- file.path(".","GIS_Data")
 
 ## Central Hills / Western Highlands Regions
 region_shape <- rgdal::readOGR(file.path(dir_data, "BugClasses_20200910.shp"))
+
+## Mass Major Basins
+
+basins_shape <- rgdal::readOGR(file.path(dir_data,"MA_MajBasins.shp"))
 
 
 

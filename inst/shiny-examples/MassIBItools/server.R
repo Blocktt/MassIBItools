@@ -64,7 +64,7 @@ shinyServer(function(input, output, session) {
         }##IF~is.null~END
 
         # Read user imported file
-        df_input <- read.csv(inFile$datapath, header = input$header,
+        df_input <- read.csv(inFile$datapath, header = TRUE,
                              sep = input$sep, quote = input$quote, stringsAsFactors = FALSE)
 
         required_columns <- c("INDEX_NAME"
@@ -261,7 +261,7 @@ shinyServer(function(input, output, session) {
             Sys.sleep(1)
 
             # Log
-            message(paste0("Chosen IBI from Shiny app = ", input$MMI))
+            message(paste0("Chosen IBI from Shiny app = ", MMI))
 
 
             #
@@ -315,20 +315,11 @@ shinyServer(function(input, output, session) {
             incProgress(1/n_inc, detail = "Ben's code is magical!")
             Sys.sleep(0.75)
 
-            # Plot
-            #p1 <- ggplot(df_metsc, aes(IBI), fill=myCol_Strata, shape=myCol_Strata) +
-            #            geom_dotplot(aes_string(fill=myCol_Strata), method="histodot", binwidth = 1/5) +
-            #geom_dotplot(aes_string(fill=myCol_Strata)) +
-            #           labs(x=myIndex) +
-            #          geom_vline(xintercept = 3) +
-            #           scale_x_continuous(limits = c(1, 5)) +
-            # scale_fill_discrete(name="STRATA"
-            #                     , breaks=c("COASTAL", "EPIEDMONT", "HIGHLAND")) +
-            #          theme(axis.title.y=element_blank()
-            #               , axis.ticks.y=element_blank()
-            #              , axis.text.y=element_blank())
-            #fn_p1 <- file.path(".", "Results", "results_plot_IBI.jpg")
-            #ggplot2::ggsave(fn_p1, p1)
+            # Render Summary Report (rmarkdown file)
+            #rmarkdown::render(input = file.path(".","inst","shiny-examples","MassIBItools","MA_TEST.rmd"), output_format = "word_document",
+             #                 output_dir = file.path(".", "Results"), output_file = "results_summary_report")
+
+
 
 
             # Increment the progress bar, and update the detail text.
@@ -358,109 +349,6 @@ shinyServer(function(input, output, session) {
     }##expr~ObserveEvent~END
     )##observeEvent~b_CalcIBI~END
 
-    # df_metric_values ####
-    # output$df_metric_values <- DT::renderDT({
-    #   # input$df_metric_values will be NULL initially. After the user
-    #   # calculates an IBI, it will be a data frame with 'name',
-    #   # 'size', 'type', and 'datapath' columns. The 'datapath'
-    #   # column will contain the local filenames where the data can
-    #   # be found.
-    #
-    #   # If haven't imported a file keep blank
-    #   inFile <- input$fn_input
-    #
-    #   if (is.null(inFile)){
-    #     return(NULL)
-    #   }##IF~is.null~END
-    #
-    #   # Read in saved file (known format)
-    #   df_met_val <- NULL
-    #   fn_met_val <- file.path(".", "Results", "results_metval.tsv")
-    #   df_met_val <- read.delim(fn_input, stringsAsFactors = FALSE, sep="\t")
-    #
-    #   boo_met_val <- file.exists(fn_met_val)
-    #
-    #   if (boo_met_val==FALSE){
-    #     return(NULL)
-    #   }
-    #
-    #   return(df_met_val)
-    #
-    # }##expr~END
-    # , filter="top", options=list(scrollX=TRUE)
-    # )##output$df_import~END
-
-    # # df_metric_scores ####
-    # output$df_metric_scores <- renderDT({
-    #   # input$df_metric_scores will be NULL initially. After the user
-    #   # calculates an IBI, it will be a data frame with 'name',
-    #   # 'size', 'type', and 'datapath' columns. The 'datapath'
-    #   # column will contain the local filenames where the data can
-    #   # be found.
-    #
-    #   # If haven't imported a file keep blank
-    #   inFile <- input$fn_input
-    #
-    #   if (is.null(inFile)){
-    #     return(NULL)
-    #   }##IF~is.null~END
-    #
-    #   # Read in saved file (known format)
-    #   df_met_sc <- NULL
-    #   fn_met_sc <- file.path(".", "Results", "results_metsc.tsv")
-    #   df_met_sc <- read.delim(fn_input, stringsAsFactors = FALSE, sep="\t")
-    #   boo_met_sc <- file.exists(fn_met_sc)
-    #
-    #   if (boo_met_sc==FALSE){
-    #     return(NULL)
-    #   } else {
-    #     return(df_met_sc)
-    #   }
-    #
-    # }##expr~END
-    # , filter="top", options=list(scrollX=TRUE)
-    # )##output$df_import~END
-
-
-    # # plot_IBI ####
-    # #output$plot_IBI <- renderPlotly(ggplotly(plot_BIBI))
-    # output$plot_IBI <- renderImage({
-    #   #
-    #   # If haven't imported a file keep blank
-    #   inFile <- input$fn_input
-    #
-    #   fn_plot <- file.path(".", "Results", "plot_IBI.jpg")
-    #   boo_plot <- file.exists(fn_plot)
-    #
-    #
-    #   if (is.null(inFile)==TRUE){# || boo_plot==FALSE){
-    #     return(NULL)
-    #   }##IF~is.null~END
-    #
-    #   # if (boo_plot==FALSE){
-    #   #   return(NULL)
-    #   # }
-    #
-    #   return(list(src = fn_plot
-    #               , filetype = "image/jpeg"
-    #               , width = 800
-    #               )
-    #         )##return~END
-    #
-    # }##expr~END
-    # , deleteFile=FALSE
-    # )##renderImage~END
-
-
-    # b_downloadData ####
-
-    # disable button unless have zip file
-    # Enable in b_Calc instead
-    # observe({
-    #   fn_zip_toggle <- paste0("results", ".zip")
-    #   shinyjs::toggleState(id="b_downloadData", condition = file.exists(file.path(".", "Results", fn_zip_toggle)) == TRUE)
-    # })##~toggleState~END
-
 
     # Downloadable csv of selected dataset
     output$b_downloadData <- downloadHandler(
@@ -468,7 +356,7 @@ shinyServer(function(input, output, session) {
         #myDateTime <- format(Sys.time(), "%Y%m%d_%H%M%S")
 
         filename = function() {
-            paste(input$MMI, "_", format(Sys.time(), "%Y%m%d_%H%M%S"), ".zip", sep = "")
+            paste(MMI, "_", format(Sys.time(), "%Y%m%d_%H%M%S"), ".zip", sep = "")
         },
         content = function(fname) {##content~START
             # tmpdir <- tempdir()
@@ -529,9 +417,19 @@ shinyServer(function(input, output, session) {
                       , group = "Regions"
 
           ) %>%
+          addPolygons(data = basins_shape
+                      , color = "green"
+                      , weight = 3
+                      , fill = FALSE
+                      , label = basins_shape$NAME
+                      , group = "Major Basins"
+
+          ) %>%
           addCircleMarkers(data = WH_data, lat = ~LAT, lng = ~LONG
                            , group = "WESTHIGHLANDS", popup = paste("SampleID:", WH_data$SAMPLEID, "<br>"
                                                                     ,"Site Class:", WH_data$INDEX_REGION, "<br>"
+                                                                    ,"Coll Date:", WH_data$COLLDATE, "<br>"
+                                                                    ,"Unique ID:", WH_data$STATIONID, "<br>"
                                                                     ,"Score nt_total:", round(WH_data$SC_nt_total,2), "<br>"
                                                                     ,"Score pi_Pleco:", round(WH_data$SC_pi_Pleco,2), "<br>"
                                                                     ,"Score pi_ffg_filt:", round(WH_data$SC_pi_ffg_filt,2), "<br>"
@@ -540,7 +438,7 @@ shinyServer(function(input, output, session) {
                                                                     ,"Score x_Becks:", round(WH_data$SC_x_Becks,2), "<br>"
                                                                     ,"<b> Index Value:</b>", round(WH_data$Index, 2), "<br>"
                                                                     ,"<b> Narrative:</b>", WH_data$Index_Nar)
-                           , color = ~qpal(Index), fillOpacity = 1, stroke = FALSE
+                           , color = "black", fillColor = ~qpal(Index), fillOpacity = 1, stroke = TRUE
                            , clusterOptions = markerClusterOptions()
 
                            ) %>%
@@ -548,6 +446,8 @@ shinyServer(function(input, output, session) {
           addCircleMarkers(data = CH_data, lat = ~LAT, lng = ~LONG
                            , group = "CENTRALHILLS", popup = paste("SampleID:", CH_data$SAMPLEID, "<br>"
                                                                     ,"Site Class:", CH_data$INDEX_REGION, "<br>"
+                                                                    ,"Coll Date:", CH_data$COLLDATE, "<br>"
+                                                                    ,"Unique ID:", CH_data$STATIONID, "<br>"
                                                                     ,"Score nt_total:", round(CH_data$SC_nt_total,2), "<br>"
                                                                     ,"Score pt_EPT:", round(CH_data$SC_pt_EPT,2), "<br>"
                                                                     ,"Score pi_EphemNoCaeBae:", round(CH_data$SC_pi_EphemNoCaeBae,2), "<br>"
@@ -556,7 +456,7 @@ shinyServer(function(input, output, session) {
                                                                     ,"Score pt_tv_intol:", round(CH_data$SC_pt_tv_intol,2), "<br>"
                                                                    ,"<b> Index Value:</b>", round(CH_data$Index, 2), "<br>"
                                                                    ,"<b> Narrative:</b>", CH_data$Index_Nar)
-                           , color = ~qpal(Index), fillOpacity = 1, stroke = FALSE
+                           , color = "black", fillColor = ~qpal(Index), fillOpacity = 1, stroke = TRUE
                            , clusterOptions = markerClusterOptions()
 
                            )%>%
@@ -565,9 +465,10 @@ shinyServer(function(input, output, session) {
                     position = "bottomright",
                     title = "Index Scores",
                     opacity = 1) %>%
-          addLayersControl(overlayGroups = c("WESTHIGHLANDS", "CENTRALHILLS", "Regions"),
+          addLayersControl(overlayGroups = c("WESTHIGHLANDS", "CENTRALHILLS", "Regions", "Major Basins"),
                            baseGroups = c("OSM (default)", "Positron", "Toner Lite"),
-                           options = layersControlOptions(collapsed = FALSE))%>%
+                           options = layersControlOptions(collapsed = TRUE))%>%
+          hideGroup(c("Regions", "Major Basins")) %>%
           addMiniMap(toggleDisplay = TRUE)
 
 

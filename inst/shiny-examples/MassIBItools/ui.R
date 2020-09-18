@@ -35,7 +35,6 @@ shinyUI(navbarPage("Massachusetts Stream IBI Calculator v0.1.0.904",
                                     #, p("1_LoadData, 2_CalcMetrics, 3_CalcIndex, 4_DownloadResults")
                                     , h4("1. Load File")
                                     , h5("Select file parameters")
-                                    , checkboxInput('header', 'Header', TRUE)
                                     , radioButtons('sep', 'Separator',
                                                    c(Comma=',',
                                                      Semicolon=';',
@@ -59,8 +58,9 @@ shinyUI(navbarPage("Massachusetts Stream IBI Calculator v0.1.0.904",
                                     )##fileInput~END
                                     #, tags$hr()
                                     , h4("2. Calculate IBI")
-                                    , selectInput("MMI", "Select an IBI to calculate:",
-                                                  choices=MMIs)
+                                    #, selectInput("MMI", "Select an IBI to calculate:",
+                                                  #choices=MMIs)
+                                    , h5("Mass Kick IBI or Multihabitat IBI - specified in INDEX_REGION field of input")
                                     , actionButton("b_Calc", "Calculate Metric Values and Scores")
                                     , tags$hr()
                                     , h4("3. Download Results")
