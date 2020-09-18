@@ -259,7 +259,6 @@ shinyServer(function(input, output, session) {
                                                            fun.MetricNames = MassMetrics, fun.cols2keep=keep_cols, boo.Shiny = TRUE))
 
 
-
             # Increment the progress bar, and update the detail text.
             incProgress(1/n_inc, detail = "Metrics have been calculated!")
             Sys.sleep(1)
@@ -286,11 +285,6 @@ shinyServer(function(input, output, session) {
 
             # Metric Scores
             #
-            # Thresholds
-            #fn_thresh <- file.path(system.file(package="BioMonTools"), "extdata", "MetricScoring.xlsx")
-            #fn_thresh <- file.path(".", "Thresholds", "MetricScoring.xlsx")
-            #df_thresh_metric <- readxl::read_excel(fn_thresh, sheet="metric.scoring")
-            #df_thresh_index <- readxl::read_excel(fn_thresh, sheet="index.scoring")
 
             # Thresholds
             fn_thresh <- file.path(system.file(package="BioMonTools"), "extdata", "MetricScoring.xlsx")
@@ -320,10 +314,8 @@ shinyServer(function(input, output, session) {
             Sys.sleep(0.75)
 
             # Render Summary Report (rmarkdown file)
-            #rmarkdown::render(input = file.path(".","inst","shiny-examples","MassIBItools","MA_TEST.rmd"), output_format = "word_document",
-             #                 output_dir = file.path(".", "Results"), output_file = "results_summary_report")
-
-
+            rmarkdown::render(input = file.path(".", "external", "Summary_MA.rmd"), output_format = "word_document",
+                              output_dir = file.path(".", "Results"), output_file = "results_summary_report")
 
 
             # Increment the progress bar, and update the detail text.
