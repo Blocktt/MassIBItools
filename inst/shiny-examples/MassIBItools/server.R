@@ -251,10 +251,14 @@ shinyServer(function(input, output, session) {
             # columns to keep
             keep_cols <- c("Lat", "Long", "STATIONID", "COLLDATE", "COLLMETH")
 
-            #df_metval <- BioMonTools::metric.values(fun.DF = df_data, fun.Community = "bugs", fun.MetricNames = MichMetrics, boo.Shiny = TRUE)
+            # metric calculation
+            #df_metval <- suppressWarnings(metric.values.MA(fun.DF = df_data, fun.Community = "bugs",
+             #                                              fun.MetricNames = MassMetrics, fun.cols2keep=keep_cols, boo.Shiny = TRUE))
 
-            df_metval <- suppressWarnings(metric.values.MA(fun.DF = df_data, fun.Community = "bugs",
+            df_metval <- suppressWarnings(metric.values(fun.DF = df_data, fun.Community = "bugs",
                                                            fun.MetricNames = MassMetrics, fun.cols2keep=keep_cols, boo.Shiny = TRUE))
+
+
 
             # Increment the progress bar, and update the detail text.
             incProgress(1/n_inc, detail = "Metrics have been calculated!")

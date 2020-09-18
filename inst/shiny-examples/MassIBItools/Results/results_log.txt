@@ -1,6 +1,6 @@
 Results Log from MassIBItools Shiny App
-2020-09-18 10:16:01
-file = MA_Kick_Shiny_Input_20200908.txt
+2020-09-18 10:25:06
+file = MA_Kick_Shiny_Input_20200908.csv
 Warning in eval(expr, env) :
   Metrics related to the following fields are invalid:
    SUBPHYLUM
@@ -12,20 +12,5 @@ Warning in eval(expr, env) :
    FFG2
    TOLVAL2
    HABITAT
-`summarise()` regrouping output by 'SAMPLEID', 'INDEX_NAME' (override with `.groups` argument)
-`summarise()` regrouping output by 'SAMPLEID', 'INDEX_NAME' (override with `.groups` argument)
-`summarise()` regrouping output by 'SAMPLEID', 'INDEX_NAME' (override with `.groups` argument)
-`summarise()` regrouping output by 'SAMPLEID', 'INDEX_NAME' (override with `.groups` argument)
-`summarise()` regrouping output by 'SAMPLEID', 'INDEX_NAME' (override with `.groups` argument)
-`summarise()` regrouping output by 'SAMPLEID', 'INDEX_NAME' (override with `.groups` argument)
-`summarise()` regrouping output by 'SAMPLEID', 'INDEX_NAME' (override with `.groups` argument)
-`summarise()` regrouping output by 'SAMPLEID', 'INDEX_NAME' (override with `.groups` argument)
-`summarise()` regrouping output by 'SAMPLEID', 'INDEX_NAME' (override with `.groups` argument)
-`summarise()` regrouping output by 'SAMPLEID', 'INDEX_NAME' (override with `.groups` argument)
-`summarise()` regrouping output by 'SAMPLEID', 'INDEX_NAME' (override with `.groups` argument)
-`summarise()` regrouping output by 'SAMPLEID', 'INDEX_NAME' (override with `.groups` argument)
-`summarise()` regrouping output by 'SAMPLEID', 'LAT', 'LONG', 'STATIONID', 'COLLDATE' (override with `.groups` argument)
 Chosen IBI from Shiny app = MassDEP_2019_Bugs
 Warning in sink() : no sink to remove
-
-
