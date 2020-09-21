@@ -1,5 +1,5 @@
 Results Log from MassIBItools Shiny App
-2020-09-18 11:41:13
+2020-09-21 11:06:28
 file = MA_Kick_Shiny_Input_20200908.csv
 Warning in eval(expr, env) :
   Metrics related to the following fields are invalid:
@@ -16,30 +16,40 @@ Chosen IBI from Shiny app = MassDEP_2019_Bugs
 
 
 processing file: Summary_MA.rmd
-  |                                                                                                                                                 |                                                                                                                                         |   0%  |                                                                                                                                                 |.......................                                                                                                                  |  17%
+  |                                                                                                                                                 |                                                                                                                                         |   0%  |                                                                                                                                                 |..............                                                                                                                           |  10%
    inline R code fragments
 
-  |                                                                                                                                                 |..............................................                                                                                           |  33%
+  |                                                                                                                                                 |...........................                                                                                                              |  20%
 label: setup (with options) 
 List of 1
  $ include: logi FALSE
 
+  |                                                                                                                                                 |.........................................                                                                                                |  30%
+  ordinary text without R code
+
+  |                                                                                                                                                 |.......................................................                                                                                  |  40%
+label: data_file_info
   |                                                                                                                                                 |....................................................................                                                                     |  50%
   ordinary text without R code
 
-  |                                                                                                                                                 |...........................................................................................                                              |  67%
-label: data_file_info
-  |                                                                                                                                                 |..................................................................................................................                       |  83%
+  |                                                                                                                                                 |..................................................................................                                                       |  60%
+label: Results_Index_Plot
+  |                                                                                                                                                 |................................................................................................                                         |  70%
+  ordinary text without R code
+
+  |                                                                                                                                                 |..............................................................................................................                           |  80%
+label: Results_Metric_Values_Plots
+  |                                                                                                                                                 |...........................................................................................................................              |  90%
   ordinary text without R code
 
   |                                                                                                                                                 |.........................................................................................................................................| 100%
-label: Results_Index_Plot
+label: Results_Metric_Scores_Plots
 
 output file: Summary_MA.knit.md
 
-"C:/Users/Ben.Block/Documents/RStudio/bin/pandoc/pandoc" +RTS -K512m -RTS Summary_MA.utf8.md --to docx --from markdown+autolink_bare_uris+tex_math_single_backslash --output pandoc5f056cc6c5f.docx --table-of-contents --toc-depth 3 --highlight-style tango --lua-filter "C:/Users/Ben.Block/Documents/R/R-3.6.3/library/rmarkdown/rmd/lua/pagebreak.lua" 
+"C:/Users/Ben.Block/Documents/RStudio/bin/pandoc/pandoc" +RTS -K512m -RTS Summary_MA.utf8.md --to docx --from markdown+autolink_bare_uris+tex_math_single_backslash --output pandoc3bb84083a8c.docx --table-of-contents --toc-depth 3 --highlight-style tango --lua-filter "C:/Users/Ben.Block/Documents/R/R-3.6.3/library/rmarkdown/rmd/lua/pagebreak.lua" 
 
 Output created: Results/results_summary_report.docx
+Warning in sink() : no sink to remove
 
 
-Timing stopped at: 0.06 0.01 0.34

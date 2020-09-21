@@ -153,7 +153,7 @@ shinyServer(function(input, output, session) {
         shiny::withProgress({
             #
             # Number of increments
-            n_inc <- 6
+            n_inc <- 7
 
             # sink output
             #fn_sink <- file.path(".", "Results", "results_log.txt")
@@ -310,12 +310,16 @@ shinyServer(function(input, output, session) {
 
 
             # Increment the progress bar, and update the detail text.
-            incProgress(1/n_inc, detail = "Ben's code is magical!")
+            incProgress(1/n_inc, detail = "Create, summary report (~ 20 sec)")
             Sys.sleep(0.75)
 
             # Render Summary Report (rmarkdown file)
             rmarkdown::render(input = file.path(".", "external", "Summary_MA.rmd"), output_format = "word_document",
                               output_dir = file.path(".", "Results"), output_file = "results_summary_report")
+
+            # Increment the progress bar, and update the detail text.
+            incProgress(1/n_inc, detail = "Ben's code is magical!")
+            Sys.sleep(0.75)
 
 
             # Increment the progress bar, and update the detail text.

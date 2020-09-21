@@ -24,10 +24,17 @@ if(boo_DEBUG==TRUE){
 }## IF ~ boo_DEBUG ~ END
 ```
 
+# INTRODUCTION
+The following document is dynamic - it changes depending on the data input into the Mass DEP R Shiny Application. 
+
+Please refer to the "Data File Information" section for general properties of the input dataset used to genereate this report. 
+
+Histograms in the "Plots" section will change depending on the input dataset. 
+
 # DATA FILE INFORMATION
 ```{r data_file_info}
   # Results File
-  df_metval <- df_metval
+  df_metval2 <- df_metval
   df_metsc <- df_metsc
   
   # Report Info
@@ -45,25 +52,124 @@ if(boo_DEBUG==TRUE){
   cat(paste("**Period of Record:** ", POR, sep="", collapse="\n\n"))
 ```
 
-## Plots
+# PLOTS
+## Overall Index Scores by Index Region
 ```{r Results_Index_Plot}
 # Packages
 library(ggplot2)
 
-# default bin width is 1/30 of range
-# need to specify to avoid warning about bins = 30.
-range_div30 <- (max(df_metsc$Index, na.rm = TRUE) - min(df_metsc$Index, na.rm = TRUE))/30
-
 # Plot
-p1 <- ggplot(df_metsc, aes(Index), fill=INDEX_REGION, shape=INDEX_REGION) +
-            geom_dotplot(aes_string(fill="INDEX_REGION"), method="histodot", binwidth = range_div30) +
-            labs(x="Index Value"
-                 , title = "Index values by region.") +
-            theme(axis.title.y=element_blank()
-                  , axis.ticks.y=element_blank()
-                 , axis.text.y=element_blank()
-                  )
+region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#b2df8a") # plot colors
+
+  p1 <- ggplot(df_metsc, aes(x = Index, fill = INDEX_REGION))+ 
+    geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
+    labs(x= "Scores",
+         y= "Frequency",
+         fill= "Index Region")+
+    scale_fill_manual(values=region.colors)+
+    theme(text = element_text(size = 12),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(angle = 0, hjust = 0.5),
+          panel.background = element_rect(fill = "white"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black"),
+          legend.position = "top")
+
+
+
+
 
 # Output
 p1
+```
+
+## Metric Values Distribution by Index Region. 
+```{r Results_Metric_Values_Plots}
+##### METRIC VALUES LOOP
+
+# for columns "ni_total" to ncol(df_metval)
+start_col<- which(colnames(df_metval)=="ni_total")
+end_col <- ncol(df_metval)
+
+metval_cols <- colnames(df_metval[,start_col:end_col])
+
+for(i in metval_cols){
+  subset.data <- df_metval[,c("INDEX_REGION", i)]
+  
+  subset.data <- subset.data %>% 
+    rename(Value = eval(i))
+  
+  title <- paste0(i, " - by Index Region")
+  
+  subset.data$INDEX_REGION <- as.factor(subset.data$INDEX_REGION)
+  
+  region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#b2df8a")
+  
+  p2 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
+    geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
+    labs(title = title,
+         x= "Metric Units",
+         y= "Frequency",
+         fill= "Index Region")+
+    scale_fill_manual(values=region.colors)+
+    theme(text = element_text(size = 12),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(angle = 0, hjust = 0.5),
+          panel.background = element_rect(fill = "white"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black"),
+          legend.position = "top")
+  print(p2)
+
+} # END of Loop
+```
+
+## Metric Scores Distribution by Index Region. Only Index Regions that contain a given metric are plotted. 
+```{r Results_Metric_Scores_Plots}
+##### METRIC SCORES LOOP
+
+# for columns "ni_total" to ncol(df_metval)
+start_col<- which(colnames(df_metsc)=="SC_nt_total")
+end_col <- which(colnames(df_metsc)=="SC_x_Becks")
+
+metsc_cols <- colnames(df_metsc[,start_col:end_col])
+
+for(i in metsc_cols){
+  subset.data <- df_metsc[,c("INDEX_REGION", i)]
+  
+  subset.data <- subset.data %>% 
+    rename(Value = eval(i))
+  
+  title <- paste0(i, " - by Index Region")
+  
+  subset.data$INDEX_REGION <- as.factor(subset.data$INDEX_REGION)
+  
+  subset.data <- subset.data %>% filter(!is.na(Value))
+  
+  region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#b2df8a")
+  
+  p3 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
+    geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
+    labs(title = title,
+         x= "Metric Units",
+         y= "Frequency",
+         fill= "Index Region")+
+    scale_fill_manual(values=region.colors)+
+    theme(text = element_text(size = 12),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(angle = 0, hjust = 0.5),
+          panel.background = element_rect(fill = "white"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black"),
+          legend.position = "top")
+  
+  print(p3)
+
+} # END of Loop
 ```
