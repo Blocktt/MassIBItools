@@ -1,5 +1,5 @@
 Results Log from MassIBItools Shiny App
-2020-09-23 15:28:30
+2020-09-23 16:40:46
 file = MA_Kick_Shiny_Input_20200908.csv
 Warning in eval(expr, env) :
   Metrics related to the following fields are invalid:
@@ -52,7 +52,7 @@ label: Results_Site_Map
 
 output file: Summary_MA.knit.md
 
-"C:/Users/Ben.Block/Documents/RStudio/bin/pandoc/pandoc" +RTS -K512m -RTS Summary_MA.utf8.md --to docx --from markdown+autolink_bare_uris+tex_math_single_backslash --output pandoc45c8151f66bf.docx --table-of-contents --toc-depth 3 --highlight-style tango --lua-filter "C:/Users/Ben.Block/Documents/R/R-3.6.3/library/rmarkdown/rmd/lua/pagebreak.lua" 
+"C:/Users/Ben.Block/Documents/RStudio/bin/pandoc/pandoc" +RTS -K512m -RTS Summary_MA.utf8.md --to docx --from markdown+autolink_bare_uris+tex_math_single_backslash --output pandoc1df48b6c6f.docx --table-of-contents --toc-depth 3 --highlight-style tango --lua-filter "C:/Users/Ben.Block/Documents/R/R-3.6.3/library/rmarkdown/rmd/lua/pagebreak.lua" 
 
 Output created: Results/results_summary_report.docx
 Warning in sink() : no sink to remove
@@ -69,7 +69,5 @@ Please use a list of either functions or lambdas:
   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
 [90mThis warning is displayed once every 8 hours.[39m
 [90mCall `lifecycle::last_warnings()` to see where this warning was generated.[39m
-Warning: Removed 7 rows containing missing values (geom_point).
-Warning: Removed 7 rows containing missing values (geom_point).
 
 

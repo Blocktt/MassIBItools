@@ -538,19 +538,19 @@ shinyServer(function(input, output, session) {
 
       # shape palette
       shape_pal <- c("Index" = 15
-                     , "nt_total" = 1
-                     , "pt_EPT" = 2
-                     , "pi_EphemNoCaeBae" = 3
-                     , "pi_ffg_filt" = 4
-                     , "pt_ffg_pred" = 5
-                     , "pt_tv_intol" = 6
-                     , "pi_Pleco" = 7
-                     , "pi_ffg_shred" = 8
-                     , "pi_tv_intol" = 9
-                     , "x_Becks" = 10)
+                     , "nt_total" = 16
+                     , "pt_EPT" = 16
+                     , "pi_EphemNoCaeBae" = 16
+                     , "pi_ffg_filt" = 16
+                     , "pt_ffg_pred" = 16
+                     , "pt_tv_intol" = 16
+                     , "pi_Pleco" = 16
+                     , "pi_ffg_shred" = 16
+                     , "pi_tv_intol" = 16
+                     , "x_Becks" = 16)
 
       # size palette
-      size_pal <- c("Index" = 7
+      size_pal <- c("Index" = 10
                     , "nt_total" = 5
                     , "pt_EPT" = 5
                     , "pi_EphemNoCaeBae" = 5
@@ -562,25 +562,24 @@ shinyServer(function(input, output, session) {
                     , "pi_tv_intol" = 5
                     , "x_Becks" = 5)
 
-      ggplot(df_grph_input, aes(x=Score, y = 0, shape = Variable))+
+      ggplot(df_grph_input, aes(x=Variable, y = Score, shape = Variable))+
         geom_point(aes(size = Variable))+
-        scale_shape_manual(values=shape_pal)+
         scale_size_manual(values=size_pal)+
-        ylim(0,0)+
-        xlim(0,100)+
-        labs(y = "",
-             x = "Index and Metric Scores")+
+        scale_shape_manual(values=shape_pal)+
+        ylim(0,100)+
+        labs(y = "Scores",
+             x = "")+
+        coord_flip()+
+        scale_x_discrete(limits = rev(levels(as.factor(df_grph_input$Variable))))+
         theme(text = element_text(size = 12),
               axis.text = element_text(color = "black", size = 12),
               axis.text.x = element_text(angle = 0, hjust = 0.5),
-              axis.text.y = element_blank(),
-              axis.ticks.y = element_blank(),
               panel.background = element_rect(fill = "white"),
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank(),
               panel.border = element_blank(),
               axis.line = element_line(color = "black"),
-              legend.position = "right")
+              legend.position = "none")
 
     }) ## renderPlot ~ END
 
