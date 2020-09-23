@@ -59,7 +59,7 @@ Histograms in the "Plots" section will change depending on the input dataset.
 library(ggplot2)
 
 # Plot
-region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#b2df8a") # plot colors
+region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582") # plot colors
 
   p1 <- ggplot(df_metsc, aes(x = Index, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
@@ -105,7 +105,7 @@ for(i in metval_cols){
   
   subset.data$INDEX_REGION <- as.factor(subset.data$INDEX_REGION)
   
-  region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#b2df8a")
+  region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582")
   
   p2 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
@@ -150,7 +150,7 @@ for(i in metsc_cols){
   
   subset.data <- subset.data %>% filter(!is.na(Value))
   
-  region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#b2df8a")
+  region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582")
   
   p3 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
@@ -172,4 +172,38 @@ for(i in metsc_cols){
   print(p3)
 
 } # END of Loop
+```
+
+## Map of Sites in Massachusetts
+These are the sites that have been input into the R shiny application. 
+```{r Results_Site_Map}
+##### Massachusetts Map of Sites
+## Color palette
+region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582")
+
+## Map of MA
+m1 <- ggplot(data = subset(map_data("state"), region %in% c("massachusetts"))) + 
+            geom_polygon(aes(x=long, y=lat, group=group), fill="light gray", color="black") +
+            coord_fixed(1.3)+
+          labs(x= "Longitude",
+               y= "Latitude")+
+          theme(text = element_text(size = 12),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(angle = 0, hjust = 0.5),
+          panel.background = element_rect(fill = "white"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black"),
+          legend.position = "top")
+
+## Add Points
+m1 <- m1 + geom_point(data=df_metsc
+                      , aes(LONG, LAT, color=INDEX_REGION), size = 2)
+
+## Change colors
+m1 <- m1 + scale_colour_manual(name="Index Region"
+                               , values=region.colors)
+## Print Plot
+m1
 ```

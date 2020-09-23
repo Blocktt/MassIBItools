@@ -1,5 +1,5 @@
 Results Log from MassIBItools Shiny App
-2020-09-21 11:06:28
+2020-09-23 15:28:30
 file = MA_Kick_Shiny_Input_20200908.csv
 Warning in eval(expr, env) :
   Metrics related to the following fields are invalid:
@@ -16,40 +16,60 @@ Chosen IBI from Shiny app = MassDEP_2019_Bugs
 
 
 processing file: Summary_MA.rmd
-  |                                                                                                                                                 |                                                                                                                                         |   0%  |                                                                                                                                                 |..............                                                                                                                           |  10%
+  |                                                                                                                                                 |                                                                                                                                         |   0%  |                                                                                                                                                 |...........                                                                                                                              |   8%
    inline R code fragments
 
-  |                                                                                                                                                 |...........................                                                                                                              |  20%
+  |                                                                                                                                                 |.......................                                                                                                                  |  17%
 label: setup (with options) 
 List of 1
  $ include: logi FALSE
 
-  |                                                                                                                                                 |.........................................                                                                                                |  30%
+  |                                                                                                                                                 |..................................                                                                                                       |  25%
   ordinary text without R code
 
-  |                                                                                                                                                 |.......................................................                                                                                  |  40%
+  |                                                                                                                                                 |..............................................                                                                                           |  33%
 label: data_file_info
+  |                                                                                                                                                 |.........................................................                                                                                |  42%
+  ordinary text without R code
+
   |                                                                                                                                                 |....................................................................                                                                     |  50%
-  ordinary text without R code
-
-  |                                                                                                                                                 |..................................................................................                                                       |  60%
 label: Results_Index_Plot
-  |                                                                                                                                                 |................................................................................................                                         |  70%
+  |                                                                                                                                                 |................................................................................                                                         |  58%
   ordinary text without R code
 
-  |                                                                                                                                                 |..............................................................................................................                           |  80%
+  |                                                                                                                                                 |...........................................................................................                                              |  67%
 label: Results_Metric_Values_Plots
-  |                                                                                                                                                 |...........................................................................................................................              |  90%
+  |                                                                                                                                                 |.......................................................................................................                                  |  75%
+  ordinary text without R code
+
+  |                                                                                                                                                 |..................................................................................................................                       |  83%
+label: Results_Metric_Scores_Plots
+  |                                                                                                                                                 |..............................................................................................................................           |  92%
   ordinary text without R code
 
   |                                                                                                                                                 |.........................................................................................................................................| 100%
-label: Results_Metric_Scores_Plots
+label: Results_Site_Map
 
 output file: Summary_MA.knit.md
 
-"C:/Users/Ben.Block/Documents/RStudio/bin/pandoc/pandoc" +RTS -K512m -RTS Summary_MA.utf8.md --to docx --from markdown+autolink_bare_uris+tex_math_single_backslash --output pandoc3bb84083a8c.docx --table-of-contents --toc-depth 3 --highlight-style tango --lua-filter "C:/Users/Ben.Block/Documents/R/R-3.6.3/library/rmarkdown/rmd/lua/pagebreak.lua" 
+"C:/Users/Ben.Block/Documents/RStudio/bin/pandoc/pandoc" +RTS -K512m -RTS Summary_MA.utf8.md --to docx --from markdown+autolink_bare_uris+tex_math_single_backslash --output pandoc45c8151f66bf.docx --table-of-contents --toc-depth 3 --highlight-style tango --lua-filter "C:/Users/Ben.Block/Documents/R/R-3.6.3/library/rmarkdown/rmd/lua/pagebreak.lua" 
 
 Output created: Results/results_summary_report.docx
 Warning in sink() : no sink to remove
+Warning: `funs()` is deprecated as of dplyr 0.8.0.
+Please use a list of either functions or lambdas: 
+
+  # Simple named list: 
+  list(mean = mean, median = median)
+
+  # Auto named with `tibble::lst()`: 
+  tibble::lst(mean, median)
+
+  # Using lambdas
+  list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
+[90mThis warning is displayed once every 8 hours.[39m
+[90mCall `lifecycle::last_warnings()` to see where this warning was generated.[39m
+Warning: Removed 7 rows containing missing values (geom_point).
+Warning: Removed 7 rows containing missing values (geom_point).
 
 

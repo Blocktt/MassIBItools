@@ -26,7 +26,7 @@
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
 
-    # map test
+    # map and plots require df_metsc
     map_data <- reactiveValues(df_metsc = NULL)
 
     # Testing ####
@@ -104,18 +104,18 @@ shinyServer(function(input, output, session) {
                                                                  , paste("* ", col_missing, collapse = "\n")))
         )##END ~ validate() code
 
-        ########################### MAP Observer test
+        ########################### MAP and PLOT Observer
         observe({
           inFile<- input$fn_input
           if(is.null(inFile))
             return(NULL)
           df_input
           updateSelectInput(session, "siteid.select", choices = as.character(sort(unique(df_input[, "SAMPLEID"]))))
+          # updateSelectInput(session, "sample.select", choices = as.character(sort(unique(df_input[, "SAMPLEID"]))))
         })
 
 
         ##############
-
 
 
         #message(getwd())
@@ -304,7 +304,7 @@ shinyServer(function(input, output, session) {
             fn_metsc <- file.path(".", "Results", "results_metsc.csv")
             write.csv(df_metsc, fn_metsc, row.names = FALSE)
 
-            # MAP requires df_metsc
+            # MAP and Plot requires df_metsc
             map_data$df_metsc <- df_metsc
 
 
@@ -397,85 +397,84 @@ shinyServer(function(input, output, session) {
 
       df_data <- map_data$df_metsc
 
-        # subset data by Index_Region
+      # subset data by Index_Region
 
-        WH_data <- df_data %>%
-          filter(INDEX_REGION == "WESTHIGHLANDS")
+      WH_data <- df_data %>%
+        filter(INDEX_REGION == "WESTHIGHLANDS")
 
-        CH_data <- df_data %>%
-          filter(INDEX_REGION == "CENTRALHILLS")
+      CH_data <- df_data %>%
+        filter(INDEX_REGION == "CENTRALHILLS")
 
-        leaflet() %>%
-          addTiles() %>%
-          addProviderTiles("CartoDB.Positron", group="Positron") %>%
-          addProviderTiles(providers$Stamen.TonerLite, group="Toner Lite") %>%
-          addPolygons(data = region_shape
-                      , color = "blue"
-                      , weight = 5
-                      , fill = FALSE
-                      , label = region_shape$BugClass
-                      , group = "Regions"
+      leaflet() %>%
+        addTiles() %>%
+        addProviderTiles("CartoDB.Positron", group="Positron") %>%
+        addProviderTiles(providers$Stamen.TonerLite, group="Toner Lite") %>%
+        addPolygons(data = region_shape
+                    , color = "blue"
+                    , weight = 5
+                    , fill = FALSE
+                    , label = region_shape$BugClass
+                    , group = "Regions"
 
-          ) %>%
-          addPolygons(data = basins_shape
-                      , color = "green"
-                      , weight = 3
-                      , fill = FALSE
-                      , label = basins_shape$NAME
-                      , group = "Major Basins"
+        ) %>%
+        addPolygons(data = basins_shape
+                    , color = "green"
+                    , weight = 3
+                    , fill = FALSE
+                    , label = basins_shape$NAME
+                    , group = "Major Basins"
 
-          ) %>%
-          addCircleMarkers(data = WH_data, lat = ~LAT, lng = ~LONG
-                           , group = "WESTHIGHLANDS", popup = paste("SampleID:", WH_data$SAMPLEID, "<br>"
-                                                                    ,"Site Class:", WH_data$INDEX_REGION, "<br>"
-                                                                    ,"Coll Date:", WH_data$COLLDATE, "<br>"
-                                                                    ,"Unique ID:", WH_data$STATIONID, "<br>"
-                                                                    ,"Score nt_total:", round(WH_data$SC_nt_total,2), "<br>"
-                                                                    ,"Score pi_Pleco:", round(WH_data$SC_pi_Pleco,2), "<br>"
-                                                                    ,"Score pi_ffg_filt:", round(WH_data$SC_pi_ffg_filt,2), "<br>"
-                                                                    ,"Score pi_ffg_shred:", round(WH_data$SC_pi_ffg_shred,2), "<br>"
-                                                                    ,"Score pi_tv_intol:", round(WH_data$SC_pi_tv_intol,2), "<br>"
-                                                                    ,"Score x_Becks:", round(WH_data$SC_x_Becks,2), "<br>"
-                                                                    ,"<b> Index Value:</b>", round(WH_data$Index, 2), "<br>"
-                                                                    ,"<b> Narrative:</b>", WH_data$Index_Nar)
-                           , color = "black", fillColor = ~qpal(Index), fillOpacity = 1, stroke = TRUE
-                           , clusterOptions = markerClusterOptions()
+        ) %>%
+        addCircleMarkers(data = WH_data, lat = ~LAT, lng = ~LONG
+                         , group = "WESTHIGHLANDS", popup = paste("SampleID:", WH_data$SAMPLEID, "<br>"
+                                                                  ,"Site Class:", WH_data$INDEX_REGION, "<br>"
+                                                                  ,"Coll Date:", WH_data$COLLDATE, "<br>"
+                                                                  ,"Unique ID:", WH_data$STATIONID, "<br>"
+                                                                  ,"Score nt_total:", round(WH_data$SC_nt_total,2), "<br>"
+                                                                  ,"Score pi_Pleco:", round(WH_data$SC_pi_Pleco,2), "<br>"
+                                                                  ,"Score pi_ffg_filt:", round(WH_data$SC_pi_ffg_filt,2), "<br>"
+                                                                  ,"Score pi_ffg_shred:", round(WH_data$SC_pi_ffg_shred,2), "<br>"
+                                                                  ,"Score pi_tv_intol:", round(WH_data$SC_pi_tv_intol,2), "<br>"
+                                                                  ,"Score x_Becks:", round(WH_data$SC_x_Becks,2), "<br>"
+                                                                  ,"<b> Index Value:</b>", round(WH_data$Index, 2), "<br>"
+                                                                  ,"<b> Narrative:</b>", WH_data$Index_Nar)
+                         , color = "black", fillColor = ~qpal(Index), fillOpacity = 1, stroke = TRUE
+                         , clusterOptions = markerClusterOptions()
 
-                           ) %>%
+        ) %>%
 
-          addCircleMarkers(data = CH_data, lat = ~LAT, lng = ~LONG
-                           , group = "CENTRALHILLS", popup = paste("SampleID:", CH_data$SAMPLEID, "<br>"
-                                                                    ,"Site Class:", CH_data$INDEX_REGION, "<br>"
-                                                                    ,"Coll Date:", CH_data$COLLDATE, "<br>"
-                                                                    ,"Unique ID:", CH_data$STATIONID, "<br>"
-                                                                    ,"Score nt_total:", round(CH_data$SC_nt_total,2), "<br>"
-                                                                    ,"Score pt_EPT:", round(CH_data$SC_pt_EPT,2), "<br>"
-                                                                    ,"Score pi_EphemNoCaeBae:", round(CH_data$SC_pi_EphemNoCaeBae,2), "<br>"
-                                                                    ,"Score pi_ffg_filt:", round(CH_data$SC_pi_ffg_filt,2), "<br>"
-                                                                    ,"Score pt_ffg_pred:", round(CH_data$SC_pt_ffg_pred,2), "<br>"
-                                                                    ,"Score pt_tv_intol:", round(CH_data$SC_pt_tv_intol,2), "<br>"
-                                                                   ,"<b> Index Value:</b>", round(CH_data$Index, 2), "<br>"
-                                                                   ,"<b> Narrative:</b>", CH_data$Index_Nar)
-                           , color = "black", fillColor = ~qpal(Index), fillOpacity = 1, stroke = TRUE
-                           , clusterOptions = markerClusterOptions()
+        addCircleMarkers(data = CH_data, lat = ~LAT, lng = ~LONG
+                         , group = "CENTRALHILLS", popup = paste("SampleID:", CH_data$SAMPLEID, "<br>"
+                                                                 ,"Site Class:", CH_data$INDEX_REGION, "<br>"
+                                                                 ,"Coll Date:", CH_data$COLLDATE, "<br>"
+                                                                 ,"Unique ID:", CH_data$STATIONID, "<br>"
+                                                                 ,"Score nt_total:", round(CH_data$SC_nt_total,2), "<br>"
+                                                                 ,"Score pt_EPT:", round(CH_data$SC_pt_EPT,2), "<br>"
+                                                                 ,"Score pi_EphemNoCaeBae:", round(CH_data$SC_pi_EphemNoCaeBae,2), "<br>"
+                                                                 ,"Score pi_ffg_filt:", round(CH_data$SC_pi_ffg_filt,2), "<br>"
+                                                                 ,"Score pt_ffg_pred:", round(CH_data$SC_pt_ffg_pred,2), "<br>"
+                                                                 ,"Score pt_tv_intol:", round(CH_data$SC_pt_tv_intol,2), "<br>"
+                                                                 ,"<b> Index Value:</b>", round(CH_data$Index, 2), "<br>"
+                                                                 ,"<b> Narrative:</b>", CH_data$Index_Nar)
+                         , color = "black", fillColor = ~qpal(Index), fillOpacity = 1, stroke = TRUE
+                         , clusterOptions = markerClusterOptions()
 
-                           )%>%
-          addLegend(pal = qpal,
-                    values = scale_range,
-                    position = "bottomright",
-                    title = "Index Scores",
-                    opacity = 1) %>%
-          addLayersControl(overlayGroups = c("WESTHIGHLANDS", "CENTRALHILLS", "Regions", "Major Basins"),
-                           baseGroups = c("OSM (default)", "Positron", "Toner Lite"),
-                           options = layersControlOptions(collapsed = TRUE))%>%
-          hideGroup(c("Regions", "Major Basins")) %>%
-          addMiniMap(toggleDisplay = TRUE)
-
+        )%>%
+        addLegend(pal = qpal,
+                  values = scale_range,
+                  position = "bottomright",
+                  title = "Index Scores",
+                  opacity = 1) %>%
+        addLayersControl(overlayGroups = c("WESTHIGHLANDS", "CENTRALHILLS", "Regions", "Major Basins"),
+                         baseGroups = c("OSM (default)", "Positron", "Toner Lite"),
+                         options = layersControlOptions(collapsed = TRUE))%>%
+        hideGroup(c("Regions", "Major Basins")) %>%
+        addMiniMap(toggleDisplay = TRUE)
 
       }) ##renderLeaflet~END
 
     # Map that filters output data to only a single site
-    observeEvent(input$siteid.select,{
+   observeEvent(input$siteid.select,{
       req(!is.null(map_data$df_metsc))
 
       df_data <- map_data$df_metsc
@@ -506,6 +505,83 @@ shinyServer(function(input, output, session) {
 
         setView(view.cent[1], view.cent[2], zoom = 16) # 1= whole earth
 
-    }) ## observeEvent(input$siteid.select ~ END
+    }) ## observeEvent(input$siteid.select) ~ END
+
+
+
+    ########### Data Explorer Tab ######################
+
+    df_sitefilt <- reactive({
+      req(!is.null(map_data$df_metsc))
+
+      df_all_scores <- map_data$df_metsc
+
+      df_all_scores[df_all_scores$SAMPLEID == input$siteid.select, ]
+    })## reactive~ END
+
+
+    output$DatExp_plot <- renderPlot({
+      if (is.null(df_sitefilt()))
+        return(NULL)
+
+      df_selected_site <- df_sitefilt()
+
+      df_trim <- df_selected_site %>%
+        select_if(!is.na(df_selected_site)) %>%
+        select(-c(Index_Nar)) %>%
+        select(SAMPLEID, Index, starts_with("SC_"))%>%
+        rename_at(vars(starts_with("SC_")),
+                  funs(str_replace(., "SC_", "")))
+
+      df_grph_input <- df_trim %>%
+        pivot_longer(!SAMPLEID, names_to = "Variable", values_to = "Score")
+
+      # shape palette
+      shape_pal <- c("Index" = 15
+                     , "nt_total" = 1
+                     , "pt_EPT" = 2
+                     , "pi_EphemNoCaeBae" = 3
+                     , "pi_ffg_filt" = 4
+                     , "pt_ffg_pred" = 5
+                     , "pt_tv_intol" = 6
+                     , "pi_Pleco" = 7
+                     , "pi_ffg_shred" = 8
+                     , "pi_tv_intol" = 9
+                     , "x_Becks" = 10)
+
+      # size palette
+      size_pal <- c("Index" = 7
+                    , "nt_total" = 5
+                    , "pt_EPT" = 5
+                    , "pi_EphemNoCaeBae" = 5
+                    , "pi_ffg_filt" = 5
+                    , "pt_ffg_pred" = 5
+                    , "pt_tv_intol" = 5
+                    , "pi_Pleco" = 5
+                    , "pi_ffg_shred" = 5
+                    , "pi_tv_intol" = 5
+                    , "x_Becks" = 5)
+
+      ggplot(df_grph_input, aes(x=Score, y = 0, shape = Variable))+
+        geom_point(aes(size = Variable))+
+        scale_shape_manual(values=shape_pal)+
+        scale_size_manual(values=size_pal)+
+        ylim(0,0)+
+        xlim(0,100)+
+        labs(y = "",
+             x = "Index and Metric Scores")+
+        theme(text = element_text(size = 12),
+              axis.text = element_text(color = "black", size = 12),
+              axis.text.x = element_text(angle = 0, hjust = 0.5),
+              axis.text.y = element_blank(),
+              axis.ticks.y = element_blank(),
+              panel.background = element_rect(fill = "white"),
+              panel.grid.major = element_blank(),
+              panel.grid.minor = element_blank(),
+              panel.border = element_blank(),
+              axis.line = element_line(color = "black"),
+              legend.position = "right")
+
+    }) ## renderPlot ~ END
 
 })##shinyServer~END

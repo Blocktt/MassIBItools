@@ -17,6 +17,11 @@ knitr::opts_chunk$set(
 cat(paste0("Last Update: ",Sys.time()))
 ```
 
+MassIBItools v0.1.1.900 (2020-09-23)
+================
+* Added data explorer tab - includes increased mapping capabilities and index scoring plot. 
+* Added generic summary report that downloads when results are downloaded.
+
 MassIBItools v0.1.0.904 (2020-09-11)
 ================
 * Created additions to mappping capabilities - site selector, toggle of background layers, and region layers. 

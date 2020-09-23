@@ -102,9 +102,9 @@ shinyUI(navbarPage("Massachusetts Stream IBI Calculator v0.1.0.904",
                             )##sidebarLayout~END
 
             ),## tabPanel~END
-            tabPanel("Site and Scores Map"
-                     , titlePanel("Site and Scores Map")
-                     , h5("The map below will be generated once metric values and scores have been calculated.")
+            tabPanel("Data Explorer"
+                     , titlePanel("Data Explorer - Explore Your Results!")
+                     , h5("The map and plot below will be generated once metric values and scores have been calculated.")
                      , h5("Sites are clustered when zoomed out for increased visibility - zoom in for added detail!")
                      , h5("Sites are color coded by their Index Score value - click on a site for more info!")
                      , sidebarLayout(
@@ -112,16 +112,35 @@ shinyUI(navbarPage("Massachusetts Stream IBI Calculator v0.1.0.904",
                          helpText("Use the drop down menu to select a Sample ID.")
                          ,selectInput("siteid.select", "Select Sample ID:"
                                        , "")##selectInput~END
-
+                         , p("After choosing a Sample ID, the map will zoom to its location and the plot will display scoring.")
                          , br()
-                         #, actionButton("zoom.comid", "Zoom to Selected ComID")
-                         , p("After choosing a Sample ID the map will zoom to its location.")
+                         # , helpText("Click below to download PDF of map")
+                         # , downloadButton(outputId = "map_down", label = "Map Download")
+                         , plotOutput("DatExp_plot")
 
                        )##sidebarPanel.END
                        , mainPanel(
                          tags$style(type = "text/css", "#map {height: calc(100vh - 80px) !important;}")
                          , leafletOutput("mymap", height = "85vh")
+
                        )##mainPanel.END
+                     )#sidebarLayout.End
             ) ## tabPanel~END
+            # tabPanel("Data Explorer"
+            #          , titlePanel("Data Explorer")
+            #          , h5("The graph below displays Index and Metric Scores by site.")
+            #          , h5("The graph only generates once index and metric scores have been calculated.")
+            #          , sidebarLayout(
+            #            sidebarPanel(
+            #              helpText("Use the drop down menu to select a Sample ID.")
+            #              ,selectInput("siteid.select", "Select Sample ID:"
+            #                           , "")##selectInput~END
+            #              , p("After choosing a Sample ID the graph will display Index and Metric Scores.")
+            #            )##sidebarPanel.END
+            #            , mainPanel(
+            #              plotOutput("DatExp_plot")
+            #            )##mainPanel.END
+            # )##sidebarLayout.End
+            #          )## tabPanel~END
         )## navbarPage~END
-))## shinyUI~END
+)## shinyUI~END

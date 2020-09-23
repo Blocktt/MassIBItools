@@ -13,10 +13,10 @@ library(knitr)
 library(maps)
 library(rmarkdown)
 library(tidyr)
-#library(MassIBItools)
 library(leaflet)
-# library(plotly)
 library(shinyjs) # used for download button enable
+library(mapview) # used to download leaflet map
+library(stringr)
 
 
 # Drop-down boxes

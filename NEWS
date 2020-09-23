@@ -3,7 +3,14 @@ NEWS-MassIBItools
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
 
-    #> Last Update: 2020-09-11 08:44:47
+    #> Last Update: 2020-09-23 15:49:06
+
+# MassIBItools v0.1.1.900 (2020-09-23)
+
+  - Added data explorer tab - includes increased mapping capabilities
+    and index scoring plot.
+  - Added generic summary report that downloads when results are
+    downloaded.
 
 # MassIBItools v0.1.0.904 (2020-09-11)
 
