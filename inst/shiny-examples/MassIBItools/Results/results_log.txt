@@ -1,5 +1,5 @@
 Results Log from MassIBItools Shiny App
-2020-09-24 08:30:41
+2020-09-24 09:33:17
 file = MA_Kick_Shiny_Input_20200908.csv
 Warning in eval(expr, env) :
   Metrics related to the following fields are invalid:
@@ -16,71 +16,61 @@ Chosen IBI from Shiny app = MassDEP_2019_Bugs
 
 
 processing file: Summary_MA.rmd
-  |                                                                                                                                                                |                                                                                                                                                        |   0%  |                                                                                                                                                                |.............                                                                                                                                           |   8%
+  |                                                                                                                                                                |                                                                                                                                                        |   0%  |                                                                                                                                                                |..........                                                                                                                                              |   6%
    inline R code fragments
 
-  |                                                                                                                                                                |.........................                                                                                                                               |  17%
+  |                                                                                                                                                                |...................                                                                                                                                     |  12%
 label: setup (with options) 
 List of 1
  $ include: logi FALSE
 
-  |                                                                                                                                                                |......................................                                                                                                                  |  25%
+  |                                                                                                                                                                |............................                                                                                                                            |  19%
   ordinary text without R code
 
-  |                                                                                                                                                                |...................................................                                                                                                     |  33%
+  |                                                                                                                                                                |......................................                                                                                                                  |  25%
 label: data_file_info
-  |                                                                                                                                                                |...............................................................                                                                                         |  42%
+  |                                                                                                                                                                |................................................                                                                                                        |  31%
+  ordinary text without R code
+
+  |                                                                                                                                                                |.........................................................                                                                                               |  38%
+label: Results_summary_table1 (with options) 
+List of 1
+ $ message: logi FALSE
+
+`summarise()` regrouping output by 'Index_Nar' (override with `.groups` argument)
+  |                                                                                                                                                                |..................................................................                                                                                      |  44%
   ordinary text without R code
 
   |                                                                                                                                                                |............................................................................                                                                            |  50%
-label: Results_Index_Plot
-  |                                                                                                                                                                |.........................................................................................                                                               |  58%
+label: Results_summary_table2 (with options) 
+List of 1
+ $ message: logi FALSE
+
+`summarise()` ungrouping output (override with `.groups` argument)
+  |                                                                                                                                                                |......................................................................................                                                                  |  56%
   ordinary text without R code
 
-  |                                                                                                                                                                |.....................................................................................................                                                   |  67%
-label: Results_Metric_Values_Plots
+  |                                                                                                                                                                |...............................................................................................                                                         |  62%
+label: Results_Site_Map
+  |                                                                                                                                                                |........................................................................................................                                                |  69%
+  ordinary text without R code
+
   |                                                                                                                                                                |..................................................................................................................                                      |  75%
+label: Results_Index_Plot
+  |                                                                                                                                                                |............................................................................................................................                            |  81%
   ordinary text without R code
 
-  |                                                                                                                                                                |...............................................................................................................................                         |  83%
-label: Results_Metric_Scores_Plots
-  |                                                                                                                                                                |...........................................................................................................................................             |  92%
+  |                                                                                                                                                                |.....................................................................................................................................                   |  88%
+label: Results_Metric_Values_Plots
+  |                                                                                                                                                                |..............................................................................................................................................          |  94%
   ordinary text without R code
 
   |                                                                                                                                                                |........................................................................................................................................................| 100%
-label: Results_Site_Map
+label: Results_Metric_Scores_Plots
 
 output file: Summary_MA.knit.md
 
-"C:/Users/Ben.Block/Documents/RStudio/bin/pandoc/pandoc" +RTS -K512m -RTS Summary_MA.utf8.md --to docx --from markdown+autolink_bare_uris+tex_math_single_backslash --output pandoc2dec54f92253.docx --table-of-contents --toc-depth 3 --highlight-style tango --lua-filter "C:/Users/Ben.Block/Documents/R/R-3.6.3/library/rmarkdown/rmd/lua/pagebreak.lua" 
+"C:/Users/Ben.Block/Documents/RStudio/bin/pandoc/pandoc" +RTS -K512m -RTS Summary_MA.utf8.md --to docx --from markdown+autolink_bare_uris+tex_math_single_backslash --output pandoc5f3827bb65cc.docx --table-of-contents --toc-depth 3 --highlight-style tango --lua-filter "C:/Users/Ben.Block/Documents/R/R-3.6.3/library/rmarkdown/rmd/lua/pagebreak.lua" 
 
 Output created: Results/results_summary_report.docx
 Warning in sink() : no sink to remove
-Warning: `funs()` is deprecated as of dplyr 0.8.0.
-Please use a list of either functions or lambdas: 
-
-  # Simple named list: 
-  list(mean = mean, median = median)
-
-  # Auto named with `tibble::lst()`: 
-  tibble::lst(mean, median)
-
-  # Using lambdas
-  list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-[90mThis warning is displayed once every 8 hours.[39m
-[90mCall `lifecycle::last_warnings()` to see where this warning was generated.[39m
-Input to asJSON(keep_vec_names=TRUE) is a named vector. In a future version of jsonlite, this option will not be supported, and named vectors will be translated into arrays instead of objects. If you want JSON object output, please use a named list instead. See ?toJSON.
-Input to asJSON(keep_vec_names=TRUE) is a named vector. In a future version of jsonlite, this option will not be supported, and named vectors will be translated into arrays instead of objects. If you want JSON object output, please use a named list instead. See ?toJSON.
-Input to asJSON(keep_vec_names=TRUE) is a named vector. In a future version of jsonlite, this option will not be supported, and named vectors will be translated into arrays instead of objects. If you want JSON object output, please use a named list instead. See ?toJSON.
-Warning: Error in : `.p` is invalid.
-[31mx[39m `.p` should have the same size as the number of variables in the tibble.
-[34mi[39m `.p` is size 0.
-[34mi[39m The tibble has 32 columns, including the grouping variables.
-  180: [37m<Anonymous>[39m
-Input to asJSON(keep_vec_names=TRUE) is a named vector. In a future version of jsonlite, this option will not be supported, and named vectors will be translated into arrays instead of objects. If you want JSON object output, please use a named list instead. See ?toJSON.
-Warning: Error in : `.p` is invalid.
-[31mx[39m `.p` should have the same size as the number of variables in the tibble.
-[34mi[39m `.p` is size 0.
-[34mi[39m The tibble has 32 columns, including the grouping variables.
-  180: [37m<Anonymous>[39m
-Input to asJSON(keep_vec_names=TRUE) is a named vector. In a future version of jsonlite, this option will not be supported, and named vectors will be translated into arrays instead of objects. If you want JSON object output, please use a named list instead. See ?toJSON.

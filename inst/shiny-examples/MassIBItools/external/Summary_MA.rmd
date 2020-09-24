@@ -34,7 +34,7 @@ Histograms in the "Plots" section will change depending on the input dataset.
 # DATA FILE INFORMATION
 ```{r data_file_info}
   # Results File
-  df_metval2 <- df_metval
+  df_metval <- df_metval
   df_metsc <- df_metsc
   
   # Report Info
@@ -52,7 +52,83 @@ Histograms in the "Plots" section will change depending on the input dataset.
   cat(paste("**Period of Record:** ", POR, sep="", collapse="\n\n"))
 ```
 
+# SUMMARY TABLES
+The tables below summarize the data that were input into the shiny app.
+```{r Results_summary_table1, message=FALSE}
+library(knitr)
+library(tidyr)
+
+df_scores <- df_metsc
+df_scores$counts <- rep(1)
+
+table1 <- df_scores %>% 
+  group_by(Index_Nar, INDEX_REGION) %>% 
+  summarize(counts = sum(counts)) %>% 
+  pivot_wider(names_from = INDEX_REGION,
+              values_from = counts) %>% 
+  rename("Index Narrative" = Index_Nar,
+         "Central Hills" = CENTRALHILLS,
+         "Western Highlands" = WESTHIGHLANDS)
+
+kable(table1, caption = "Number of sites by Index Narrative and Index Region")
+
+```
+
+```{r Results_summary_table2, message=FALSE}
+library(knitr)
+library(tidyr)
+
+scores_trim <- df_scores %>% 
+  select(INDEX_REGION, Index, counts)
+
+table2 <- scores_trim %>% 
+  group_by(INDEX_REGION) %>% 
+  summarize(N = sum(counts),
+            Min = round(min(Index), 1),
+            q25 = round(quantile(Index, 0.25, na.rm = TRUE), 1),
+            Med = round(median(Index, na.rm = TRUE), 1),
+            q75 = round(quantile(Index, 0.75, na.rm = TRUE), 1),
+            Max = round(max(Index),1))
+
+kable(table2, caption = "Index scores summary statistics by Index Region")
+
+```
 # PLOTS
+## Map of Sites in Massachusetts
+These are the sites that have been input into the R shiny application. 
+```{r Results_Site_Map}
+##### Massachusetts Map of Sites
+## Color palette
+region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582")
+
+## Map of MA
+m1 <- ggplot(data = subset(map_data("state"), region %in% c("massachusetts"))) + 
+            geom_polygon(aes(x=long, y=lat, group=group), fill="light gray", color="black") +
+            coord_fixed(1.3)+
+          labs(x= "Longitude",
+               y= "Latitude")+
+          theme(text = element_text(size = 12),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(angle = 0, hjust = 0.5),
+          panel.background = element_rect(fill = "white"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black"),
+          legend.position = "top")
+
+## Add Points
+m1 <- m1 + geom_point(data=df_metsc
+                      , aes(LONG, LAT, color=INDEX_REGION), size = 2)
+
+## Change colors
+m1 <- m1 + scale_colour_manual(name="Index Region"
+                               , values=region.colors)
+## Print Plot
+m1
+```
+
+
 ## Overall Index Scores by Index Region
 ```{r Results_Index_Plot}
 # Packages
@@ -85,7 +161,8 @@ region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582") # plo
 p1
 ```
 
-## Metric Values Distribution by Index Region. 
+## Metric Values Distribution by Index Region.
+Note, metrics are calculated, by BioMonTools package, for all Index Regions even if not applicable. 
 ```{r Results_Metric_Values_Plots}
 ##### METRIC VALUES LOOP
 
@@ -128,7 +205,8 @@ for(i in metval_cols){
 } # END of Loop
 ```
 
-## Metric Scores Distribution by Index Region. Only Index Regions that contain a given metric are plotted. 
+## Metric Scores Distribution by Index Region. 
+Only metrics applied within each region are plotted.
 ```{r Results_Metric_Scores_Plots}
 ##### METRIC SCORES LOOP
 
@@ -172,38 +250,4 @@ for(i in metsc_cols){
   print(p3)
 
 } # END of Loop
-```
-
-## Map of Sites in Massachusetts
-These are the sites that have been input into the R shiny application. 
-```{r Results_Site_Map}
-##### Massachusetts Map of Sites
-## Color palette
-region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582")
-
-## Map of MA
-m1 <- ggplot(data = subset(map_data("state"), region %in% c("massachusetts"))) + 
-            geom_polygon(aes(x=long, y=lat, group=group), fill="light gray", color="black") +
-            coord_fixed(1.3)+
-          labs(x= "Longitude",
-               y= "Latitude")+
-          theme(text = element_text(size = 12),
-          axis.text = element_text(color = "black", size = 12),
-          axis.text.x = element_text(angle = 0, hjust = 0.5),
-          panel.background = element_rect(fill = "white"),
-          panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(),
-          panel.border = element_blank(),
-          axis.line = element_line(color = "black"),
-          legend.position = "top")
-
-## Add Points
-m1 <- m1 + geom_point(data=df_metsc
-                      , aes(LONG, LAT, color=INDEX_REGION), size = 2)
-
-## Change colors
-m1 <- m1 + scale_colour_manual(name="Index Region"
-                               , values=region.colors)
-## Print Plot
-m1
 ```
