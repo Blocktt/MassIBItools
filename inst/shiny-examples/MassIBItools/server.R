@@ -537,17 +537,17 @@ shinyServer(function(input, output, session) {
         pivot_longer(!SAMPLEID, names_to = "Variable", values_to = "Score")
 
       # shape palette
-      shape_pal <- c("Index" = 15
-                     , "nt_total" = 16
-                     , "pt_EPT" = 16
-                     , "pi_EphemNoCaeBae" = 16
-                     , "pi_ffg_filt" = 16
-                     , "pt_ffg_pred" = 16
-                     , "pt_tv_intol" = 16
-                     , "pi_Pleco" = 16
-                     , "pi_ffg_shred" = 16
-                     , "pi_tv_intol" = 16
-                     , "x_Becks" = 16)
+      shape_pal <- c("Index" = 16
+                     , "nt_total" = 15
+                     , "pt_EPT" = 15
+                     , "pi_EphemNoCaeBae" = 15
+                     , "pi_ffg_filt" = 15
+                     , "pt_ffg_pred" = 15
+                     , "pt_tv_intol" = 15
+                     , "pi_Pleco" = 15
+                     , "pi_ffg_shred" = 15
+                     , "pi_tv_intol" = 15
+                     , "x_Becks" = 15)
 
       # size palette
       size_pal <- c("Index" = 10
@@ -580,6 +580,37 @@ shinyServer(function(input, output, session) {
               panel.border = element_blank(),
               axis.line = element_line(color = "black"),
               legend.position = "none")
+
+    }) ## renderPlot ~ END
+
+    output$Index_plot <- renderPlot({
+      if (is.null(df_sitefilt()))
+        return(NULL)
+
+      df_all_scores <- map_data$df_metsc
+
+      df_selected_site <- df_sitefilt()
+
+      site_region <- as.character(df_selected_site$INDEX_REGION)
+
+      df_sub_regions <- df_all_scores[df_all_scores$INDEX_REGION == site_region,]
+
+      ggplot()+
+        geom_boxplot(data = df_sub_regions, aes(x = INDEX_REGION, y = Index), width = 0.25)+
+        geom_point(data = df_selected_site, aes(x = INDEX_REGION, y = Index), size = 5)+
+        labs(y = "Index Scores of Input Data Frame",
+             x = "Index Region")+
+        ylim(0,100)+
+        theme(text = element_text(size = 12),
+              axis.text = element_text(color = "black", size = 12),
+              axis.text.x = element_text(angle = 0, hjust = 0.5),
+              panel.background = element_rect(fill = "white"),
+              panel.grid.major = element_blank(),
+              panel.grid.minor = element_blank(),
+              panel.border = element_blank(),
+              axis.line = element_line(color = "black"),
+              legend.position = "none")
+
 
     }) ## renderPlot ~ END
 

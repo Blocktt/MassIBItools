@@ -117,6 +117,7 @@ shinyUI(navbarPage("Massachusetts Stream IBI Calculator v0.1.0.904",
                          # , helpText("Click below to download PDF of map")
                          # , downloadButton(outputId = "map_down", label = "Map Download")
                          , plotOutput("DatExp_plot")
+                         , plotOutput("Index_plot")
 
                        )##sidebarPanel.END
                        , mainPanel(
