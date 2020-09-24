@@ -1,76 +1,0 @@
-Results Log from MassIBItools Shiny App
-2020-09-24 09:33:17
-file = MA_Kick_Shiny_Input_20200908.csv
-Warning in eval(expr, env) :
-  Metrics related to the following fields are invalid:
-   SUBPHYLUM
-   SUBCLASS
-   INFRAORDER
-   BCG_ATTR
-   LONGLIVED
-   NOTEWORTHY
-   FFG2
-   TOLVAL2
-   HABITAT
-Chosen IBI from Shiny app = MassDEP_2019_Bugs
-
-
-processing file: Summary_MA.rmd
-  |                                                                                                                                                                |                                                                                                                                                        |   0%  |                                                                                                                                                                |..........                                                                                                                                              |   6%
-   inline R code fragments
-
-  |                                                                                                                                                                |...................                                                                                                                                     |  12%
-label: setup (with options) 
-List of 1
- $ include: logi FALSE
-
-  |                                                                                                                                                                |............................                                                                                                                            |  19%
-  ordinary text without R code
-
-  |                                                                                                                                                                |......................................                                                                                                                  |  25%
-label: data_file_info
-  |                                                                                                                                                                |................................................                                                                                                        |  31%
-  ordinary text without R code
-
-  |                                                                                                                                                                |.........................................................                                                                                               |  38%
-label: Results_summary_table1 (with options) 
-List of 1
- $ message: logi FALSE
-
-`summarise()` regrouping output by 'Index_Nar' (override with `.groups` argument)
-  |                                                                                                                                                                |..................................................................                                                                                      |  44%
-  ordinary text without R code
-
-  |                                                                                                                                                                |............................................................................                                                                            |  50%
-label: Results_summary_table2 (with options) 
-List of 1
- $ message: logi FALSE
-
-`summarise()` ungrouping output (override with `.groups` argument)
-  |                                                                                                                                                                |......................................................................................                                                                  |  56%
-  ordinary text without R code
-
-  |                                                                                                                                                                |...............................................................................................                                                         |  62%
-label: Results_Site_Map
-  |                                                                                                                                                                |........................................................................................................                                                |  69%
-  ordinary text without R code
-
-  |                                                                                                                                                                |..................................................................................................................                                      |  75%
-label: Results_Index_Plot
-  |                                                                                                                                                                |............................................................................................................................                            |  81%
-  ordinary text without R code
-
-  |                                                                                                                                                                |.....................................................................................................................................                   |  88%
-label: Results_Metric_Values_Plots
-  |                                                                                                                                                                |..............................................................................................................................................          |  94%
-  ordinary text without R code
-
-  |                                                                                                                                                                |........................................................................................................................................................| 100%
-label: Results_Metric_Scores_Plots
-
-output file: Summary_MA.knit.md
-
-"C:/Users/Ben.Block/Documents/RStudio/bin/pandoc/pandoc" +RTS -K512m -RTS Summary_MA.utf8.md --to docx --from markdown+autolink_bare_uris+tex_math_single_backslash --output pandoc5f3827bb65cc.docx --table-of-contents --toc-depth 3 --highlight-style tango --lua-filter "C:/Users/Ben.Block/Documents/R/R-3.6.3/library/rmarkdown/rmd/lua/pagebreak.lua" 
-
-Output created: Results/results_summary_report.docx
-Warning in sink() : no sink to remove
