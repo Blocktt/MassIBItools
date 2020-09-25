@@ -17,6 +17,10 @@ knitr::opts_chunk$set(
 cat(paste0("Last Update: ",Sys.time()))
 ```
 
+MassIBItools v0.1.2.900 (2020-09-24)
+================
+* Added instructions tab that has background information
+
 MassIBItools v0.1.1.900 (2020-09-23)
 ================
 * Added data explorer tab - includes increased mapping capabilities and index scoring plot. 

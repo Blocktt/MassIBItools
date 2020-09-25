@@ -614,4 +614,34 @@ shinyServer(function(input, output, session) {
 
     }) ## renderPlot ~ END
 
+    ##############################
+    ###### Insturctions Page #####
+    ##############################
+
+    # Render Instructions in UI
+
+    output$Instructions_html <- renderUI({
+
+      fn_html <- file.path(".", "www", "App_Instructions.html")
+
+      fe_html <- file.exists(fn_html)
+
+      if(fe_html==TRUE){
+
+        return(includeHTML(fn_html))
+
+      } else {
+
+        return(NULL)
+
+      }##IF~fe_html~END
+
+    })##help_html~END
+
+    # output$markdown <- renderUI({
+    #   HTML(markdown::markdownToHTML(knit(file.path(".", "external", "App_Instructions.rmd"), quiet = TRUE)))
+    # })## renderUI~ END
+
+
+
 })##shinyServer~END
