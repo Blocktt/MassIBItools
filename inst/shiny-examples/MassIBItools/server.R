@@ -29,11 +29,50 @@ shinyServer(function(input, output, session) {
     # map and plots require df_metsc
     map_data <- reactiveValues(df_metsc = NULL)
 
+    ##############################
+    ###### Insturctions Page #####
+    ##############################
+
+    # Render Instructions in UI
+
+    output$Instructions_html <- renderUI({
+      # if (is.null(df_sitefilt()))
+      #   return(NULL)
+
+      fn_html <- file.path(".", "www", "App_Instructions.html")
+
+      fe_html <- file.exists(fn_html)
+
+      if(fe_html==TRUE){
+
+        return(includeHTML(fn_html))
+
+      } else {
+
+        return(NULL)
+
+      }##IF~fe_html~END
+
+    })##help_html~END
+
+
     # Testing ####
     #runcodeServer() # for Testing
 
     # Misc Names ####
-    output$fn_input_display <- renderText({input$fn_input})
+    output$fn_input_display <- renderText({
+
+      if(fe_html==TRUE){
+
+        return(input$fn_input)
+
+      } else {
+
+        return(NULL)
+
+      }##IF~fe_html~END
+
+      }) ## renderText~END
 
 
     # output$vig <- renderUI({
@@ -110,8 +149,8 @@ shinyServer(function(input, output, session) {
           if(is.null(inFile))
             return(NULL)
 
-          if (is.null(df_sitefilt()))
-            return(NULL)
+          req(!is.null(map_data$df_metsc))
+
           df_input
           updateSelectInput(session, "siteid.select", choices = as.character(sort(unique(df_input[, "SAMPLEID"]))))
           # updateSelectInput(session, "sample.select", choices = as.character(sort(unique(df_input[, "SAMPLEID"]))))
@@ -624,31 +663,5 @@ shinyServer(function(input, output, session) {
 
 
     }) ## renderPlot ~ END
-
-    ##############################
-    ###### Insturctions Page #####
-    ##############################
-
-    # Render Instructions in UI
-
-    output$Instructions_html <- renderUI({
-      if (is.null(df_sitefilt()))
-        return(NULL)
-
-        fn_html <- file.path(".", "www", "App_Instructions.html")
-
-        fe_html <- file.exists(fn_html)
-
-       if(fe_html==TRUE){
-
-        return(includeHTML(fn_html))
-
-       } else {
-
-        return(NULL)
-
-       }##IF~fe_html~END
-
-    })##help_html~END
 
 })##shinyServer~END

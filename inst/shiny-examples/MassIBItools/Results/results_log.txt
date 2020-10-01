@@ -1,0 +1,23 @@
+Results Log from MassIBItools Shiny App
+2020-10-01 11:27:17
+file = MA_Kick_Shiny_Input_20200908.csv
+Warning in eval(expr, env) :
+  Metrics related to the following fields are invalid:
+   SUBPHYLUM
+   SUBCLASS
+   INFRAORDER
+   BCG_ATTR
+   LONGLIVED
+   NOTEWORTHY
+   FFG2
+   TOLVAL2
+   HABITAT
+Chosen IBI from Shiny app = MassDEP_2019_Bugs
+Warning in sink() : no sink to remove
+Input to asJSON(keep_vec_names=TRUE) is a named vector. In a future version of jsonlite, this option will not be supported, and named vectors will be translated into arrays instead of objects. If you want JSON object output, please use a named list instead. See ?toJSON.
+Input to asJSON(keep_vec_names=TRUE) is a named vector. In a future version of jsonlite, this option will not be supported, and named vectors will be translated into arrays instead of objects. If you want JSON object output, please use a named list instead. See ?toJSON.
+Input to asJSON(keep_vec_names=TRUE) is a named vector. In a future version of jsonlite, this option will not be supported, and named vectors will be translated into arrays instead of objects. If you want JSON object output, please use a named list instead. See ?toJSON.
+Input to asJSON(keep_vec_names=TRUE) is a named vector. In a future version of jsonlite, this option will not be supported, and named vectors will be translated into arrays instead of objects. If you want JSON object output, please use a named list instead. See ?toJSON.
+
+
+
