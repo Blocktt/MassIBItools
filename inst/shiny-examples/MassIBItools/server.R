@@ -632,8 +632,8 @@ shinyServer(function(input, output, session) {
     # Render Instructions in UI
 
     output$Instructions_html <- renderUI({
-      # if (is.null(df_sitefilt()))
-      #   return(NULL)
+      if (is.null(df_sitefilt()))
+        return(NULL)
 
         fn_html <- file.path(".", "www", "App_Instructions.html")
 
