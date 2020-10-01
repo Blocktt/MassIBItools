@@ -15,7 +15,7 @@ output:
 subtitle: Metric Scores and Values
 ---
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(results='asis', echo=FALSE, warning=FALSE)
+knitr::opts_chunk$set(results='asis', echo=FALSE, warning=FALSE, message = FALSE)
 # needed for trouble shooting
 boo_DEBUG <- FALSE
 if(boo_DEBUG==TRUE){
@@ -53,27 +53,37 @@ Histograms in the "Plots" section will change depending on the input dataset.
 ```
 
 # SUMMARY TABLES
-The tables below summarize the data that were input into the shiny app.
+## The tables below summarize the data that were input into the shiny app.
+### Table 1. Number of sites by Index Narrative and Index Region. 
 ```{r Results_summary_table1, message=FALSE}
 library(knitr)
 library(tidyr)
+library(dplyr)
+
+options(dplyr.summarise.inform = FALSE)
 
 df_scores <- df_metsc
 df_scores$counts <- rep(1)
+
+# create a vector in the desired order
+row_ord <- c("Exceptional", "Satisfactory", "Moderately Degraded", "Severely Degraded")
 
 table1 <- df_scores %>% 
   group_by(Index_Nar, INDEX_REGION) %>% 
   summarize(counts = sum(counts)) %>% 
   pivot_wider(names_from = INDEX_REGION,
               values_from = counts) %>% 
+  mutate(Index_Nar = factor(Index_Nar, levels = row_ord)) %>% 
+  arrange(Index_Nar)%>% 
   rename("Index Narrative" = Index_Nar,
          "Central Hills" = CENTRALHILLS,
          "Western Highlands" = WESTHIGHLANDS)
 
-kable(table1, caption = "Number of sites by Index Narrative and Index Region")
+kable(table1)
 
 ```
 
+### Table 2. Index scores summary statistics by Index Region.
 ```{r Results_summary_table2, message=FALSE}
 library(knitr)
 library(tidyr)
@@ -90,9 +100,45 @@ table2 <- scores_trim %>%
             q75 = round(quantile(Index, 0.75, na.rm = TRUE), 1),
             Max = round(max(Index),1))
 
-kable(table2, caption = "Index scores summary statistics by Index Region")
+kable(table2)
 
 ```
+
+
+### Table 3. Metrics in the Western Highlands IBI, with scoring formulas. Trend is the direction of metric response with increasing stress. 
+```{r Results_summary_table_3}
+library(readxl)
+library(knitr)
+# state directories
+table.dir <- "tables"
+table.file <- "Instruction_Tables.xlsx"
+tab3.dir <- "table2"
+
+table3 <- read_excel(file.path(table.dir, table.file), sheet = tab3.dir
+                     , na = c("NA", ""), trim_ws = TRUE, skip = 0
+                     , col_names = TRUE)
+
+kable(table3)
+```
+
+*Beck’s Biotic Index = 2 x [Class 1 Taxa]+[Class 2 Taxa] where Class 1 taxa have tolerance values of 0 or 1 and Class 2 taxa have tolerance values of 2, 3 or 4.
+
+### Table 4. Metrics in the Central Hills IBI, with scoring formulas. Trend is the direction of metric response with increasing stress.
+```{r Results_summary_table_4}
+library(readxl)
+library(knitr)
+# state directories
+table.dir <- "tables"
+table.file <- "Instruction_Tables.xlsx"
+tab4.dir <- "table3"
+
+table4 <- read_excel(file.path(table.dir, table.file), sheet = tab4.dir
+                     , na = c("NA", ""), trim_ws = TRUE, skip = 0
+                     , col_names = TRUE)
+
+kable(table4)
+```
+
 # PLOTS
 ## Map of Sites in Massachusetts
 These are the sites that have been input into the R shiny application. 
@@ -137,7 +183,34 @@ library(ggplot2)
 # Plot
 region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582") # plot colors
 
-  p1 <- ggplot(df_metsc, aes(x = Index, fill = INDEX_REGION))+ 
+# Western Highlands Scores
+
+WH_data <- df_metsc %>% 
+  filter(INDEX_REGION == "WESTHIGHLANDS") %>% 
+  select_if(~sum(!is.na(.)) > 0)
+  
+  p1 <- ggplot(WH_data, aes(x = Index, fill = INDEX_REGION))+ 
+    geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
+    labs(x= "Scores",
+         y= "Frequency",
+         fill= "Index Region")+
+    scale_fill_manual(values=region.colors)+
+    theme(text = element_text(size = 12),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(angle = 0, hjust = 0.5),
+          panel.background = element_rect(fill = "white"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black"),
+          legend.position = "top")
+
+# Central Hills Scores
+CH_data <- df_metsc %>% 
+  filter(INDEX_REGION == "CENTRALHILLS")%>% 
+  select_if(~sum(!is.na(.)) > 0)
+  
+  p2 <- ggplot(CH_data, aes(x = Index, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
     labs(x= "Scores",
          y= "Frequency",
@@ -154,26 +227,29 @@ region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582") # plo
           legend.position = "top")
 
 
-
-
-
 # Output
 p1
+p2
 ```
 
 ## Metric Values Distribution by Index Region.
-Note, metrics are calculated, by BioMonTools package, for all Index Regions even if not applicable. 
+Note, metrics are calculated, by BioMonTools package, for all Index Regions even if not applicable.
+
 ```{r Results_Metric_Values_Plots}
 ##### METRIC VALUES LOOP
 
+# western highlands metrics
 # for columns "ni_total" to ncol(df_metval)
-start_col<- which(colnames(df_metval)=="ni_total")
-end_col <- ncol(df_metval)
+WH_metval <- df_metval %>% 
+  filter(INDEX_REGION == "WESTHIGHLANDS")
 
-metval_cols <- colnames(df_metval[,start_col:end_col])
+start_col<- which(colnames(WH_metval)=="ni_total")
+end_col <- ncol(WH_metval)
+
+metval_cols <- colnames(WH_metval[,start_col:end_col])
 
 for(i in metval_cols){
-  subset.data <- df_metval[,c("INDEX_REGION", i)]
+  subset.data <- WH_metval[,c("INDEX_REGION", i)]
   
   subset.data <- subset.data %>% 
     rename(Value = eval(i))
@@ -181,52 +257,6 @@ for(i in metval_cols){
   title <- paste0(i, " - by Index Region")
   
   subset.data$INDEX_REGION <- as.factor(subset.data$INDEX_REGION)
-  
-  region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582")
-  
-  p2 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
-    geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
-    labs(title = title,
-         x= "Metric Units",
-         y= "Frequency",
-         fill= "Index Region")+
-    scale_fill_manual(values=region.colors)+
-    theme(text = element_text(size = 12),
-          axis.text = element_text(color = "black", size = 12),
-          axis.text.x = element_text(angle = 0, hjust = 0.5),
-          panel.background = element_rect(fill = "white"),
-          panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(),
-          panel.border = element_blank(),
-          axis.line = element_line(color = "black"),
-          legend.position = "top")
-  print(p2)
-
-} # END of Loop
-```
-
-## Metric Scores Distribution by Index Region. 
-Only metrics applied within each region are plotted.
-```{r Results_Metric_Scores_Plots}
-##### METRIC SCORES LOOP
-
-# for columns "ni_total" to ncol(df_metval)
-start_col<- which(colnames(df_metsc)=="SC_nt_total")
-end_col <- which(colnames(df_metsc)=="SC_x_Becks")
-
-metsc_cols <- colnames(df_metsc[,start_col:end_col])
-
-for(i in metsc_cols){
-  subset.data <- df_metsc[,c("INDEX_REGION", i)]
-  
-  subset.data <- subset.data %>% 
-    rename(Value = eval(i))
-  
-  title <- paste0(i, " - by Index Region")
-  
-  subset.data$INDEX_REGION <- as.factor(subset.data$INDEX_REGION)
-  
-  subset.data <- subset.data %>% filter(!is.na(Value))
   
   region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582")
   
@@ -250,4 +280,153 @@ for(i in metsc_cols){
   print(p3)
 
 } # END of Loop
+
+
+# central hills metrics
+# for columns "ni_total" to ncol(df_metval)
+CH_metval <- df_metval %>% 
+  filter(INDEX_REGION == "CENTRALHILLS")
+
+start_col<- which(colnames(CH_metval)=="ni_total")
+end_col <- ncol(CH_metval)
+
+metval_cols <- colnames(CH_metval[,start_col:end_col])
+
+for(i in metval_cols){
+  subset.data <- CH_metval[,c("INDEX_REGION", i)]
+  
+  subset.data <- subset.data %>% 
+    rename(Value = eval(i))
+  
+  title <- paste0(i, " - by Index Region")
+  
+  subset.data$INDEX_REGION <- as.factor(subset.data$INDEX_REGION)
+  
+  region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582")
+  
+  p4 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
+    geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
+    labs(title = title,
+         x= "Metric Units",
+         y= "Frequency",
+         fill= "Index Region")+
+    scale_fill_manual(values=region.colors)+
+    theme(text = element_text(size = 12),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(angle = 0, hjust = 0.5),
+          panel.background = element_rect(fill = "white"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black"),
+          legend.position = "top")
+  
+  print(p4)
+
+} # END of Loop
+
+```
+
+## Metric Scores Distribution by Index Region. 
+Only metrics applied within each region are plotted.
+
+```{r Results_Metric_Scores_Plots}
+##### METRIC SCORES LOOP
+
+# WESTERN HIGHLANDS
+# for columns "ni_total" to ncol(df_metval)
+
+start_col<- which(colnames(WH_data)=="SC_nt_total")
+end_col <- which(colnames(WH_data)=="SC_x_Becks")
+
+metsc_cols <- colnames(WH_data[,start_col:end_col])
+
+for(i in metsc_cols){
+  subset.data <- WH_data[,c("INDEX_REGION", i)]
+  
+  subset.data <- subset.data %>% 
+    rename(Value = eval(i))
+  
+  title <- paste0(i, " - by Index Region")
+  
+  subset.data$INDEX_REGION <- as.factor(subset.data$INDEX_REGION)
+  
+  subset.data <- subset.data %>% filter(!is.na(Value))
+  
+  region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582")
+  
+  p5 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
+    geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
+    labs(title = title,
+         x= "Metric Units",
+         y= "Frequency",
+         fill= "Index Region")+
+    scale_fill_manual(values=region.colors)+
+    theme(text = element_text(size = 12),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(angle = 0, hjust = 0.5),
+          panel.background = element_rect(fill = "white"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black"),
+          legend.position = "top")
+  
+  print(p5)
+
+} # END of Loop
+
+# CENTRAL HILLS
+# for columns "ni_total" to ncol(df_metval)
+
+start_col<- which(colnames(CH_data)=="SC_nt_total")
+end_col <- which(colnames(CH_data)=="SC_pt_tv_intol")
+
+metsc_cols <- colnames(CH_data[,start_col:end_col])
+
+for(i in metsc_cols){
+  subset.data <- CH_data[,c("INDEX_REGION", i)]
+  
+  subset.data <- subset.data %>% 
+    rename(Value = eval(i))
+  
+  title <- paste0(i, " - by Index Region")
+  
+  subset.data$INDEX_REGION <- as.factor(subset.data$INDEX_REGION)
+  
+  subset.data <- subset.data %>% filter(!is.na(Value))
+  
+  region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582")
+  
+  p5 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
+    geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
+    labs(title = title,
+         x= "Metric Units",
+         y= "Frequency",
+         fill= "Index Region")+
+    scale_fill_manual(values=region.colors)+
+    theme(text = element_text(size = 12),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(angle = 0, hjust = 0.5),
+          panel.background = element_rect(fill = "white"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black"),
+          legend.position = "top")
+  
+  print(p5)
+
+} # END of Loop
+
+
+
+
+
+
+
+
+
+
+
 ```

@@ -54,11 +54,13 @@ MassMetrics <- c("nt_total"
 dir_data <- file.path(".","GIS_Data")
 
 ## Central Hills / Western Highlands Regions
-region_shape <- rgdal::readOGR(file.path(dir_data, "BugClasses_20200910.shp"))
+MA_region_shape <- rgdal::readOGR(file.path(dir_data, "BugClasses_20201001.shp"))
 
 ## Mass Major Basins
 
 basins_shape <- rgdal::readOGR(file.path(dir_data,"MA_MajBasins.shp"))
 
+## SNEP region
 
+SNEP_region <- rgdal::readOGR(file.path(dir_data,"SNEP_Bound_20201001.shp"))
 

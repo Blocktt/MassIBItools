@@ -5,16 +5,9 @@ output:
   html_document:
     toc: yes
 ---
-<style type="text/css">
-.main-container {
-  width: 100%
-  max-width: 1800px;
-  margin-left: auto;
-  margin-right: auto;
-}
-</style>
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(results='asis', echo=FALSE, warning=FALSE)
+knitr::opts_chunk$set(results='asis', echo=FALSE, warning=FALSE, message = FALSE)
 # needed for trouble shooting
 boo_DEBUG <- FALSE
 if(boo_DEBUG==TRUE){
@@ -97,7 +90,7 @@ Once open, the user will see the IBI calculator interface. The user should follo
     + Choose Separator. The separator indicates how the data is stored. Comma indicates the input file is a comma-separated file (.csv). Tab indicates the input file is a tab-separated file (.txt or .tsv). Finally, Semicolon indicates the input file is a semicolon-separated file which is uncommon in the United States but common in Western-European countries. Be certain that the designated separator is not used in any of the text fields (e.g., for multiple FFG, separate with a semicolon).
     + Choose Quote. The quote indicates how the data is stored. Double quote is the most common.
     + Choose file to upload. Hit the browse button and search for the input file. 
-    + Once uploaded, make sure data is correct in the viewer. If the incorrect Separator or Quote is chosen, you may receive an error (Fig. 5) or the data may look incorrect in the viewer. 
+    + Once uploaded, make sure data is correct in the viewer. If the incorrect Separator or Quote is chosen, you may receive an error or the data may look incorrect in the viewer. 
 
 2. Calculate IBI
 

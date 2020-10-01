@@ -109,10 +109,13 @@ shinyServer(function(input, output, session) {
           inFile<- input$fn_input
           if(is.null(inFile))
             return(NULL)
+
+          if (is.null(df_sitefilt()))
+            return(NULL)
           df_input
           updateSelectInput(session, "siteid.select", choices = as.character(sort(unique(df_input[, "SAMPLEID"]))))
           # updateSelectInput(session, "sample.select", choices = as.character(sort(unique(df_input[, "SAMPLEID"]))))
-        })
+        }) ## observe~END
 
 
         ##############
@@ -310,12 +313,12 @@ shinyServer(function(input, output, session) {
 
 
             # Increment the progress bar, and update the detail text.
-            incProgress(1/n_inc, detail = "Create, summary report (~ 20 sec)")
+            incProgress(1/n_inc, detail = "Create, summary report (~ 20 - 40 sec)")
             Sys.sleep(0.75)
 
             # Render Summary Report (rmarkdown file)
-            rmarkdown::render(input = file.path(".", "external", "Summary_MA.rmd"), output_format = "word_document",
-                              output_dir = file.path(".", "Results"), output_file = "results_summary_report")
+            rmarkdown::render(input = file.path(".", "www", "Summary_MA.rmd"), output_format = "word_document",
+                              output_dir = file.path(".", "Results"), output_file = "results_summary_report", quiet = TRUE)
 
             # Increment the progress bar, and update the detail text.
             incProgress(1/n_inc, detail = "Ben's code is magical!")
@@ -409,12 +412,12 @@ shinyServer(function(input, output, session) {
         addTiles() %>%
         addProviderTiles("CartoDB.Positron", group="Positron") %>%
         addProviderTiles(providers$Stamen.TonerLite, group="Toner Lite") %>%
-        addPolygons(data = region_shape
+        addPolygons(data = MA_region_shape
                     , color = "blue"
                     , weight = 5
                     , fill = FALSE
-                    , label = region_shape$BugClass
-                    , group = "Regions"
+                    , label = MA_region_shape$BugClass
+                    , group = "MA Regions"
 
         ) %>%
         addPolygons(data = basins_shape
@@ -423,6 +426,14 @@ shinyServer(function(input, output, session) {
                     , fill = FALSE
                     , label = basins_shape$NAME
                     , group = "Major Basins"
+
+        ) %>%
+        addPolygons(data = SNEP_region
+                    , color = "purple"
+                    , weight = 5
+                    , fill = FALSE
+                    , label = SNEP_region$Name
+                    , group = "SNEP Region"
 
         ) %>%
         addCircleMarkers(data = WH_data, lat = ~LAT, lng = ~LONG
@@ -465,10 +476,10 @@ shinyServer(function(input, output, session) {
                   position = "bottomright",
                   title = "Index Scores",
                   opacity = 1) %>%
-        addLayersControl(overlayGroups = c("WESTHIGHLANDS", "CENTRALHILLS", "Regions", "Major Basins"),
+        addLayersControl(overlayGroups = c("WESTHIGHLANDS", "CENTRALHILLS", "MA Regions", "SNEP Region" ,"Major Basins"),
                          baseGroups = c("OSM (default)", "Positron", "Toner Lite"),
                          options = layersControlOptions(collapsed = TRUE))%>%
-        hideGroup(c("Regions", "Major Basins")) %>%
+        hideGroup(c("MA Regions", "SNEP Region" , "Major Basins")) %>%
         addMiniMap(toggleDisplay = TRUE)
 
       }) ##renderLeaflet~END
@@ -621,27 +632,23 @@ shinyServer(function(input, output, session) {
     # Render Instructions in UI
 
     output$Instructions_html <- renderUI({
+      # if (is.null(df_sitefilt()))
+      #   return(NULL)
 
-      fn_html <- file.path(".", "www", "App_Instructions.html")
+        fn_html <- file.path(".", "www", "App_Instructions.html")
 
-      fe_html <- file.exists(fn_html)
+        fe_html <- file.exists(fn_html)
 
-      if(fe_html==TRUE){
+       if(fe_html==TRUE){
 
         return(includeHTML(fn_html))
 
-      } else {
+       } else {
 
         return(NULL)
 
-      }##IF~fe_html~END
+       }##IF~fe_html~END
 
     })##help_html~END
-
-    # output$markdown <- renderUI({
-    #   HTML(markdown::markdownToHTML(knit(file.path(".", "external", "App_Instructions.rmd"), quiet = TRUE)))
-    # })## renderUI~ END
-
-
 
 })##shinyServer~END
