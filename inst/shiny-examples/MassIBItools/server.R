@@ -139,6 +139,7 @@ shinyServer(function(input, output, session) {
           # req(!is.null(map_data$df_metsc))
 
           df_input
+          message("Server - Code runs through Line 142")
           updateSelectInput(session, "siteid.select", choices = as.character(sort(unique(df_input[, "SAMPLEID"]))))
           # updateSelectInput(session, "sample.select", choices = as.character(sort(unique(df_input[, "SAMPLEID"]))))
         }) ## observe~END
@@ -170,6 +171,8 @@ shinyServer(function(input, output, session) {
         #          sep = input$sep, quote = input$quote)
 
         return(df_input)
+
+        message("Server - Code runs through Line 174")
 
     }##expression~END
     , filter="top", options=list(scrollX=TRUE)
