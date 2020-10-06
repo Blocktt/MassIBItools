@@ -27,6 +27,7 @@ Imports:
   rmarkdown,
   leaflet,
   mapview,
-  stringr
+  stringr,
+  shinythemes
 VignetteBuilder: knitr
 URL: https://github.com/Blocktt/MassIBItools

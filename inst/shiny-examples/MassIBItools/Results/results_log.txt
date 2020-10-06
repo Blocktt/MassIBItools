@@ -1,6 +1,6 @@
 Results Log from MassIBItools Shiny App
-2020-10-06 16:31:33
-file = MA_Kick_Shiny_Input_20200908.txt
+2020-10-06 16:45:26
+file = MA_Kick_Shiny_Input_20200908.csv
 Warning in eval(expr, env) :
   Metrics related to the following fields are invalid:
    SUBPHYLUM
@@ -27,7 +27,6 @@ Please use a list of either functions or lambdas:
   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
 [90mThis warning is displayed once every 8 hours.[39m
 [90mCall `lifecycle::last_warnings()` to see where this warning was generated.[39m
-Input to asJSON(keep_vec_names=TRUE) is a named vector. In a future version of jsonlite, this option will not be supported, and named vectors will be translated into arrays instead of objects. If you want JSON object output, please use a named list instead. See ?toJSON.
 Input to asJSON(keep_vec_names=TRUE) is a named vector. In a future version of jsonlite, this option will not be supported, and named vectors will be translated into arrays instead of objects. If you want JSON object output, please use a named list instead. See ?toJSON.
 Input to asJSON(keep_vec_names=TRUE) is a named vector. In a future version of jsonlite, this option will not be supported, and named vectors will be translated into arrays instead of objects. If you want JSON object output, please use a named list instead. See ?toJSON.
 Input to asJSON(keep_vec_names=TRUE) is a named vector. In a future version of jsonlite, this option will not be supported, and named vectors will be translated into arrays instead of objects. If you want JSON object output, please use a named list instead. See ?toJSON.

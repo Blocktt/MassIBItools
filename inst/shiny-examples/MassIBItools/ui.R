@@ -30,7 +30,7 @@ sapply(fn_html, knit, quiet = T)
 
 
 # Define UI
-shinyUI(navbarPage("Massachusetts Stream IBI Calculator v0.1.2.908",
+shinyUI(navbarPage(theme = shinytheme("united"), "Massachusetts Stream IBI Calculator v0.1.2.908",
                    tabPanel("Instructions",
                             # mainPanel(
 
