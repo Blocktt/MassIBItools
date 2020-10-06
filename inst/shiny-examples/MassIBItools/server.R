@@ -37,31 +37,27 @@ shinyServer(function(input, output, session) {
 
     # Render Instructions in UI
 
-    output$Instructions_html <- renderUI({
-      # if (is.null(df_sitefilt()))
-      #   return(NULL)
-
-      fn_html <- file.path(".", "www", "App_Instructions.html")
-
-      fe_html <- file.exists(fn_html)
-
-      if(fe_html==TRUE){
-
-        return(includeHTML(fn_html))
-
-      } else {
-
-        return(NULL)
-
-      }##IF~fe_html~END
-
-    })##help_html~END
-
-    message("Server - Code runs through Line 60")
-
-
-    # Testing ####
-    #runcodeServer() # for Testing
+    # output$Instructions_html <- renderUI({
+    #   # if (is.null(df_sitefilt()))
+    #   #   return(NULL)
+    #
+    #   fn_html <- file.path(".", "Extras", "App_Instructions.html")
+    #
+    #   fe_html <- file.exists(fn_html)
+    #
+    #   if(fe_html==TRUE){
+    #
+    #     return(includeHTML(fn_html))
+    #
+    #   } else {
+    #
+    #     return(NULL)
+    #
+    #   }##IF~fe_html~END
+    #
+    # })##help_html~END
+    #
+    # message("Server - Code runs through Line 60")
 
     # Misc Names ####
     output$fn_input_display <- renderText({input$fn_input}) ## renderText~END
@@ -348,7 +344,7 @@ shinyServer(function(input, output, session) {
             Sys.sleep(0.75)
 
             # Render Summary Report (rmarkdown file)
-            rmarkdown::render(input = file.path(".", "www", "Summary_MA.rmd"), output_format = "word_document",
+            rmarkdown::render(input = file.path(".", "Extras", "Summary_MA.rmd"), output_format = "word_document",
                               output_dir = file.path(".", "Results"), output_file = "results_summary_report", quiet = TRUE)
 
             # Increment the progress bar, and update the detail text.
@@ -577,6 +573,8 @@ shinyServer(function(input, output, session) {
 
       df_grph_input <- df_trim %>%
         pivot_longer(!SAMPLEID, names_to = "Variable", values_to = "Score")
+
+      df_grph_input <- as.data.frame(df_grph_input)
 
       # shape palette
       shape_pal <- c("Index" = 16

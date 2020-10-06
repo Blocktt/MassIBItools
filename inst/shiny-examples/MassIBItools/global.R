@@ -12,6 +12,7 @@ library(BioMonTools)
 library(knitr)
 library(maps)
 library(rmarkdown)
+library(markdown)
 library(tidyr)
 library(leaflet)
 library(shinyjs) # used for download button enable

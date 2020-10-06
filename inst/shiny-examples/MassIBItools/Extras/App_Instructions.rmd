@@ -2,7 +2,7 @@
 title: "Instructions and Background Information"
 date: "`r format(Sys.time(), '%Y-%m-%d %H:%M:%S')`"
 output:
-  html_document:
+  md_document:
     toc: yes
 ---
 
@@ -123,7 +123,7 @@ Once open, the user will see the IBI calculator interface. The user should follo
 # Background: Massachusetts kick net IBIs (v1; 9/24/2020)
 Indices of Biotic Integrity (IBI) were calibrated for Massachusetts Department of Environmental Protection (MassDEP) benthic macroinvertebrate kick net samples in two naturally distinct regions: Western Highlands and Central Hills (Figure 1). Input metrics for the Western Highlands and Central Hills IBIs are shown in Tables 1 & 2, respectively. The new IBIs will improve MassDEP’s diagnostic ability to identify degradation in biological integrity and water quality. Full documentation of development of the kick net IBIs can be found in Jessup and Stamp (2020).
 
-![Figure 1. Macroinvertebrate kick IBI stream classes. The southeast areas (Narragansett/Bristol Lowlands, Cape Cod, and the Islands) were excluded because they had insufficient RBP kick net data to develop an IBI at this time.](figures/figure1.png)
+<!-- ![Figure 1. Macroinvertebrate kick IBI stream classes. The southeast areas (Narragansett/Bristol Lowlands, Cape Cod, and the Islands) were excluded because they had insufficient RBP kick net data to develop an IBI at this time.](figures/figure1.png) -->
 
 ### Table 2. Metrics in the Western Highlands IBI, with scoring formulas. Trend is the direction of metric response with increasing stress. 
 ```{r table_2}

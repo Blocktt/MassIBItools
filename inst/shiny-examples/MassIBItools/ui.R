@@ -23,12 +23,19 @@
 # library(plotly)
 # library(shinyjs) # used for download button enable
 
-# Define UI for application that draws a histogram
-shinyUI(navbarPage("Massachusetts Stream IBI Calculator v0.1.2.902",
+# test for rendering markdown
+fn_html <- file.path(".", "Extras", "App_Instructions.rmd")
+sapply(fn_html, knit, quiet = T)
+
+
+
+# Define UI
+shinyUI(navbarPage("Massachusetts Stream IBI Calculator v0.1.2.908",
                    tabPanel("Instructions",
                             # mainPanel(
 
-                            htmlOutput("Instructions_html")
+                            withMathJax(includeMarkdown("App_Instructions.md")),
+                            img(src = "figure1.png")
 
                             # )## mainPanel~END
                    ), #tabPanel ~END
@@ -133,22 +140,6 @@ shinyUI(navbarPage("Massachusetts Stream IBI Calculator v0.1.2.902",
 
                        )##mainPanel.END
                      )#sidebarLayout.End
-            ) ## tabPanel~END
-            # tabPanel("Data Explorer"
-            #          , titlePanel("Data Explorer")
-            #          , h5("The graph below displays Index and Metric Scores by site.")
-            #          , h5("The graph only generates once index and metric scores have been calculated.")
-            #          , sidebarLayout(
-            #            sidebarPanel(
-            #              helpText("Use the drop down menu to select a Sample ID.")
-            #              ,selectInput("siteid.select", "Select Sample ID:"
-            #                           , "")##selectInput~END
-            #              , p("After choosing a Sample ID the graph will display Index and Metric Scores.")
-            #            )##sidebarPanel.END
-            #            , mainPanel(
-            #              plotOutput("DatExp_plot")
-            #            )##mainPanel.END
-            # )##sidebarLayout.End
-            #          )## tabPanel~END
-        )## navbarPage~END
+            )## tabPanel~END
+          )## navbarPage~END
 )## shinyUI~END
