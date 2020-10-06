@@ -26,6 +26,8 @@
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
 
+  message("Server - Code runs through Line 29")
+
     # map and plots require df_metsc
     map_data <- reactiveValues(df_metsc = NULL)
 
@@ -55,33 +57,15 @@ shinyServer(function(input, output, session) {
 
     })##help_html~END
 
+    message("Server - Code runs through Line 60")
+
 
     # Testing ####
     #runcodeServer() # for Testing
 
     # Misc Names ####
-    output$fn_input_display <- renderText({
-
-      if(fe_html==TRUE){
-
-        return(input$fn_input)
-
-      } else {
-
-        return(NULL)
-
-      }##IF~fe_html~END
-
-      }) ## renderText~END
-
-
-    # output$vig <- renderUI({
-    #   # a("MBSStools vignette",
-    #   #   href=get_vignette_link("MBSStools_vignette", package="MBSStools"))
-    #   #includeHTML(file.path(".", "www", "MBSStools_vignette.html"))
-    #   a("MBSStools vignette",
-    #     href=file.path(".", "www", "MBSStools_vignette.html"))
-    # })
+    output$fn_input_display <- renderText({input$fn_input}) ## renderText~END
+    message("Server - Code runs through Line 68")
 
 
     # df_import ####
@@ -92,7 +76,9 @@ shinyServer(function(input, output, session) {
         # column will contain the local filenames where the data can
         # be found.
 
+
         inFile <- input$fn_input
+        message("Server - Code runs through Line 81")
 
         shiny::validate(
             need(inFile != "", "Please select a data set") # used to inform the user that a data set is required
@@ -142,6 +128,7 @@ shinyServer(function(input, output, session) {
                                                                  paste("Required columns missing from the data:\n")
                                                                  , paste("* ", col_missing, collapse = "\n")))
         )##END ~ validate() code
+        message("Server - Code runs through Line 131")
 
         ########################### MAP and PLOT Observer
         observe({
@@ -154,6 +141,7 @@ shinyServer(function(input, output, session) {
           df_input
           updateSelectInput(session, "siteid.select", choices = as.character(sort(unique(df_input[, "SAMPLEID"]))))
           # updateSelectInput(session, "sample.select", choices = as.character(sort(unique(df_input[, "SAMPLEID"]))))
+          message("Server - Code runs through Line 144")
         }) ## observe~END
 
 
@@ -187,6 +175,8 @@ shinyServer(function(input, output, session) {
     }##expression~END
     , filter="top", options=list(scrollX=TRUE)
     )##output$df_import_DT~END
+
+    message("Server - Code runs through Line 179")
 
     # b_Calc ####
     # Calculate IBI (metrics and scores) from df_import
