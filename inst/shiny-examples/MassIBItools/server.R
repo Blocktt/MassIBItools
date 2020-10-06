@@ -136,12 +136,11 @@ shinyServer(function(input, output, session) {
           if(is.null(inFile))
             return(NULL)
 
-          req(!is.null(map_data$df_metsc))
+          # req(!is.null(map_data$df_metsc))
 
           df_input
           updateSelectInput(session, "siteid.select", choices = as.character(sort(unique(df_input[, "SAMPLEID"]))))
           # updateSelectInput(session, "sample.select", choices = as.character(sort(unique(df_input[, "SAMPLEID"]))))
-          message("Server - Code runs through Line 144")
         }) ## observe~END
 
 
