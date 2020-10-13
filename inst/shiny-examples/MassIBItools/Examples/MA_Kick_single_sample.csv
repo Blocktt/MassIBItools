@@ -1,0 +1,32 @@
+INDEX_NAME,INDEX_REGION,STATIONID,COLLDATE,COLLMETH,SAMPLEID,LAT,LONG,TAXAID,N_TAXA,EXCLUDE,NONTARGET,PHYLUM,CLASS,ORDER,FAMILY,SUBFAMILY,TRIBE,GENUS,FFG,HABIT,TOLVAL,THERMAL_INDICATOR,LIFE_CYCLE
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Antocha,2,FALSE,FALSE,Arthropoda,Insecta,Diptera,Tipulidae,,,Antocha,CG,CN,4,,uni
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Baetis,16,FALSE,FALSE,Arthropoda,Insecta,Ephemeroptera,Baetidae,,,Baetis,CG,CN,6,,multi
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Cardiocladius,1,FALSE,FALSE,Arthropoda,Insecta,Diptera,Chironomidae,Orthocladiinae,,Cardiocladius,PR,BU,5,warm,multi
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Cheumatopsyche,2,FALSE,FALSE,Arthropoda,Insecta,Trichoptera,Hydropsychidae,,,Cheumatopsyche,CF,CN,5,,
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Cladotanytarsus,1,FALSE,FALSE,Arthropoda,Insecta,Diptera,Chironomidae,Chironominae,Tanytarsini,Cladotanytarsus,CF,CB,5,,multi
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Cryptochironomus,1,FALSE,FALSE,Arthropoda,Insecta,Diptera,Chironomidae,Chironominae,Chironomini,Cryptochironomus,PR,SP,8,,
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Einfeldia,1,FALSE,FALSE,Arthropoda,Insecta,Diptera,Chironomidae,Chironominae,Chironomini,Einfeldia,CG,BU,9,,
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Ephemerella,10,FALSE,FALSE,Arthropoda,Insecta,Ephemeroptera,Ephemerellidae,,,Ephemerella,CG,CN,4,cold_cool,uni
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Ephemerellidae,4,TRUE,FALSE,Arthropoda,Insecta,Ephemeroptera,Ephemerellidae,,,,,CN,,,
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Eukiefferiella,2,TRUE,FALSE,Arthropoda,Insecta,Diptera,Chironomidae,Orthocladiinae,,Eukiefferiella,CG,SP,6,,multi
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Eukiefferiella claripennis group,1,FALSE,FALSE,Arthropoda,Insecta,Diptera,Chironomidae,Orthocladiinae,,Eukiefferiella,CG,SP,8,cold_cool,multi
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Eukiefferiella devonica group,2,FALSE,FALSE,Arthropoda,Insecta,Diptera,Chironomidae,Orthocladiinae,,Eukiefferiella,CG,SP,4,,multi
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Hydropsyche morosa group,6,FALSE,FALSE,Arthropoda,Insecta,Trichoptera,Hydropsychidae,,,Hydropsyche,CF,CN,6,,uni
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Isonychia,3,FALSE,FALSE,Arthropoda,Insecta,Ephemeroptera,Isonychiidae,,,Isonychia,CF,SW,2,,uni
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Isoperla,3,FALSE,FALSE,Arthropoda,Insecta,Plecoptera,Perlodidae,,,Isoperla,PR,CN,2,cold_cool,uni
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Lepidostoma,1,FALSE,FALSE,Arthropoda,Insecta,Trichoptera,Lepidostomatidae,,,Lepidostoma,SH,CB,1,,uni
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Lopescladius,1,FALSE,FALSE,Arthropoda,Insecta,Diptera,Chironomidae,Orthocladiinae,,Lopescladius,CG,BU,4,,
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Micropsectra,3,FALSE,FALSE,Arthropoda,Insecta,Diptera,Chironomidae,Chironominae,Tanytarsini,Micropsectra,CG,SP,6,,multi
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Microtendipes pedellus group,1,FALSE,FALSE,Arthropoda,Insecta,Diptera,Chironomidae,Chironominae,Chironomini,Microtendipes,CF,CN,6,,
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Nais communis,3,FALSE,FALSE,Annelida,Oligochaeta,Tubificida,Naididae,,,Nais,CG,BU,8,,
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Optioservus,2,FALSE,FALSE,Arthropoda,Insecta,Coleoptera,Elmidae,,,Optioservus,SC,CN,4,,semi
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Paraleptophlebia,1,FALSE,FALSE,Arthropoda,Insecta,Ephemeroptera,Leptophlebiidae,,,Paraleptophlebia,CG,SW,1,,uni
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Parametriocnemus,2,FALSE,FALSE,Arthropoda,Insecta,Diptera,Chironomidae,Orthocladiinae,,Parametriocnemus,CG,SP,5,,multi
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Polypedilum aviceps,14,FALSE,FALSE,Arthropoda,Insecta,Diptera,Chironomidae,Chironominae,Chironomini,Polypedilum,SH,CN,4,,multi
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Polypedilum flavum,2,FALSE,FALSE,Arthropoda,Insecta,Diptera,Chironomidae,Chironominae,Chironomini,Polypedilum,SH,CN,6,warm,multi
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Rheotanytarsus pellucidus,1,FALSE,FALSE,Arthropoda,Insecta,Diptera,Chironomidae,Chironominae,Tanytarsini,Rheotanytarsus,CF,CN,5,,multi
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Rhithrogena,7,FALSE,FALSE,Arthropoda,Insecta,Ephemeroptera,Heptageniidae,,,Rhithrogena,CG,CN,1,cold_cool,uni
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Rhyacophila,1,FALSE,FALSE,Arthropoda,Insecta,Trichoptera,Rhyacophilidae,,,Rhyacophila,PR,CN,1,cold_cool,uni
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Sweltsa,1,FALSE,FALSE,Arthropoda,Insecta,Plecoptera,Chloroperlidae,,,Sweltsa,PR,CN,1,cold_cool,semi
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Thienemannimyia genus group,1,FALSE,FALSE,Arthropoda,Insecta,Diptera,Chironomidae,Tanypodinae,Pentaneurini,Thienemannimyia genus group,PR,SP,6,,
+MassDEP_2019_Bugs,WestHighlands,B0236,9/26/2000,RBP kicknet,2000039,42.635404,-72.731424,Tvetenia bavarica group,1,FALSE,FALSE,Arthropoda,Insecta,Diptera,Chironomidae,Orthocladiinae,,Tvetenia,CG,SP,5,,multi
