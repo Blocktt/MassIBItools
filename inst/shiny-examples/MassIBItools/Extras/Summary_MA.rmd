@@ -34,11 +34,11 @@ Histograms in the "Plots" section will change depending on the input dataset.
 # DATA FILE INFORMATION
 ```{r data_file_info}
   # Results File
-  # df_metval <- df_metval
-  # df_metsc <- df_metsc
+  df_metval <- df_metval
+  df_metsc <- df_metsc
 
-  df_metval <- read.csv("C:/Users/Ben.Block/OneDrive - Tetra Tech, Inc/GitHub/results_metval_single.csv")
-  df_metsc <- read.csv("C:/Users/Ben.Block/OneDrive - Tetra Tech, Inc/GitHub/results_metsc_single.csv")
+  # df_metval <- read.csv("C:/Users/Ben.Block/OneDrive - Tetra Tech, Inc/GitHub/results_metval_single.csv")
+  # df_metsc <- read.csv("C:/Users/Ben.Block/OneDrive - Tetra Tech, Inc/GitHub/results_metsc_single.csv")
   
   # Report Info
   myReportDate <- format(Sys.time(), '%Y-%m-%d %H:%M:%S')
