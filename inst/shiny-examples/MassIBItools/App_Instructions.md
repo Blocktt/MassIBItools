@@ -1,6 +1,6 @@
 ---
 title: "Instructions and Background Information"
-date: "2020-10-12 16:51:13"
+date: "2020-10-19 11:32:58"
 output:
   md_document:
     toc: yes
@@ -117,7 +117,7 @@ Indices of Biotic Integrity (IBI) were calibrated for Massachusetts Department o
 
 ### Table 2. Metrics in the Western Highlands IBI, with scoring formulas. Trend is the direction of metric response with increasing stress. 
 
-|Metric abbreviation |Metric                                                                         |Trend |Scoring formula               |
+|Metric abbreviation |Metric Description                                                             |Trend |Scoring formula               |
 |:-------------------|:------------------------------------------------------------------------------|:-----|:-----------------------------|
 |nt_total            |Number of taxa - total                                                         |Dec.  |100*(metric value)/ 38.8      |
 |pi_Pleco            |Percent individuals - Order Plecoptera                                         |Dec.  |100*(metric value)/ 18.3      |
@@ -130,7 +130,7 @@ Indices of Biotic Integrity (IBI) were calibrated for Massachusetts Department o
 
 ### Table 3. Metrics in the Central Hills IBI, with scoring formulas. Trend is the direction of metric response with increasing stress.
 
-|Metric abbreviation |Metric                                                                              |Trend |Scoring formula               |
+|Metric abbreviation |Metric Description                                                                  |Trend |Scoring formula               |
 |:-------------------|:-----------------------------------------------------------------------------------|:-----|:-----------------------------|
 |nt_total            |Number of taxa - total                                                              |Dec.  |100*(metric value)/ 34.9      |
 |pt_EPT              |Percent taxa - Orders Ephemeroptera, Plecoptera & Trichoptera (EPT)                 |Dec.  |100*(metric value)/ 54.5      |

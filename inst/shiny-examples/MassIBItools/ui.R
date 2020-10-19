@@ -34,6 +34,7 @@ shinyUI(navbarPage(theme = shinytheme("united"), "Massachusetts Stream IBI Calcu
                    tabPanel("Instructions",
                             # mainPanel(
 
+                            img(src = "MassDEPlogo.png"),
                             withMathJax(includeMarkdown("App_Instructions.md")),
                             img(src = "figure1.png")
 
