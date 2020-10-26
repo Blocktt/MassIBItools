@@ -22,7 +22,7 @@ library(shinythemes)
 
 
 # Drop-down boxes
-MMI <- "MassDEP_2019_Bugs"
+MMI <- "MassDEP_2020_Bugs"
 Community <- c("bugs")
 
 
