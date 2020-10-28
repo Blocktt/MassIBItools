@@ -4,6 +4,7 @@ date: "`r format(Sys.time(), '%Y-%m-%d %H:%M:%S')`"
 output:
   md_document:
     toc: yes
+  html_document: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -18,70 +19,18 @@ if(boo_DEBUG==TRUE){
 
 # Instructions
 
-MassIBItools is a product developed by Tetra Tech, Inc. designed for the Massachusetts Department of Environmental Protection (MassDEP) to use in calculation of benthic macroinvertebrate metrics and index values for Massachusetts streams using Indices of Biotic Integrity (IBI). For more information, see the Background section.
+MassIBItools was developed to calculate benthic macroinvertebrate metrics and Indices of Biotic Integrity (IBI) for wadeable, freshwater, perennial streams in Massachusetts. Detailed documentation of IBI development can be downloaded [here](https://github.com/Blocktt/MassIBItools/tree/master/reports). Users can run any data through the IBI calculator and get a result. However, if samples do not meet the criteria listed on the Background page, results should be interpreted with caution.
 
-R is an open source programming language and software environment for statistical computing.
+The Instructions are divided into three sections: 1) preparing the input file; 2) app operation; and 3) frequently asked questions (FAQ). Links to an example input file and a document containing more detailed information on preparing the input file are also provided.
 
-Shiny by RStudio, is an interactive web application that serves as a graphical user interface for MassIBItools.
-
-Shiny application developed by Ben Block (Ben.Block@tetratech.com).
-R code written by Ben Block and Erik Leppo (Erik.Leppo@tetratech.com).
+This app was developed by Ben Block from Tetra Tech, Inc. (Ben.Block@tetratech.com), with underlying R code written by Ben Block and Erik Leppo (Erik.Leppo@tetratech.com). Please contact Ben Block should any issues or questions arise.
 
 ## Foreword
-The MassIBItools shiny app was produced by Tetra Tech, Inc. to provide Mass DEP a tool to calculate IBI index scores for any future sampling efforts. The app is streamline and easy to operate, and only requires an input dataset to function. Index scores are calculated based on user inputs which have the potential to produce incorrect results. Therefore, the first portion of the user manual provides detailed instructions on how to properly format the input file. The next section discusses app operation. Finally, a frequently asked questions (FAQ) section may provide beneficial answers to frequently asked questions. Feel free to contact Ben Block should any issues or questions arise. 
+Tetra Tech, Inc. developed the MassIBItools shiny app for the Massachusetts Department of Environmental Protection (MassDEP). It allows MassDEP and their partners to calculate IBI scores for benthic macroinvertebrate samples. The new IBIs will improve MassDEP’s diagnostic ability to identify degradation in biological integrity and water quality. The app is streamlined and easy to operate, and only requires an input dataset to function. Shiny apps are interactive web applications that serve as graphical user interfaces. They are linked to R, which is an open source programming language and software environment for statistical computing.
 
 ## Input data set
-### Required Columns
-MassIBItools requires an input dataset to be properly formatted and contain the appropriate information. Columns required include: 
 
-* INDEX_NAME
-* SAMPLEID
-* INDEX_REGION
-* LAT
-* LONG
-* STATIONID
-* COLLDATE
-* COLLMETH
-* TAXAID
-* N_TAXA
-* EXCLUDE
-* NONTARGET
-* PHYLUM
-* SUBPHYLUM
-* CLASS
-* ORDER
-* FAMILY
-* SUBFAMILY
-* TRIBE
-* GENUS
-* FFG
-* TOLVAL
-* HABIT
-* THERMAL_INDICATOR
-* LIFE_CYCLE
-
-The app will notify the user if the input dataset is missing columns. Note, column headers need to be capitalized and spelled exactly as shown. 
-
-### Input data format   
-The input dataset needs to be in “long” format which means that columns are reduced, and each row is assigned an observation. The input dataset for MassIBItools should have one row for every SAMPLEID and observed TAXAID. Duplicate, replicate, or revisit samples must have the information coded in to the SAMPLEID. TAXAID should never include life stage designations because metrics are calculated based on taxonomy only. Index scores will likely be incorrect if life stage designations are included. For example, Haliplidae_larvae and Haliplidae_adult would be considered as two separate taxa by the app and would be reflected in index scores. For this example, each sample should include only one entry for Haliplidae. Certain columns require specific inputs (Table 1).
-
-### Table 1. Input options for select columns. Any other input will result in an error. Note, Input Options are case-specific; some include underscores. 
-```{r table_1}
-library(readxl)
-library(knitr)
-# state directories
-table.dir <- "tables"
-table.file <- "Instruction_Tables.xlsx"
-tab1.dir <- "table1"
-
-table1 <- read_excel(file.path(table.dir, table.file), sheet = tab1.dir
-                     , na = c("NA", ""), trim_ws = TRUE, skip = 0
-                     , col_names = TRUE)  
-
-kable(table1)
-```
-
-## App Instructions
+### App Instructions
 
 Once open, the user will see the IBI calculator interface. The user should follow the onscreen instructions as follows:
 
@@ -119,42 +68,3 @@ Once open, the user will see the IBI calculator interface. The user should follo
 
 4. Why is there no map shown in the “Sites and Scores Map” tab?
     + The map requires the results of the IBI calculator to render.
-
-# Background: Massachusetts kick net IBIs (v1; 9/24/2020)
-Indices of Biotic Integrity (IBI) were calibrated for Massachusetts Department of Environmental Protection (MassDEP) benthic macroinvertebrate kick net samples in two naturally distinct regions: Western Highlands and Central Hills (Figure 1). Input metrics for the Western Highlands and Central Hills IBIs are shown in Tables 1 & 2, respectively. The new IBIs will improve MassDEP’s diagnostic ability to identify degradation in biological integrity and water quality. Full documentation of development of the kick net IBIs can be found in Jessup and Stamp (2020).
-
-<!-- ![Figure 1. Macroinvertebrate kick IBI stream classes. The southeast areas (Narragansett/Bristol Lowlands, Cape Cod, and the Islands) were excluded because they had insufficient RBP kick net data to develop an IBI at this time.](figures/figure1.png) -->
-
-### Table 2. Metrics in the Western Highlands IBI, with scoring formulas. Trend is the direction of metric response with increasing stress. 
-```{r table_2}
-library(readxl)
-library(knitr)
-# state directories
-table.dir <- "tables"
-table.file <- "Instruction_Tables.xlsx"
-tab2.dir <- "table2"
-
-table2 <- read_excel(file.path(table.dir, table.file), sheet = tab2.dir
-                     , na = c("NA", ""), trim_ws = TRUE, skip = 0
-                     , col_names = TRUE)  
-
-kable(table2)
-```
-
-*Beck’s Biotic Index = 2 x [Class 1 Taxa]+[Class 2 Taxa] where Class 1 taxa have tolerance values of 0 or 1 and Class 2 taxa have tolerance values of 2, 3 or 4.
-
-### Table 3. Metrics in the Central Hills IBI, with scoring formulas. Trend is the direction of metric response with increasing stress.
-```{r table_3}
-library(readxl)
-library(knitr)
-# state directories
-table.dir <- "tables"
-table.file <- "Instruction_Tables.xlsx"
-tab3.dir <- "table3"
-
-table3 <- read_excel(file.path(table.dir, table.file), sheet = tab3.dir
-                     , na = c("NA", ""), trim_ws = TRUE, skip = 0
-                     , col_names = TRUE)  
-
-kable(table3)
-```
