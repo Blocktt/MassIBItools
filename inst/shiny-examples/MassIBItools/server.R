@@ -109,8 +109,6 @@ shinyServer(function(input, output, session) {
                               ,"GENUS"
                               ,"FFG"
                               ,"TOLVAL"
-                              ,"HABIT"
-                              ,"THERMAL_INDICATOR"
                               ,"LIFE_CYCLE")
 
         column_names <- colnames(df_input)
@@ -427,13 +425,24 @@ shinyServer(function(input, output, session) {
 
       df_data <- map_data$df_metsc
 
+      # create Region_Name column to combine Index_Regions
+
+      df_data$Region_Name <- ifelse(df_data$INDEX_REGION == "KickIBI_CH_300ct", "CH",
+                                     ifelse(df_data$INDEX_REGION == "KickIBI_CH_100ct", "CH",
+                                            ifelse(df_data$INDEX_REGION == "KickIBI_WH_300ct", "WH",
+                                                   ifelse(df_data$INDEX_REGION == "KickIBI_WH_100ct", "WH",
+                                                          "LowGrad"))))
+
       # subset data by Index_Region
 
       WH_data <- df_data %>%
-        filter(INDEX_REGION == "WESTHIGHLANDS")
+        filter(Region_Name == "WH")
 
       CH_data <- df_data %>%
-        filter(INDEX_REGION == "CENTRALHILLS")
+        filter(Region_Name == "CH")
+
+      LG_data <- df_data %>%
+        filter(Region_Name == "LowGrad")
 
       leaflet() %>%
         addTiles() %>%
@@ -464,7 +473,7 @@ shinyServer(function(input, output, session) {
 
         ) %>%
         addCircleMarkers(data = WH_data, lat = ~LAT, lng = ~LONG
-                         , group = "WESTHIGHLANDS", popup = paste("SampleID:", WH_data$SAMPLEID, "<br>"
+                         , group = "Western Highlands", popup = paste("SampleID:", WH_data$SAMPLEID, "<br>"
                                                                   ,"Site Class:", WH_data$INDEX_REGION, "<br>"
                                                                   ,"Coll Date:", WH_data$COLLDATE, "<br>"
                                                                   ,"Unique ID:", WH_data$STATIONID, "<br>"
@@ -482,7 +491,7 @@ shinyServer(function(input, output, session) {
         ) %>%
 
         addCircleMarkers(data = CH_data, lat = ~LAT, lng = ~LONG
-                         , group = "CENTRALHILLS", popup = paste("SampleID:", CH_data$SAMPLEID, "<br>"
+                         , group = "Central Hills", popup = paste("SampleID:", CH_data$SAMPLEID, "<br>"
                                                                  ,"Site Class:", CH_data$INDEX_REGION, "<br>"
                                                                  ,"Coll Date:", CH_data$COLLDATE, "<br>"
                                                                  ,"Unique ID:", CH_data$STATIONID, "<br>"
@@ -498,12 +507,30 @@ shinyServer(function(input, output, session) {
                          , clusterOptions = markerClusterOptions()
 
         )%>%
+
+        addCircleMarkers(data = LG_data, lat = ~LAT, lng = ~LONG
+                         , group = "Low Gradient", popup = paste("SampleID:", LG_data$SAMPLEID, "<br>"
+                                                                  ,"Site Class:", LG_data$INDEX_REGION, "<br>"
+                                                                  ,"Coll Date:", LG_data$COLLDATE, "<br>"
+                                                                  ,"Unique ID:", LG_data$STATIONID, "<br>"
+                                                                  ,"Score pi_OET:", round(LG_data$SC_pi_OET,2), "<br>"
+                                                                  ,"Score pt_ffg_pred:", round(LG_data$SC_pt_ffg_pred,2), "<br>"
+                                                                  ,"Score pt_NonIns:", round(LG_data$SC_pt_NonIns,2), "<br>"
+                                                                  ,"Score pt_POET:", round(LG_data$SC_pt_POET,2), "<br>"
+                                                                  ,"Score pt_tv_toler:", round(LG_data$SC_pt_tv_toler,2), "<br>"
+                                                                  ,"Score pt_volt_semi:", round(LG_data$SC_pt_volt_semi,2), "<br>"
+                                                                  ,"<b> Index Value:</b>", round(LG_data$Index, 2), "<br>"
+                                                                  ,"<b> Narrative:</b>", LG_data$Index_Nar)
+                         , color = "black", fillColor = ~qpal(Index), fillOpacity = 1, stroke = TRUE
+                         , clusterOptions = markerClusterOptions()
+
+        ) %>%
         addLegend(pal = qpal,
                   values = scale_range,
                   position = "bottomright",
                   title = "Index Scores",
                   opacity = 1) %>%
-        addLayersControl(overlayGroups = c("WESTHIGHLANDS", "CENTRALHILLS", "MA Regions", "SNEP Region" ,"Major Basins"),
+        addLayersControl(overlayGroups = c("Western Highlands", "Central Hills", "Low Gradient", "MA Regions", "SNEP Region" ,"Major Basins"),
                          baseGroups = c("OSM (default)", "Positron", "Toner Lite"),
                          options = layersControlOptions(collapsed = TRUE))%>%
         hideGroup(c("MA Regions", "SNEP Region" , "Major Basins")) %>%
@@ -587,7 +614,13 @@ shinyServer(function(input, output, session) {
                      , "pi_Pleco" = 15
                      , "pi_ffg_shred" = 15
                      , "pi_tv_intol" = 15
-                     , "x_Becks" = 15)
+                     , "x_Becks" = 15
+                     , "pi_OET" = 15
+                     , "pt_ffg_pred" = 15
+                     , "pt_NonIns" = 15
+                     , "pt_POET" = 15
+                     , "pt_tv_toler" = 15
+                     , "pt_volt_semi" = 15)
 
       # size palette
       size_pal <- c("Index" = 10
@@ -600,7 +633,13 @@ shinyServer(function(input, output, session) {
                     , "pi_Pleco" = 5
                     , "pi_ffg_shred" = 5
                     , "pi_tv_intol" = 5
-                    , "x_Becks" = 5)
+                    , "x_Becks" = 5
+                    , "pi_OET" = 5
+                    , "pt_ffg_pred" = 5
+                    , "pt_NonIns" = 5
+                    , "pt_POET" = 5
+                    , "pt_tv_toler" = 5
+                    , "pt_volt_semi" = 5)
 
       ggplot(df_grph_input, aes(x=Variable, y = Score, shape = Variable))+
         geom_point(aes(size = Variable))+

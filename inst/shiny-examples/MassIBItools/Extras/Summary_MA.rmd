@@ -34,11 +34,23 @@ Histograms in the "Plots" section will change depending on the input dataset.
 # DATA FILE INFORMATION
 ```{r data_file_info}
   # Results File
-  df_metval <- df_metval
-  df_metsc <- df_metsc
+  # df_metval <- df_metval
+  # df_metsc <- df_metsc
 
-  # df_metval <- read.csv("C:/Users/Ben.Block/OneDrive - Tetra Tech, Inc/GitHub/results_metval_single.csv")
-  # df_metsc <- read.csv("C:/Users/Ben.Block/OneDrive - Tetra Tech, Inc/GitHub/results_metsc_single.csv")
+  df_metval <- read.csv("C:/Users/Ben.Block/OneDrive - Tetra Tech, Inc/GitHub/results_metval_mixedIR.csv")
+  df_metsc <- read.csv("C:/Users/Ben.Block/OneDrive - Tetra Tech, Inc/GitHub/results_metsc_mixedIR.csv")
+
+  # create general index region names
+  df_metval$Region_Name <- ifelse(df_metval$INDEX_REGION == "KickIBI_CH_300ct", "CH",
+                     ifelse(df_metval$INDEX_REGION == "KickIBI_CH_100ct", "CH",
+                            ifelse(df_metval$INDEX_REGION == "KickIBI_WH_300ct", "WH",
+                                   ifelse(df_metval$INDEX_REGION == "KickIBI_WH_100ct", "WH",
+                                          "LowGrad"))))
+  df_metsc$Region_Name <- ifelse(df_metval$INDEX_REGION == "KickIBI_CH_300ct", "CH",
+                     ifelse(df_metval$INDEX_REGION == "KickIBI_CH_100ct", "CH",
+                            ifelse(df_metval$INDEX_REGION == "KickIBI_WH_300ct", "WH",
+                                   ifelse(df_metval$INDEX_REGION == "KickIBI_WH_100ct", "WH",
+                                          "LowGrad"))))
   
   # Report Info
   myReportDate <- format(Sys.time(), '%Y-%m-%d %H:%M:%S')
@@ -79,7 +91,12 @@ table1 <- df_scores %>%
               values_from = counts) %>% 
   mutate(Index_Nar = factor(Index_Nar, levels = row_ord)) %>% 
   arrange(Index_Nar) %>% 
-  rename("Index Narrative" = Index_Nar)
+  rename("Index Narrative" = Index_Nar,
+         "Central Hills 300ct" = KickIBI_CH_300ct,
+         "Central Hills 100ct" = KickIBI_CH_100ct,
+         "Western Highlands 300ct" = KickIBI_WH_300ct,
+         "Western Highlands 100ct" = KickIBI_WH_100ct,
+         "Low Gradient" = LowGradientIBI)
 
 kable(table1)
 
@@ -114,6 +131,13 @@ IBI_data <- read_excel(file.path(table.dir, table.file), sheet = IBI_tab.dir
                      , col_names = TRUE)
 table2 <- rbind(table2_temp, IBI_data)
 
+table2 <- table2 %>% # renames Index_Region to nice names
+  mutate(`Index Region` = replace(`Index Region`, `Index Region` == "KickIBI_CH_100ct", "Central Hills (100 ct)")) %>% 
+  mutate(`Index Region` = replace(`Index Region`, `Index Region` == "KickIBI_CH_300ct", "Central Hills (300 ct)")) %>% 
+  mutate(`Index Region` = replace(`Index Region`, `Index Region` == "KickIBI_WH_100ct", "Western Highlands (100ct)")) %>% 
+  mutate(`Index Region` = replace(`Index Region`, `Index Region` == "KickIBI_WH_300ct", "Western Highlands (300ct)")) %>% 
+  mutate(`Index Region` = replace(`Index Region`, `Index Region` == "LowGradientIBI", "Low Gradient"))
+
 kable(table2)
 
 ```
@@ -126,7 +150,7 @@ library(knitr)
 # state directories
 table.dir <- "tables"
 table.file <- "Instruction_Tables.xlsx"
-tab3.dir <- "table2"
+tab3.dir <- "table3"
 
 table3 <- read_excel(file.path(table.dir, table.file), sheet = tab3.dir
                      , na = c("NA", ""), trim_ws = TRUE, skip = 0
@@ -144,13 +168,29 @@ library(knitr)
 # state directories
 table.dir <- "tables"
 table.file <- "Instruction_Tables.xlsx"
-tab4.dir <- "table3"
+tab4.dir <- "table4"
 
 table4 <- read_excel(file.path(table.dir, table.file), sheet = tab4.dir
                      , na = c("NA", ""), trim_ws = TRUE, skip = 0
                      , col_names = TRUE)
 
 kable(table4)
+```
+
+### Table 5. Metrics in the Low Gradient IBI, with scoring formulas. Trend is the direction of metric response with increasing stress.
+```{r Results_summary_table_5}
+library(readxl)
+library(knitr)
+# state directories
+table.dir <- "tables"
+table.file <- "Instruction_Tables.xlsx"
+tab5.dir <- "table5"
+
+table5 <- read_excel(file.path(table.dir, table.file), sheet = tab5.dir
+                     , na = c("NA", ""), trim_ws = TRUE, skip = 0
+                     , col_names = TRUE)
+
+kable(table5)
 ```
 
 # PLOTS
@@ -160,7 +200,12 @@ These are the sites that have been input into the R shiny application.
 library(ggplot2)
 ##### Massachusetts Map of Sites
 ## Color palette
-region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582")
+region.colors <- c("KickIBI_CH_300ct" = "#e41a1c", "KickIBI_WH_300ct"= "#377eb8",
+                   "KickIBI_CH_100ct" = "#4daf4a", "KickIBI_WH_100ct"= "#984ea3"
+                   , "LowGradientIBI" = "#ff7f00")
+region.labels <- c("KickIBI_CH_300ct" = "Cent. Hills (300 ct)", "KickIBI_WH_300ct"= "West. High. (300ct)",
+                   "KickIBI_CH_100ct" = "Cent. Hills (100 ct)", "KickIBI_WH_100ct"= "West. High. (100ct)"
+                   , "LowGradientIBI" = "Low Gradient")
 
 ## Map of MA
 m1 <- ggplot(data = subset(map_data("state"), region %in% c("massachusetts"))) + 
@@ -176,7 +221,7 @@ m1 <- ggplot(data = subset(map_data("state"), region %in% c("massachusetts"))) +
           panel.grid.minor = element_blank(),
           panel.border = element_blank(),
           axis.line = element_line(color = "black"),
-          legend.position = "top")
+          legend.position = "right")
 
 ## Add Points
 m1 <- m1 + geom_point(data=df_metsc
@@ -184,7 +229,8 @@ m1 <- m1 + geom_point(data=df_metsc
 
 ## Change colors
 m1 <- m1 + scale_colour_manual(name="Index Region"
-                               , values=region.colors)
+                               , values=region.colors
+                               , labels = region.labels)
 ## Print Plot
 m1
 ```
@@ -197,23 +243,27 @@ library(ggplot2)
 library(dplyr)
 
 # Plot
-region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582") # plot colors
+region.colors <- c("KickIBI_CH_300ct" = "#e41a1c", "KickIBI_WH_300ct"= "#377eb8",
+                   "KickIBI_CH_100ct" = "#4daf4a", "KickIBI_WH_100ct"= "#984ea3"
+                   , "LowGradientIBI" = "#ff7f00") # plot colors
+region.labels <- c("KickIBI_CH_300ct" = "Cent. Hills (300 ct)", "KickIBI_WH_300ct"= "West. High. (300ct)",
+                   "KickIBI_CH_100ct" = "Cent. Hills (100 ct)", "KickIBI_WH_100ct"= "West. High. (100ct)"
+                   , "LowGradientIBI" = "Low Gradient")
 
-# Western Highlands Scores
-
-WH_data <- df_metsc %>% 
-  filter(INDEX_REGION == "WESTHIGHLANDS") %>% 
+# Western Highlands Scores 300ct
+WH_300 <- df_metsc %>% 
+  filter(INDEX_REGION == "KickIBI_WH_300ct") %>% 
   select_if(~sum(!is.na(.)) > 0)
-  
-if(dim(WH_data)[1]==0){
+
+if(dim(WH_300)[1]==0){
   cat("")
 } else {
-    p1 <- ggplot(WH_data, aes(x = Index, fill = INDEX_REGION))+ 
+    p1 <- ggplot(WH_300, aes(x = Index, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
     labs(x= "Scores",
          y= "Frequency",
          fill= "Index Region")+
-    scale_fill_manual(values=region.colors)+
+    scale_fill_manual(values=region.colors, labels = region.labels)+
     theme(text = element_text(size = 12),
           axis.text = element_text(color = "black", size = 12),
           axis.text.x = element_text(angle = 0, hjust = 0.5),
@@ -224,20 +274,21 @@ if(dim(WH_data)[1]==0){
           axis.line = element_line(color = "black"),
           legend.position = "top")
 } # end if else statement
-# Central Hills Scores
-CH_data <- df_metsc %>% 
-  filter(INDEX_REGION == "CENTRALHILLS")%>% 
+
+# Western Highlands Scores 100ct
+WH_100 <- df_metsc %>% 
+  filter(INDEX_REGION == "KickIBI_WH_100ct") %>% 
   select_if(~sum(!is.na(.)) > 0)
-  
-if(dim(CH_data)[1]==0){
+
+if(dim(WH_100)[1]==0){
   cat("")
 } else {
-      p2 <- ggplot(CH_data, aes(x = Index, fill = INDEX_REGION))+ 
+    p2 <- ggplot(WH_100, aes(x = Index, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
     labs(x= "Scores",
          y= "Frequency",
          fill= "Index Region")+
-    scale_fill_manual(values=region.colors)+
+    scale_fill_manual(values=region.colors, labels = region.labels)+
     theme(text = element_text(size = 12),
           axis.text = element_text(color = "black", size = 12),
           axis.text.x = element_text(angle = 0, hjust = 0.5),
@@ -248,26 +299,124 @@ if(dim(CH_data)[1]==0){
           axis.line = element_line(color = "black"),
           legend.position = "top")
 } # end if else statement
+
+# Central Hills Scores 300ct
+CH_300 <- df_metsc %>% 
+  filter(INDEX_REGION == "KickIBI_CH_300ct") %>% 
+  select_if(~sum(!is.na(.)) > 0)
+
+if(dim(CH_300)[1]==0){
+  cat("")
+} else {
+    p3 <- ggplot(CH_300, aes(x = Index, fill = INDEX_REGION))+ 
+    geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
+    labs(x= "Scores",
+         y= "Frequency",
+         fill= "Index Region")+
+    scale_fill_manual(values=region.colors, labels = region.labels)+
+    theme(text = element_text(size = 12),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(angle = 0, hjust = 0.5),
+          panel.background = element_rect(fill = "white"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black"),
+          legend.position = "top")
+} # end if else statement
+
+# Central Hills Scores 100ct
+CH_100 <- df_metsc %>% 
+  filter(INDEX_REGION == "KickIBI_CH_100ct") %>% 
+  select_if(~sum(!is.na(.)) > 0)
+
+if(dim(CH_100)[1]==0){
+  cat("")
+} else {
+    p4 <- ggplot(CH_100, aes(x = Index, fill = INDEX_REGION))+ 
+    geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
+    labs(x= "Scores",
+         y= "Frequency",
+         fill= "Index Region")+
+    scale_fill_manual(values=region.colors, labels = region.labels)+
+    theme(text = element_text(size = 12),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(angle = 0, hjust = 0.5),
+          panel.background = element_rect(fill = "white"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black"),
+          legend.position = "top")
+} # end if else statement
+
+# Low Gradient Scores
+LowGrad_data <- df_metsc %>% 
+  filter(INDEX_REGION == "LowGradientIBI") %>% 
+  select_if(~sum(!is.na(.)) > 0)
+
+if(dim(LowGrad_data)[1]==0){
+  cat("")
+} else {
+    p5 <- ggplot(LowGrad_data, aes(x = Index, fill = INDEX_REGION))+ 
+    geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
+    labs(x= "Scores",
+         y= "Frequency",
+         fill= "Index Region")+
+    scale_fill_manual(values=region.colors, labels = region.labels)+
+    theme(text = element_text(size = 12),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(angle = 0, hjust = 0.5),
+          panel.background = element_rect(fill = "white"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black"),
+          legend.position = "top")
+} # end if else statement
+
 # Output
-
-if(dim(WH_data)[1]==0){
+if(dim(WH_300)[1]==0){
   cat("")
 } else {
   p1
 } # end if statement
 
-if(dim(CH_data)[1]==0){
+if(dim(WH_100)[1]==0){
   cat("")
 } else {
   p2
 } # end if statement
 
+if(dim(CH_300)[1]==0){
+  cat("")
+} else {
+  p3
+} # end if statement
+
+if(dim(CH_100)[1]==0){
+  cat("")
+} else {
+  p4
+} # end if statement
+
+if(dim(LowGrad_data)[1]==0){
+  cat("")
+} else {
+  p5
+} # end if statement
+
 ```
 
 ## Metric Values Distribution by Index Region.
-Note, metrics are calculated, by BioMonTools package, for all Index Regions even if not applicable.
 
 ```{r Results_Metric_Values_Plots}
+region.colors <- c("KickIBI_CH_300ct" = "#e41a1c", "KickIBI_WH_300ct"= "#377eb8",
+                   "KickIBI_CH_100ct" = "#4daf4a", "KickIBI_WH_100ct"= "#984ea3"
+                   , "LowGradientIBI" = "#ff7f00") # plot colors
+region.labels <- c("KickIBI_CH_300ct" = "Cent. Hills (300 ct)", "KickIBI_WH_300ct"= "West. High. (300ct)",
+                   "KickIBI_CH_100ct" = "Cent. Hills (100 ct)", "KickIBI_WH_100ct"= "West. High. (100ct)"
+                   , "LowGradientIBI" = "Low Gradient")
 ##### METRIC VALUES LOOP
 
 #create table of metric names
@@ -281,7 +430,14 @@ col_metabbrev <- c("nt_total"
                  ,"pi_Pleco"
                  ,"pi_ffg_shred"
                  ,"pi_tv_intol"
-                 ,"x_Becks")
+                 ,"x_Becks"
+                 ,"pi_OET"
+                 ,"pt_ffg_pred"
+                 ,"pt_NonIns"
+                 ,"pt_POET"
+                 ,"pt_tv_toler"
+                 ,"pt_volt_semi")
+
 col_metscore <- c("SC_nt_total"
                  ,"SC_pt_EPT"
                  ,"SC_pi_EphemNoCaeBae"
@@ -291,7 +447,14 @@ col_metscore <- c("SC_nt_total"
                  ,"SC_pi_Pleco"
                  ,"SC_pi_ffg_shred"
                  ,"SC_pi_tv_intol"
-                 ,"SC_x_Becks")
+                 ,"SC_x_Becks"
+                 ,"SC_pi_OET"
+                 ,"SC_pt_ffg_pred"
+                 ,"SC_pt_NonIns"
+                 ,"SC_pt_POET"
+                 ,"SC_pt_tv_toler"
+                 ,"SC_pt_volt_semi")
+
 col_metnames <- c("Total Taxa Richness"
                   , "% Plecoptera taxa"
                   , "% Ephem indiv (no Caenids or Baetids)"
@@ -301,7 +464,13 @@ col_metnames <- c("Total Taxa Richness"
                   , "% Plecoptera individuals"
                   , "% Shredder individuals"
                   , "% Intolerant individuals"
-                  , "Becks Biotic Index")
+                  , "Becks Biotic Index"
+                  , "% Odon., Ephem., Trich. indivs"
+                  , "% Predator taxa"
+                  , "% non-insect taxa"
+                  , "% Plec., Odon., Ephem., Trich. indivs"
+                  , "% tolerant taxa"
+                  , "% semivoltine taxa")
 
 df_metnames <- as.data.frame(cbind(col_metabbrev,col_metscore, col_metnames))
 df_metnames <- df_metnames %>% 
@@ -309,23 +478,24 @@ df_metnames <- df_metnames %>%
          "Met_Scores" = col_metscore,
          "Met_Abbrev" = col_metabbrev)
 
-# western highlands metrics
+# western highlands metrics - 300ct
 # for columns "ni_total" to ncol(df_metval)
-WH_metval <- df_metval %>% 
-  filter(INDEX_REGION == "WESTHIGHLANDS")
+WH_300_metval <- df_metval %>% 
+  select(Region_Name, everything()) %>% 
+  filter(INDEX_REGION == "KickIBI_WH_300ct")
 
 #start column
-if(dim(WH_metval)[1]==0){
+if(dim(WH_300_metval)[1]==0){
   start_col <- 0
 } else {
-  start_col <- which(colnames(WH_metval)=="nt_total")
+  start_col <- which(colnames(WH_300_metval)=="nt_total")
 } # end start_col statement
 
 #end column
-if(dim(WH_metval)[1]==0){
+if(dim(WH_300_metval)[1]==0){
   end_col <- 0
 } else {
-  end_col <- ncol(WH_metval)
+  end_col <- ncol(WH_300_metval)
 } # end end_col statement
 
 # CREATE PLOTS - only if data are present
@@ -333,10 +503,10 @@ if(start_col == 0 & end_col == 0){
   cat("")
 } else {
 
-  metval_cols <- colnames(WH_metval[,start_col:end_col])
+  metval_cols <- colnames(WH_300_metval[,start_col:end_col])
 
 for(i in metval_cols){
-  subset.data <- WH_metval[,c("INDEX_REGION", i)]
+  subset.data <- WH_300_metval[,c("INDEX_REGION", i)]
   
   subset.data <- subset.data %>% 
     rename(Value = eval(i))
@@ -349,15 +519,13 @@ for(i in metval_cols){
   
   subset.data$INDEX_REGION <- as.factor(subset.data$INDEX_REGION)
   
-  region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582")
-  
-  p3 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
+  p6 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
     labs(title = title,
          x= "Metric Units",
          y= "Frequency",
          fill= "Index Region")+
-    scale_fill_manual(values=region.colors)+
+    scale_fill_manual(values=region.colors, labels = region.labels)+
     theme(text = element_text(size = 12),
           axis.text = element_text(color = "black", size = 12),
           axis.text.x = element_text(angle = 0, hjust = 0.5),
@@ -368,28 +536,29 @@ for(i in metval_cols){
           axis.line = element_line(color = "black"),
           legend.position = "top")
   
-  print(p3)
+  print(p6)
 
 } # END of Loop
 } # end if else statement
 
-# central hills metrics
+# western highlands metrics - 100ct
 # for columns "ni_total" to ncol(df_metval)
-CH_metval <- df_metval %>% 
-  filter(INDEX_REGION == "CENTRALHILLS")
+WH_100_metval <- df_metval %>% 
+  select(Region_Name, everything()) %>% 
+  filter(INDEX_REGION == "KickIBI_WH_100ct")
 
 #start column
-if(dim(CH_metval)[1]==0){
+if(dim(WH_100_metval)[1]==0){
   start_col <- 0
 } else {
-  start_col <- which(colnames(CH_metval)=="nt_total")
+  start_col <- which(colnames(WH_100_metval)=="nt_total")
 } # end start_col statement
 
 #end column
-if(dim(CH_metval)[1]==0){
+if(dim(WH_100_metval)[1]==0){
   end_col <- 0
 } else {
-  end_col <- ncol(CH_metval)
+  end_col <- ncol(WH_100_metval)
 } # end end_col statement
 
 # CREATE PLOTS - only if data are present
@@ -397,10 +566,10 @@ if(start_col == 0 & end_col == 0){
   cat("")
 } else {
 
-  metval_cols <- colnames(CH_metval[,start_col:end_col])
+  metval_cols <- colnames(WH_100_metval[,start_col:end_col])
 
 for(i in metval_cols){
-  subset.data <- CH_metval[,c("INDEX_REGION", i)]
+  subset.data <- WH_100_metval[,c("INDEX_REGION", i)]
   
   subset.data <- subset.data %>% 
     rename(Value = eval(i))
@@ -413,15 +582,13 @@ for(i in metval_cols){
   
   subset.data$INDEX_REGION <- as.factor(subset.data$INDEX_REGION)
   
-  region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582")
-  
-  p4 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
+  p7 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
     labs(title = title,
          x= "Metric Units",
          y= "Frequency",
          fill= "Index Region")+
-    scale_fill_manual(values=region.colors)+
+    scale_fill_manual(values=region.colors, labels = region.labels)+
     theme(text = element_text(size = 12),
           axis.text = element_text(color = "black", size = 12),
           axis.text.x = element_text(angle = 0, hjust = 0.5),
@@ -432,7 +599,197 @@ for(i in metval_cols){
           axis.line = element_line(color = "black"),
           legend.position = "top")
   
-  print(p4)
+  print(p7)
+
+} # END of Loop
+} # end if else statement
+
+# central hills metrics - 300ct
+# for columns "ni_total" to ncol(df_metval)
+CH_300_metval <- df_metval %>% 
+  select(Region_Name, everything()) %>% 
+  filter(INDEX_REGION == "KickIBI_CH_300ct")
+
+#start column
+if(dim(CH_300_metval)[1]==0){
+  start_col <- 0
+} else {
+  start_col <- which(colnames(CH_300_metval)=="nt_total")
+} # end start_col statement
+
+#end column
+if(dim(CH_300_metval)[1]==0){
+  end_col <- 0
+} else {
+  end_col <- ncol(CH_300_metval)
+} # end end_col statement
+
+# CREATE PLOTS - only if data are present
+if(start_col == 0 & end_col == 0){
+  cat("")
+} else {
+
+  metval_cols <- colnames(CH_300_metval[,start_col:end_col])
+
+for(i in metval_cols){
+  subset.data <- CH_300_metval[,c("INDEX_REGION", i)]
+  
+  subset.data <- subset.data %>% 
+    rename(Value = eval(i))
+  
+  subset.metnames <- df_metnames %>% 
+    filter(Met_Abbrev == i)
+    
+  
+  title <- paste0(subset.metnames$Met_Names)
+  
+  subset.data$INDEX_REGION <- as.factor(subset.data$INDEX_REGION)
+  
+  p8 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
+    geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
+    labs(title = title,
+         x= "Metric Units",
+         y= "Frequency",
+         fill= "Index Region")+
+    scale_fill_manual(values=region.colors, labels = region.labels)+
+    theme(text = element_text(size = 12),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(angle = 0, hjust = 0.5),
+          panel.background = element_rect(fill = "white"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black"),
+          legend.position = "top")
+  
+  print(p8)
+
+} # END of Loop
+} # end if else statement
+
+# central hills metrics - 100ct
+# for columns "ni_total" to ncol(df_metval)
+CH_100_metval <- df_metval %>% 
+  select(Region_Name, everything()) %>% 
+  filter(INDEX_REGION == "KickIBI_CH_100ct")
+
+#start column
+if(dim(CH_100_metval)[1]==0){
+  start_col <- 0
+} else {
+  start_col <- which(colnames(CH_100_metval)=="nt_total")
+} # end start_col statement
+
+#end column
+if(dim(CH_100_metval)[1]==0){
+  end_col <- 0
+} else {
+  end_col <- ncol(CH_100_metval)
+} # end end_col statement
+
+# CREATE PLOTS - only if data are present
+if(start_col == 0 & end_col == 0){
+  cat("")
+} else {
+
+  metval_cols <- colnames(CH_100_metval[,start_col:end_col])
+
+for(i in metval_cols){
+  subset.data <- CH_100_metval[,c("INDEX_REGION", i)]
+  
+  subset.data <- subset.data %>% 
+    rename(Value = eval(i))
+  
+  subset.metnames <- df_metnames %>% 
+    filter(Met_Abbrev == i)
+    
+  
+  title <- paste0(subset.metnames$Met_Names)
+  
+  subset.data$INDEX_REGION <- as.factor(subset.data$INDEX_REGION)
+  
+  p9 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
+    geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
+    labs(title = title,
+         x= "Metric Units",
+         y= "Frequency",
+         fill= "Index Region")+
+    scale_fill_manual(values=region.colors, labels = region.labels)+
+    theme(text = element_text(size = 12),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(angle = 0, hjust = 0.5),
+          panel.background = element_rect(fill = "white"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black"),
+          legend.position = "top")
+  
+  print(p9)
+
+} # END of Loop
+} # end if else statement
+
+
+# low gradient metrics
+# for columns "ni_total" to ncol(df_metval)
+LowGrad_metval <- df_metval %>% 
+  select(Region_Name, everything()) %>% 
+  filter(INDEX_REGION == "LowGradientIBI")
+
+#start column
+if(dim(LowGrad_metval)[1]==0){
+  start_col <- 0
+} else {
+  start_col <- which(colnames(LowGrad_metval)=="nt_total")
+} # end start_col statement
+
+#end column
+if(dim(LowGrad_metval)[1]==0){
+  end_col <- 0
+} else {
+  end_col <- ncol(LowGrad_metval)
+} # end end_col statement
+
+# CREATE PLOTS - only if data are present
+if(start_col == 0 & end_col == 0){
+  cat("")
+} else {
+
+  metval_cols <- colnames(LowGrad_metval[,start_col:end_col])
+
+for(i in metval_cols){
+  subset.data <- LowGrad_metval[,c("INDEX_REGION", i)]
+  
+  subset.data <- subset.data %>% 
+    rename(Value = eval(i))
+  
+  subset.metnames <- df_metnames %>% 
+    filter(Met_Abbrev == i)
+    
+  
+  title <- paste0(subset.metnames$Met_Names)
+  
+  subset.data$INDEX_REGION <- as.factor(subset.data$INDEX_REGION)
+  
+  p10 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
+    geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
+    labs(title = title,
+         x= "Metric Units",
+         y= "Frequency",
+         fill= "Index Region")+
+    scale_fill_manual(values=region.colors, labels = region.labels)+
+    theme(text = element_text(size = 12),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(angle = 0, hjust = 0.5),
+          panel.background = element_rect(fill = "white"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black"),
+          legend.position = "top")
+  
+  print(p10)
 
 } # END of Loop
 } # end if else statement
@@ -443,32 +800,39 @@ for(i in metval_cols){
 Only metrics applied within each region are plotted.
 
 ```{r Results_Metric_Scores_Plots}
+region.colors <- c("KickIBI_CH_300ct" = "#e41a1c", "KickIBI_WH_300ct"= "#377eb8",
+                   "KickIBI_CH_100ct" = "#4daf4a", "KickIBI_WH_100ct"= "#984ea3"
+                   , "LowGradientIBI" = "#ff7f00") # plot colors
+region.labels <- c("KickIBI_CH_300ct" = "Cent. Hills (300 ct)", "KickIBI_WH_300ct"= "West. High. (300ct)",
+                   "KickIBI_CH_100ct" = "Cent. Hills (100 ct)", "KickIBI_WH_100ct"= "West. High. (100ct)"
+                   , "LowGradientIBI" = "Low Gradient")
+
+
 ##### METRIC SCORES LOOP
-# WESTERN HIGHLANDS
-# for columns "ni_total" to ncol(df_metval)
+# WESTERN HIGHLANDS - 300ct
 # start column
-if(dim(WH_data)[1]==0){
+if(dim(WH_300)[1]==0){
   start_col <- 0
 } else {
-  start_col <- which(colnames(WH_data)=="SC_nt_total")
+  start_col <- which(colnames(WH_300)=="SC_nt_total")
 } # end start_col statement
 
 # end column
-if(dim(WH_data)[1]==0){
+if(dim(WH_300)[1]==0){
   end_col <- 0
 } else {
-  end_col <- which(colnames(WH_data)=="SC_x_Becks")
+  end_col <- which(colnames(WH_300)=="SC_x_Becks")
 } # end end_col statement
 
 # CREATE PLOTS - only if data are present
 if(start_col == 0 & end_col == 0){
   cat("")
 } else {
-  metsc_cols <- colnames(WH_data[,start_col:end_col])
+  metsc_cols <- colnames(WH_300[,start_col:end_col])
 
 
 for(i in metsc_cols){
-  subset.data <- WH_data[,c("INDEX_REGION", i)]
+  subset.data <- WH_300[,c("INDEX_REGION", i)]
   
   subset.data <- subset.data %>% 
     rename(Value = eval(i))
@@ -483,15 +847,13 @@ for(i in metsc_cols){
   
   subset.data <- subset.data %>% filter(!is.na(Value))
   
-  region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582")
-  
-  p5 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
+  p11 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
     labs(title = title,
          x= "Metric Units",
          y= "Frequency",
          fill= "Index Region")+
-    scale_fill_manual(values=region.colors)+
+    scale_fill_manual(values=region.colors, labels = region.labels)+
     theme(text = element_text(size = 12),
           axis.text = element_text(color = "black", size = 12),
           axis.text.x = element_text(angle = 0, hjust = 0.5),
@@ -502,38 +864,35 @@ for(i in metsc_cols){
           axis.line = element_line(color = "black"),
           legend.position = "top")
   
-  print(p5)
+  print(p11)
 
 } # END of Loop
 } # end if else statement
 
-
-# CENTRAL HILLS
-# for columns "ni_total" to ncol(df_metval)
-
+# WESTERN HIGHLANDS - 100ct
 # start column
-if(dim(CH_data)[1]==0){
+if(dim(WH_100)[1]==0){
   start_col <- 0
 } else {
-  start_col <- which(colnames(CH_data)=="SC_nt_total")
+  start_col <- which(colnames(WH_100)=="SC_nt_total")
 } # end start_col statement
 
 # end column
-if(dim(CH_data)[1]==0){
+if(dim(WH_100)[1]==0){
   end_col <- 0
 } else {
-  end_col <- which(colnames(CH_data)=="SC_pt_tv_intol")
+  end_col <- which(colnames(WH_100)=="SC_x_Becks")
 } # end end_col statement
 
 # CREATE PLOTS - only if data are present
 if(start_col == 0 & end_col == 0){
   cat("")
 } else {
+  metsc_cols <- colnames(WH_100[,start_col:end_col])
 
-metsc_cols <- colnames(CH_data[,start_col:end_col])
 
 for(i in metsc_cols){
-  subset.data <- CH_data[,c("INDEX_REGION", i)]
+  subset.data <- WH_100[,c("INDEX_REGION", i)]
   
   subset.data <- subset.data %>% 
     rename(Value = eval(i))
@@ -548,15 +907,13 @@ for(i in metsc_cols){
   
   subset.data <- subset.data %>% filter(!is.na(Value))
   
-  region.colors <- c("CENTRALHILLS" = "#1f78b4", "WESTHIGHLANDS"= "#f4a582")
-  
-  p5 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
+  p12 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
     labs(title = title,
          x= "Metric Units",
          y= "Frequency",
          fill= "Index Region")+
-    scale_fill_manual(values=region.colors)+
+    scale_fill_manual(values=region.colors, labels = region.labels)+
     theme(text = element_text(size = 12),
           axis.text = element_text(color = "black", size = 12),
           axis.text.x = element_text(angle = 0, hjust = 0.5),
@@ -567,7 +924,187 @@ for(i in metsc_cols){
           axis.line = element_line(color = "black"),
           legend.position = "top")
   
-  print(p5)
+  print(p12)
+
+} # END of Loop
+} # end if else statement
+
+# CENTRAL HILLS - 300ct
+# start column
+if(dim(CH_300)[1]==0){
+  start_col <- 0
+} else {
+  start_col <- which(colnames(CH_300)=="SC_nt_total")
+} # end start_col statement
+
+# end column
+if(dim(CH_300)[1]==0){
+  end_col <- 0
+} else {
+  end_col <- which(colnames(CH_300)=="SC_pt_tv_intol")
+} # end end_col statement
+
+# CREATE PLOTS - only if data are present
+if(start_col == 0 & end_col == 0){
+  cat("")
+} else {
+  metsc_cols <- colnames(CH_300[,start_col:end_col])
+
+
+for(i in metsc_cols){
+  subset.data <- CH_300[,c("INDEX_REGION", i)]
+  
+  subset.data <- subset.data %>% 
+    rename(Value = eval(i))
+  
+  subset.metnames <- df_metnames %>% 
+    filter(Met_Scores == i)
+    
+  
+  title <- paste0("Met Score - ", subset.metnames$Met_Names)
+  
+  subset.data$INDEX_REGION <- as.factor(subset.data$INDEX_REGION)
+  
+  subset.data <- subset.data %>% filter(!is.na(Value))
+  
+  p13 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
+    geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
+    labs(title = title,
+         x= "Metric Units",
+         y= "Frequency",
+         fill= "Index Region")+
+    scale_fill_manual(values=region.colors, labels = region.labels)+
+    theme(text = element_text(size = 12),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(angle = 0, hjust = 0.5),
+          panel.background = element_rect(fill = "white"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black"),
+          legend.position = "top")
+  
+  print(p13)
+
+} # END of Loop
+} # end if else statement
+
+# CENTRAL HILLS - 100ct
+# start column
+if(dim(CH_100)[1]==0){
+  start_col <- 0
+} else {
+  start_col <- which(colnames(CH_100)=="SC_nt_total")
+} # end start_col statement
+
+# end column
+if(dim(CH_100)[1]==0){
+  end_col <- 0
+} else {
+  end_col <- which(colnames(CH_100)=="SC_pt_tv_intol")
+} # end end_col statement
+
+# CREATE PLOTS - only if data are present
+if(start_col == 0 & end_col == 0){
+  cat("")
+} else {
+  metsc_cols <- colnames(CH_100[,start_col:end_col])
+
+
+for(i in metsc_cols){
+  subset.data <- CH_100[,c("INDEX_REGION", i)]
+  
+  subset.data <- subset.data %>% 
+    rename(Value = eval(i))
+  
+  subset.metnames <- df_metnames %>% 
+    filter(Met_Scores == i)
+    
+  
+  title <- paste0("Met Score - ", subset.metnames$Met_Names)
+  
+  subset.data$INDEX_REGION <- as.factor(subset.data$INDEX_REGION)
+  
+  subset.data <- subset.data %>% filter(!is.na(Value))
+  
+  p14 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
+    geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
+    labs(title = title,
+         x= "Metric Units",
+         y= "Frequency",
+         fill= "Index Region")+
+    scale_fill_manual(values=region.colors, labels = region.labels)+
+    theme(text = element_text(size = 12),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(angle = 0, hjust = 0.5),
+          panel.background = element_rect(fill = "white"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black"),
+          legend.position = "top")
+  
+  print(p14)
+
+} # END of Loop
+} # end if else statement
+
+# LOW GRADIENT scores
+# start column
+if(dim(LowGrad_data)[1]==0){
+  start_col <- 0
+} else {
+  start_col <- which(colnames(LowGrad_data)=="SC_pi_OET")
+} # end start_col statement
+
+# end column
+if(dim(LowGrad_data)[1]==0){
+  end_col <- 0
+} else {
+  end_col <- which(colnames(LowGrad_data)=="SC_pt_volt_semi")
+} # end end_col statement
+
+# CREATE PLOTS - only if data are present
+if(start_col == 0 & end_col == 0){
+  cat("")
+} else {
+  metsc_cols <- colnames(LowGrad_data[,start_col:end_col])
+
+
+for(i in metsc_cols){
+  subset.data <- LowGrad_data[,c("INDEX_REGION", i)]
+  
+  subset.data <- subset.data %>% 
+    rename(Value = eval(i))
+  
+  subset.metnames <- df_metnames %>% 
+    filter(Met_Scores == i)
+    
+  
+  title <- paste0("Met Score - ", subset.metnames$Met_Names)
+  
+  subset.data$INDEX_REGION <- as.factor(subset.data$INDEX_REGION)
+  
+  subset.data <- subset.data %>% filter(!is.na(Value))
+  
+  p14 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
+    geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
+    labs(title = title,
+         x= "Metric Units",
+         y= "Frequency",
+         fill= "Index Region")+
+    scale_fill_manual(values=region.colors, labels = region.labels)+
+    theme(text = element_text(size = 12),
+          axis.text = element_text(color = "black", size = 12),
+          axis.text.x = element_text(angle = 0, hjust = 0.5),
+          panel.background = element_rect(fill = "white"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black"),
+          legend.position = "top")
+  
+  print(p14)
 
 } # END of Loop
 } # end if else statement

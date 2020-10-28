@@ -47,6 +47,13 @@ MassMetrics <- c("nt_total"
                  ,"pi_ffg_shred"
                  ,"pi_tv_intol"
                  ,"x_Becks"
+                 ,"pi_OET"
+                 ,"pt_ffg_pred"
+                 ,"pt_NonIns"
+                 ,"pt_POET"
+                 ,"pt_tv_toler"
+                 ,"pt_volt_semi"
+
 
 )# END MassMetricss
 
