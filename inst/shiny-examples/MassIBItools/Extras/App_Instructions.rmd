@@ -30,7 +30,7 @@ Tetra Tech, Inc. developed the MassIBItools shiny app for the Massachusetts Depa
 
 ## Input data set
 
-### App Instructions
+## App Instructions
 
 Once open, the user will see the IBI calculator interface. The user should follow the onscreen instructions as follows:
 
@@ -55,7 +55,7 @@ Once open, the user will see the IBI calculator interface. The user should follo
     + Sites are color coded by their Index Score value - click on a site for more info.
     + The map can be filtered based on INDEX_REGION using the checkbox group in the upper right. 
 
-### Frequently asked questions and troubleshooting
+## Frequently asked questions and troubleshooting
 
 1. Why am I getting an error saying that I am missing columns even when I am not?
     + You may have incorrectly spelled a given column. Try writing the column in all capital letters. Also, some columns (e.g., INDEX_REGION) require an underscore to separate the two words.

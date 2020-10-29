@@ -38,24 +38,20 @@ source(file.path(".", "external", "metric.values.MA.R"))
 # define which metrics michigan wants to keep in indices
 
 MassMetrics <- c("nt_total"
-                 ,"pt_EPT"
                  ,"pi_EphemNoCaeBae"
                  ,"pi_ffg_filt"
-                 ,"pt_ffg_pred"
-                 ,"pt_tv_intol"
-                 ,"pi_Pleco"
                  ,"pi_ffg_shred"
-                 ,"pi_tv_intol"
-                 ,"x_Becks"
                  ,"pi_OET"
+                 ,"pi_Pleco"
+                 ,"pi_tv_intol"
+                 ,"pt_EPT"
                  ,"pt_ffg_pred"
                  ,"pt_NonIns"
                  ,"pt_POET"
+                 ,"pt_tv_intol"
                  ,"pt_tv_toler"
                  ,"pt_volt_semi"
-
-
-)# END MassMetricss
+                 ,"x_Becks")# END MassMetricss
 
 
 #### GIS/Map data ####

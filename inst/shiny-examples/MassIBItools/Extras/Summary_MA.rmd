@@ -3,15 +3,15 @@ title: "MassDEP Stream IBI Summary Report"
 author: "`r Sys.getenv('USERNAME')`"
 date: "`r format(Sys.time(), '%Y-%m-%d %H:%M:%S')`"
 output:
-  word_document:
-    toc: yes
-  pdf_document:
-    toc: yes
-    toc_depth: '3'
   html_document:
     toc: yes
     toc_depth: 3
     toc_float: no
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+  word_document:
+    toc: yes
 subtitle: Metric Scores and Values
 ---
 ```{r setup, include=FALSE}
@@ -33,13 +33,14 @@ Histograms in the "Plots" section will change depending on the input dataset.
 
 # DATA FILE INFORMATION
 ```{r data_file_info}
+  library(dplyr)
   # Results File
-  # df_metval <- df_metval
-  # df_metsc <- df_metsc
+  df_metval <- df_metval
+  df_metsc <- df_metsc
 
-  df_metval <- read.csv("C:/Users/Ben.Block/OneDrive - Tetra Tech, Inc/GitHub/results_metval_mixedIR.csv")
-  df_metsc <- read.csv("C:/Users/Ben.Block/OneDrive - Tetra Tech, Inc/GitHub/results_metsc_mixedIR.csv")
-
+  # df_metval <- read.csv("C:/Users/Ben.Block/OneDrive - Tetra Tech, Inc/GitHub/CH_300_results_metval.csv")
+  # df_metsc <- read.csv("C:/Users/Ben.Block/OneDrive - Tetra Tech, Inc/GitHub/CH_300_results_metsc.csv")
+  
   # create general index region names
   df_metval$Region_Name <- ifelse(df_metval$INDEX_REGION == "KickIBI_CH_300ct", "CH",
                      ifelse(df_metval$INDEX_REGION == "KickIBI_CH_100ct", "CH",
@@ -86,17 +87,17 @@ row_ord <- c("Exceptional", "Satisfactory", "Moderately Degraded", "Severely Deg
 
 table1 <- df_scores %>% 
   group_by(Index_Nar, INDEX_REGION) %>% 
-  summarize(counts = sum(counts)) %>% 
+  summarize(counts = sum(counts)) %>% # renames Index_Region to nice names
+  mutate(INDEX_REGION = replace(INDEX_REGION, INDEX_REGION == "KickIBI_CH_100ct", "Central Hills (100 ct)")) %>% 
+  mutate(INDEX_REGION = replace(INDEX_REGION, INDEX_REGION == "KickIBI_CH_300ct", "Central Hills (300 ct)")) %>% 
+  mutate(INDEX_REGION = replace(INDEX_REGION, INDEX_REGION == "KickIBI_WH_100ct", "Western Highlands (100ct)")) %>% 
+  mutate(INDEX_REGION = replace(INDEX_REGION, INDEX_REGION == "KickIBI_WH_300ct", "Western Highlands (300ct)")) %>% 
+  mutate(INDEX_REGION = replace(INDEX_REGION, INDEX_REGION == "LowGradientIBI", "Low Gradient")) %>% 
   pivot_wider(names_from = INDEX_REGION,
               values_from = counts) %>% 
   mutate(Index_Nar = factor(Index_Nar, levels = row_ord)) %>% 
   arrange(Index_Nar) %>% 
-  rename("Index Narrative" = Index_Nar,
-         "Central Hills 300ct" = KickIBI_CH_300ct,
-         "Central Hills 100ct" = KickIBI_CH_100ct,
-         "Western Highlands 300ct" = KickIBI_WH_300ct,
-         "Western Highlands 100ct" = KickIBI_WH_100ct,
-         "Low Gradient" = LowGradientIBI)
+  rename("Index Narrative" = Index_Nar)
 
 kable(table1)
 
@@ -150,7 +151,7 @@ library(knitr)
 # state directories
 table.dir <- "tables"
 table.file <- "Instruction_Tables.xlsx"
-tab3.dir <- "table3"
+tab3.dir <- "Back_table1"
 
 table3 <- read_excel(file.path(table.dir, table.file), sheet = tab3.dir
                      , na = c("NA", ""), trim_ws = TRUE, skip = 0
@@ -159,8 +160,6 @@ table3 <- read_excel(file.path(table.dir, table.file), sheet = tab3.dir
 kable(table3)
 ```
 
-*Beck’s Biotic Index = 2 x [Class 1 Taxa]+[Class 2 Taxa] where Class 1 taxa have tolerance values of 0 or 1 and Class 2 taxa have tolerance values of 2, 3 or 4.
-
 ### Table 4. Metrics in the Central Hills IBI, with scoring formulas. Trend is the direction of metric response with increasing stress.
 ```{r Results_summary_table_4}
 library(readxl)
@@ -168,7 +167,7 @@ library(knitr)
 # state directories
 table.dir <- "tables"
 table.file <- "Instruction_Tables.xlsx"
-tab4.dir <- "table4"
+tab4.dir <- "Back_table2"
 
 table4 <- read_excel(file.path(table.dir, table.file), sheet = tab4.dir
                      , na = c("NA", ""), trim_ws = TRUE, skip = 0
@@ -184,7 +183,7 @@ library(knitr)
 # state directories
 table.dir <- "tables"
 table.file <- "Instruction_Tables.xlsx"
-tab5.dir <- "table5"
+tab5.dir <- "Back_table3"
 
 table5 <- read_excel(file.path(table.dir, table.file), sheet = tab5.dir
                      , na = c("NA", ""), trim_ws = TRUE, skip = 0
@@ -208,7 +207,7 @@ region.labels <- c("KickIBI_CH_300ct" = "Cent. Hills (300 ct)", "KickIBI_WH_300c
                    , "LowGradientIBI" = "Low Gradient")
 
 ## Map of MA
-m1 <- ggplot(data = subset(map_data("state"), region %in% c("massachusetts"))) + 
+m1 <- ggplot(data = subset(map_data("state"), region %in% c("massachusetts", "rhode island", "connecticut"))) + 
             geom_polygon(aes(x=long, y=lat, group=group), fill="light gray", color="black") +
             coord_fixed(1.3)+
           labs(x= "Longitude",
@@ -432,7 +431,6 @@ col_metabbrev <- c("nt_total"
                  ,"pi_tv_intol"
                  ,"x_Becks"
                  ,"pi_OET"
-                 ,"pt_ffg_pred"
                  ,"pt_NonIns"
                  ,"pt_POET"
                  ,"pt_tv_toler"
@@ -449,14 +447,13 @@ col_metscore <- c("SC_nt_total"
                  ,"SC_pi_tv_intol"
                  ,"SC_x_Becks"
                  ,"SC_pi_OET"
-                 ,"SC_pt_ffg_pred"
                  ,"SC_pt_NonIns"
                  ,"SC_pt_POET"
                  ,"SC_pt_tv_toler"
                  ,"SC_pt_volt_semi")
 
 col_metnames <- c("Total Taxa Richness"
-                  , "% Plecoptera taxa"
+                  , "% Ephem., Plec., Trich. taxa"
                   , "% Ephem indiv (no Caenids or Baetids)"
                   , "% Filterer individuals"
                   , "% Predator taxa"
@@ -466,9 +463,8 @@ col_metnames <- c("Total Taxa Richness"
                   , "% Intolerant individuals"
                   , "Becks Biotic Index"
                   , "% Odon., Ephem., Trich. indivs"
-                  , "% Predator taxa"
                   , "% non-insect taxa"
-                  , "% Plec., Odon., Ephem., Trich. indivs"
+                  , "% Plec., Odon., Ephem., Trich. taxa"
                   , "% tolerant taxa"
                   , "% semivoltine taxa")
 
@@ -522,7 +518,7 @@ for(i in metval_cols){
   p6 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
     labs(title = title,
-         x= "Metric Units",
+         x= "Metric Values",
          y= "Frequency",
          fill= "Index Region")+
     scale_fill_manual(values=region.colors, labels = region.labels)+
@@ -585,7 +581,7 @@ for(i in metval_cols){
   p7 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
     labs(title = title,
-         x= "Metric Units",
+         x= "Metric Values",
          y= "Frequency",
          fill= "Index Region")+
     scale_fill_manual(values=region.colors, labels = region.labels)+
@@ -648,7 +644,7 @@ for(i in metval_cols){
   p8 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
     labs(title = title,
-         x= "Metric Units",
+         x= "Metric Values",
          y= "Frequency",
          fill= "Index Region")+
     scale_fill_manual(values=region.colors, labels = region.labels)+
@@ -711,7 +707,7 @@ for(i in metval_cols){
   p9 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
     labs(title = title,
-         x= "Metric Units",
+         x= "Metric Values",
          y= "Frequency",
          fill= "Index Region")+
     scale_fill_manual(values=region.colors, labels = region.labels)+
@@ -775,7 +771,7 @@ for(i in metval_cols){
   p10 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
     labs(title = title,
-         x= "Metric Units",
+         x= "Metric Values",
          y= "Frequency",
          fill= "Index Region")+
     scale_fill_manual(values=region.colors, labels = region.labels)+
@@ -850,7 +846,7 @@ for(i in metsc_cols){
   p11 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
     labs(title = title,
-         x= "Metric Units",
+         x= "Metric Scores",
          y= "Frequency",
          fill= "Index Region")+
     scale_fill_manual(values=region.colors, labels = region.labels)+
@@ -910,7 +906,7 @@ for(i in metsc_cols){
   p12 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
     labs(title = title,
-         x= "Metric Units",
+         x= "Metric Scores",
          y= "Frequency",
          fill= "Index Region")+
     scale_fill_manual(values=region.colors, labels = region.labels)+
@@ -970,7 +966,7 @@ for(i in metsc_cols){
   p13 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
     labs(title = title,
-         x= "Metric Units",
+         x= "Metric Scores",
          y= "Frequency",
          fill= "Index Region")+
     scale_fill_manual(values=region.colors, labels = region.labels)+
@@ -1030,7 +1026,7 @@ for(i in metsc_cols){
   p14 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
     labs(title = title,
-         x= "Metric Units",
+         x= "Metric Scores",
          y= "Frequency",
          fill= "Index Region")+
     scale_fill_manual(values=region.colors, labels = region.labels)+
@@ -1090,7 +1086,7 @@ for(i in metsc_cols){
   p14 <- ggplot(subset.data, aes(x = Value, fill = INDEX_REGION))+ 
     geom_histogram(alpha = 1, position = "dodge", bins = 20, color = "black")+
     labs(title = title,
-         x= "Metric Units",
+         x= "Metric Scores",
          y= "Frequency",
          fill= "Index Region")+
     scale_fill_manual(values=region.colors, labels = region.labels)+

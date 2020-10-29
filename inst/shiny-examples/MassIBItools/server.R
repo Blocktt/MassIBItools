@@ -276,8 +276,16 @@ shinyServer(function(input, output, session) {
             # calculate values and scores in two steps using BioMonTools
             # save each file separately
 
+            # create long name version of Index Regions for client comprehension
+
+            df_data$INDEX_REGION_LONG <- ifelse(df_data$INDEX_REGION == "KickIBI_CH_300ct", "Central_Hills_300ct",
+                                                ifelse(df_data$INDEX_REGION == "KickIBI_CH_100ct", "Central_Hills_100ct",
+                                                       ifelse(df_data$INDEX_REGION == "KickIBI_WH_300ct", "Western_Highlands_300ct",
+                                                              ifelse(df_data$INDEX_REGION == "KickIBI_WH_100ct", "Western_Highlands_300ct",
+                                                                     "Statewide_Low_Gradient"))))
+
             # columns to keep
-            keep_cols <- c("Lat", "Long", "STATIONID", "COLLDATE", "COLLMETH")
+            keep_cols <- c("Lat", "Long", "STATIONID", "COLLDATE", "COLLMETH", "INDEX_REGION_LONG")
 
             # metric calculation
             #df_metval <- suppressWarnings(metric.values.MA(fun.DF = df_data, fun.Community = "bugs",
@@ -285,6 +293,13 @@ shinyServer(function(input, output, session) {
 
             df_metval <- suppressWarnings(metric.values(fun.DF = df_data, fun.Community = "bugs",
                                                            fun.MetricNames = MassMetrics, fun.cols2keep=keep_cols, boo.Shiny = TRUE))
+
+            df_metval <- df_metval %>%
+              mutate(INDEX_REGION = replace(INDEX_REGION, INDEX_REGION == "LOWGRADIENTIBI", "LowGradientIBI")) %>%
+              mutate(INDEX_REGION = replace(INDEX_REGION, INDEX_REGION == "KICKIBI_CH_300CT", "KickIBI_CH_300ct")) %>%
+              mutate(INDEX_REGION = replace(INDEX_REGION, INDEX_REGION == "KICKIBI_CH_100CT", "KickIBI_CH_100ct")) %>%
+              mutate(INDEX_REGION = replace(INDEX_REGION, INDEX_REGION == "KICKIBI_WH_300CT", "KickIBI_WH_300ct")) %>%
+              mutate(INDEX_REGION = replace(INDEX_REGION, INDEX_REGION == "KICKIBI_WH_100CT", "KickIBI_WH_100ct"))
 
 
             # Increment the progress bar, and update the detail text.
@@ -325,6 +340,13 @@ shinyServer(function(input, output, session) {
                                                    DF_Thresh_Metric = df_thresh_metric, DF_Thresh_Index = df_thresh_index,
                                                    col_ni_total = "ni_total")
 
+            df_metsc <- df_metsc %>%
+              mutate(INDEX_REGION = replace(INDEX_REGION, INDEX_REGION == "LOWGRADIENTIBI", "LowGradientIBI")) %>%
+              mutate(INDEX_REGION = replace(INDEX_REGION, INDEX_REGION == "KICKIBI_CH_300CT", "KickIBI_CH_300ct")) %>%
+              mutate(INDEX_REGION = replace(INDEX_REGION, INDEX_REGION == "KICKIBI_CH_100CT", "KickIBI_CH_100ct")) %>%
+              mutate(INDEX_REGION = replace(INDEX_REGION, INDEX_REGION == "KICKIBI_WH_300CT", "KickIBI_WH_300ct")) %>%
+              mutate(INDEX_REGION = replace(INDEX_REGION, INDEX_REGION == "KICKIBI_WH_100CT", "KickIBI_WH_100ct"))
+
 
             # Save
             # fn_metsc <- file.path(".", "Results", "results_metsc.tsv")
@@ -342,8 +364,8 @@ shinyServer(function(input, output, session) {
             Sys.sleep(0.75)
 
             # Render Summary Report (rmarkdown file)
-            rmarkdown::render(input = file.path(".", "Extras", "Summary_MA.rmd"), output_format = "word_document",
-                              output_dir = file.path(".", "Results"), output_file = "results_summary_report", quiet = TRUE)
+            # rmarkdown::render(input = file.path(".", "Extras", "Summary_MA.rmd"), output_format = "word_document",
+            #                   output_dir = file.path(".", "Results"), output_file = "results_summary_report", quiet = TRUE)
 
             # Increment the progress bar, and update the detail text.
             incProgress(1/n_inc, detail = "Ben's code is magical!")
