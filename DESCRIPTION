@@ -1,7 +1,7 @@
 Package: MassIBItools
 Type: Package
 Title: Used to calculate Massachusetts DEP IBI Metrics and scores, and produce output files 
-Version: 0.1.2.902
+Version: 0.1.2.915
 Authors@R: c(
   person("Ben", "Block", email="Ben.Block@tetratech.com", role=c("cre", "aut")),
   person("Erik W.","Leppo", role="aut"),
@@ -24,6 +24,7 @@ Imports:
   tidyr,
   shinyjs,
   knitr,
+  kableExtra,
   rmarkdown,
   leaflet,
   mapview,

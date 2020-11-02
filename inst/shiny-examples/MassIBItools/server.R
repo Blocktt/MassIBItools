@@ -139,7 +139,31 @@ shinyServer(function(input, output, session) {
         }) ## observe~END
 
 
-        ##############
+        ############## Test for including rmarkdown in HTML format ###################
+
+        # Help ####
+
+        # output$background_html <- renderUI({
+        #
+        #   fn_html <- file.path(".", "www", "App_Background.html")
+        #
+        #   fe_html <- file.exists(fn_html)
+        #
+        #   if(fe_html==TRUE){
+        #
+        #     return(htmltools::includeHTML(fn_html))
+        #
+        #   } else {
+        #
+        #     return(NULL)
+        #
+        #   }##IF~fe_html~END
+        #
+        # })##help_html~END
+
+
+        ###############################################################################
+
 
 
         #message(getwd())
@@ -364,8 +388,8 @@ shinyServer(function(input, output, session) {
             Sys.sleep(0.75)
 
             # Render Summary Report (rmarkdown file)
-            # rmarkdown::render(input = file.path(".", "Extras", "Summary_MA.rmd"), output_format = "word_document",
-            #                   output_dir = file.path(".", "Results"), output_file = "results_summary_report", quiet = TRUE)
+            rmarkdown::render(input = file.path(".", "Extras", "Summary_MA.rmd"), output_format = "word_document",
+                              output_dir = file.path(".", "Results"), output_file = "results_summary_report", quiet = TRUE)
 
             # Increment the progress bar, and update the detail text.
             incProgress(1/n_inc, detail = "Ben's code is magical!")

@@ -25,23 +25,27 @@
 
 # test for rendering markdown
 # fn_html <- file.path(".", "Extras", "App_Instructions.rmd")
-# sapply(fn_html, knit, quiet = T)
+# rmdfiles <- c("App_Background_test.rmd")
+# sapply(rmdfiles, knit, quiet = T)
 
 
 
 # Define UI
-shinyUI(navbarPage(theme = shinytheme("united"), "Massachusetts Stream IBI Calculator v0.1.2.908",
+shinyUI(navbarPage(theme = shinytheme("united"), "Massachusetts Stream IBI Calculator v0.1.2.915",
                    tabPanel("Background",
 
                             img(src = "MassDEPlogo.png"),
-                            withMathJax(includeMarkdown("App_Background.md")),
+                            # withMathJax(includeMarkdown("App_Background.md")),
+                            # withMathJax(includeMarkdown("App_Background.rmd"))
+                            includeHTML("App_Background.html"),
                             img(src = "figure1_alt.png", height = 580, width = 1000)
 
                    ), #tabPanel ~END
                    tabPanel("Instructions",
 
                             img(src = "MassDEPlogo.png"),
-                            withMathJax(includeMarkdown("App_Instructions.md"))
+                            # withMathJax(includeMarkdown("App_Instructions.md"))
+                            includeHTML("App_Instructions.html")
 
                    ), #tabPanel ~END
                    tabPanel("Calculator",

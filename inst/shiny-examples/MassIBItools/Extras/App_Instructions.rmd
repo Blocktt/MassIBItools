@@ -1,10 +1,10 @@
 ---
 title: "Instructions and Background Information"
 date: "`r format(Sys.time(), '%Y-%m-%d %H:%M:%S')`"
+always_allow_html: true
 output:
-  md_document:
+  html_fragment:
     toc: yes
-  html_document: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -28,7 +28,43 @@ This app was developed by Ben Block from Tetra Tech, Inc. (Ben.Block@tetratech.c
 ## Foreword
 Tetra Tech, Inc. developed the MassIBItools shiny app for the Massachusetts Department of Environmental Protection (MassDEP). It allows MassDEP and their partners to calculate IBI scores for benthic macroinvertebrate samples. The new IBIs will improve MassDEP’s diagnostic ability to identify degradation in biological integrity and water quality. The app is streamlined and easy to operate, and only requires an input dataset to function. Shiny apps are interactive web applications that serve as graphical user interfaces. They are linked to R, which is an open source programming language and software environment for statistical computing.
 
-## Input data set
+## Preparing the input file
+MassIBItools requires input files to be in a tabular format, saved as either comma-separated values (CSV) (most commonly used) or tab-separated (.txt or .tsv) files. Table 1 contains a list of required fields. Column names must be capitalized and match the spelling and symbology exactly as shown (some column headings have underscores).
+
+Click here to view an EXAMPLE INPUT CSV FILE.
+
+The input data must be prepared in a way that is consistent with how the data were prepared for the calibration of the IBIs. For example, if you use a different level of taxonomic resolution (family vs. species-level) or trait assignments differ (e.g., Functional Feeding Groups do not match), this will affect the results. To ensure consistency, perform the following steps when preparing your input file:
+
+* Check your taxa list against the ‘FinalID’ field in the TaxaTranslator table. The use of consistent nomenclature is encouraged.
+* Remove any rows that have 0 individuals (e.g., Large/Rare taxa entries)
+* For each taxon, there should only be one entry per sample. For example, if entries are broken out by life stage (e.g., larvae, pupae), they should be ‘collapsed’ into one row per taxon/sample (by summing the individuals and deleting the life stage field)
+* Perform random subsampling if needed. For example, if you want to apply a 100-count kick IBI but have a 300-count sample, first reduce the total count of individuals to 100 (±20%)
+* Use NonTarget taxa designations and trait assignments (FFG, tolerance value, life cycle) that match with those in the appropriate TaxaAttribute tables. Taxa tolerance values differ slightly in low gradient vs. higher gradient (kick net) streams; thus, we created separate attribute tables for each stream type. Note: the TaxaID field in the attribute tables matches with the ‘FinalID’ field in the TaxaTranslator table (which is further reason to use consistent nomenclature). 
+* Mark redundant (non-distinct) taxa in each sample in a way that is consistent with the criteria described in the ExcludeDecisionCriteria document.
+* Make sure you select the correct IBI for each sample (which is entered into the ‘Index_Region’ column).
+
+You are now ready to run your file through the IBI calculator!
+
+### Table 1. List of required fields. Column names must be capitalized and match the spelling and symbology exactly as shown.
+```{r table_1}
+library(readxl)
+library(knitr)
+library(kableExtra)
+# state directories
+table.dir <- "tables"
+table.file <- "Instruction_Tables.xlsx"
+tab1.dir <- "Instr_table2"
+
+table1 <- read_excel(file.path(table.dir, table.file), sheet = tab1.dir
+                     , na = c("NA", ""), trim_ws = TRUE, skip = 0
+                     , col_names = TRUE)  
+
+# kable(table1)
+table1 %>% 
+  kbl() %>% 
+  kable_styling(full_width = F, position = "left")
+```
+
 
 ## App Instructions
 

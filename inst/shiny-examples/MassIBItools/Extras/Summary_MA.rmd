@@ -195,7 +195,7 @@ kable(table5)
 # PLOTS
 ## Map of Sites in Massachusetts
 These are the sites that have been input into the R shiny application. 
-```{r Results_Site_Map}
+```{r Results_Site_Map, fig.width=9, fig.height=6}
 library(ggplot2)
 ##### Massachusetts Map of Sites
 ## Color palette

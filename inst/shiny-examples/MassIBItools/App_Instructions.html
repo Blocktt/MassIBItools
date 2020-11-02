@@ -1,0 +1,411 @@
+
+
+
+<div id="instructions" class="section level1">
+<h1>Instructions</h1>
+<p>MassIBItools was developed to calculate benthic macroinvertebrate metrics and Indices of Biotic Integrity (IBI) for wadeable, freshwater, perennial streams in Massachusetts. Detailed documentation of IBI development can be downloaded <a href="https://github.com/Blocktt/MassIBItools/tree/master/reports">here</a>. Users can run any data through the IBI calculator and get a result. However, if samples do not meet the criteria listed on the Background page, results should be interpreted with caution.</p>
+<p>The Instructions are divided into three sections: 1) preparing the input file; 2) app operation; and 3) frequently asked questions (FAQ). Links to an example input file and a document containing more detailed information on preparing the input file are also provided.</p>
+<p>This app was developed by Ben Block from Tetra Tech, Inc. (<a href="mailto:Ben.Block@tetratech.com" class="email">Ben.Block@tetratech.com</a>), with underlying R code written by Ben Block and Erik Leppo (<a href="mailto:Erik.Leppo@tetratech.com" class="email">Erik.Leppo@tetratech.com</a>). Please contact Ben Block should any issues or questions arise.</p>
+<div id="foreword" class="section level2">
+<h2>Foreword</h2>
+<p>Tetra Tech, Inc. developed the MassIBItools shiny app for the Massachusetts Department of Environmental Protection (MassDEP). It allows MassDEP and their partners to calculate IBI scores for benthic macroinvertebrate samples. The new IBIs will improve MassDEP’s diagnostic ability to identify degradation in biological integrity and water quality. The app is streamlined and easy to operate, and only requires an input dataset to function. Shiny apps are interactive web applications that serve as graphical user interfaces. They are linked to R, which is an open source programming language and software environment for statistical computing.</p>
+</div>
+<div id="preparing-the-input-file" class="section level2">
+<h2>Preparing the input file</h2>
+<p>MassIBItools requires input files to be in a tabular format, saved as either comma-separated values (CSV) (most commonly used) or tab-separated (.txt or .tsv) files. Table 1 contains a list of required fields. Column names must be capitalized and match the spelling and symbology exactly as shown (some column headings have underscores).</p>
+<p>Click here to view an EXAMPLE INPUT CSV FILE.</p>
+<p>The input data must be prepared in a way that is consistent with how the data were prepared for the calibration of the IBIs. For example, if you use a different level of taxonomic resolution (family vs. species-level) or trait assignments differ (e.g., Functional Feeding Groups do not match), this will affect the results. To ensure consistency, perform the following steps when preparing your input file:</p>
+<ul>
+<li>Check your taxa list against the ‘FinalID’ field in the TaxaTranslator table. The use of consistent nomenclature is encouraged.</li>
+<li>Remove any rows that have 0 individuals (e.g., Large/Rare taxa entries)</li>
+<li>For each taxon, there should only be one entry per sample. For example, if entries are broken out by life stage (e.g., larvae, pupae), they should be ‘collapsed’ into one row per taxon/sample (by summing the individuals and deleting the life stage field)</li>
+<li>Perform random subsampling if needed. For example, if you want to apply a 100-count kick IBI but have a 300-count sample, first reduce the total count of individuals to 100 (±20%)</li>
+<li>Use NonTarget taxa designations and trait assignments (FFG, tolerance value, life cycle) that match with those in the appropriate TaxaAttribute tables. Taxa tolerance values differ slightly in low gradient vs. higher gradient (kick net) streams; thus, we created separate attribute tables for each stream type. Note: the TaxaID field in the attribute tables matches with the ‘FinalID’ field in the TaxaTranslator table (which is further reason to use consistent nomenclature).</li>
+<li>Mark redundant (non-distinct) taxa in each sample in a way that is consistent with the criteria described in the ExcludeDecisionCriteria document.</li>
+<li>Make sure you select the correct IBI for each sample (which is entered into the ‘Index_Region’ column).</li>
+</ul>
+<p>You are now ready to run your file through the IBI calculator!</p>
+<div id="table-1.-list-of-required-fields.-column-names-must-be-capitalized-and-match-the-spelling-and-symbology-exactly-as-shown." class="section level3">
+<h3>Table 1. List of required fields. Column names must be capitalized and match the spelling and symbology exactly as shown.</h3>
+<table class="table" style="width: auto !important; ">
+<thead>
+<tr>
+<th style="text-align:left;">
+Required field (in CAPS)
+</th>
+<th style="text-align:left;">
+Description
+</th>
+<th style="text-align:left;">
+Acceptable entries
+</th>
+<th style="text-align:left;">
+Notes
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+INDEX_NAME
+</td>
+<td style="text-align:left;">
+Entity_Year_Assemblage
+</td>
+<td style="text-align:left;">
+One option: MassDEP_2020_Bugs
+</td>
+<td style="text-align:left;">
+Must match ‘Acceptable entries’ options exactly
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+INDEX_REGION
+</td>
+<td style="text-align:left;">
+Specifies which IBI to apply to each sample
+</td>
+<td style="text-align:left;">
+Three options (select one only): KickIBI_CH_100ct, KickIBI_WH_100ct, LowGradientIBI
+</td>
+<td style="text-align:left;">
+Must match ‘Acceptable entries’ options exactly. CH = Central Hills, WH = Western Highlands
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+STATIONID
+</td>
+<td style="text-align:left;">
+Unique station identifier
+</td>
+<td style="text-align:left;">
+Letters and/or numbers. Example: B0950
+</td>
+<td style="text-align:left;">
+Corresponds with UniqueID in the MassDEP database
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SAMPLEID
+</td>
+<td style="text-align:left;">
+Unique sample identifier
+</td>
+<td style="text-align:left;">
+Letters and/or numbers. Example: 2017004
+</td>
+<td style="text-align:left;">
+Corresponds with BenSampID in the MassDEP database
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LAT
+</td>
+<td style="text-align:left;">
+Latitude
+</td>
+<td style="text-align:left;">
+Number, in decimal degrees. Example: 41.1864
+</td>
+<td style="text-align:left;">
+NAD83 datum
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LONG
+</td>
+<td style="text-align:left;">
+Longitude
+</td>
+<td style="text-align:left;">
+Number, in decimal degrees. Example: -73.3429
+</td>
+<td style="text-align:left;">
+NAD83 datum
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+COLLDATE
+</td>
+<td style="text-align:left;">
+Collection date
+</td>
+<td style="text-align:left;">
+Preferred format is Month/Day/Year (4-digit). Example: 8/10/2015
+</td>
+<td style="text-align:left;">
+Other date formats can be used but Month/Day/Year (4-digit) is recommended
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+COLLMETH
+</td>
+<td style="text-align:left;">
+Collection method
+</td>
+<td style="text-align:left;">
+Letters or numbers. Example: RBP kicknet
+</td>
+<td style="text-align:left;">
+Normal MassDEP entries are ‘RBP kicknet’ or ‘RBP multihab’
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TAXAID
+</td>
+<td style="text-align:left;">
+Unique taxa identifier
+</td>
+<td style="text-align:left;">
+Letters or numbers. Example: Rhyacophila atrata
+</td>
+<td style="text-align:left;">
+The taxa list should match with the FinalID field in the TaxaTranslator table. Taxa should be identified to the lowest practical taxonomic resolution. If not, results should be interpreted with caution
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N_TAXA
+</td>
+<td style="text-align:left;">
+Number of individuals
+</td>
+<td style="text-align:left;">
+Number
+</td>
+<td style="text-align:left;">
+In some cases, random subsampling may be necessary during the data preparation step (e.g., reducing a 300-count kick sample to 100 organisms before applying a 100-count kickIBI)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+EXCLUDE
+</td>
+<td style="text-align:left;">
+Redundant taxa (also referred to as non-distinct taxa) are excluded from richness metric calculations but are counted in the other metrics
+</td>
+<td style="text-align:left;">
+TRUE or FALSE (redundant taxa should be entered as “TRUE”). No blanks
+</td>
+<td style="text-align:left;">
+Criteria for designating redundant taxa should be consistent with the ExcludeDecisionCriteria document
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NONTARGET
+</td>
+<td style="text-align:left;">
+Non-target taxa are not part of the intended capture list (e.g., Hemiptera, Decapoda, terrestrial). They are excluded from all metric calculations
+</td>
+<td style="text-align:left;">
+TRUE or FALSE (Non-target taxa should be entered as “TRUE”). No blanks
+</td>
+<td style="text-align:left;">
+Should match with the entries in the Taxa Attribute tables, which are the same in both the kick net and low gradient attribute tables.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PHYLUM
+</td>
+<td style="text-align:left;">
+Taxonomic hierarchy (e.g., Arthropoda)
+</td>
+<td style="text-align:left;">
+Letters. If no entry, leave blank
+</td>
+<td style="text-align:left;">
+Should match with the entries in the Taxa Attribute tables, which are the same in both the kick net and low gradient attribute tables.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CLASS
+</td>
+<td style="text-align:left;">
+Taxonomic hierarchy (e.g., Insecta)
+</td>
+<td style="text-align:left;">
+Letters. If no entry, leave blank
+</td>
+<td style="text-align:left;">
+Should match with the entries in the Taxa Attribute tables, which are the same in both the kick net and low gradient attribute tables.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ORDER
+</td>
+<td style="text-align:left;">
+Taxonomic hierarchy (e.g., Coleoptera)
+</td>
+<td style="text-align:left;">
+Letters. If no entry, leave blank
+</td>
+<td style="text-align:left;">
+Should match with the entries in the Taxa Attribute tables, which are the same in both the kick net and low gradient attribute tables.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FAMILY
+</td>
+<td style="text-align:left;">
+Taxonomic hierarchy (e.g., Elmidae)
+</td>
+<td style="text-align:left;">
+Letters. If no entry, leave blank
+</td>
+<td style="text-align:left;">
+Should match with the entries in the Taxa Attribute tables, which are the same in both the kick net and low gradient attribute tables.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SUBFAMILY
+</td>
+<td style="text-align:left;">
+Taxonomic hierarchy (e.g., Orthocladiinae)
+</td>
+<td style="text-align:left;">
+Letters. If no entry, leave blank
+</td>
+<td style="text-align:left;">
+Should match with the entries in the Taxa Attribute tables, which are the same in both the kick net and low gradient attribute tables.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TRIBE
+</td>
+<td style="text-align:left;">
+Taxonomic hierarchy (e.g., Chironomini)
+</td>
+<td style="text-align:left;">
+Letters. If no entry, leave blank
+</td>
+<td style="text-align:left;">
+Should match with the entries in the Taxa Attribute tables, which are the same in both the kick net and low gradient attribute tables.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GENUS
+</td>
+<td style="text-align:left;">
+Taxonomic hierarchy (e.g., Rhyacophila)
+</td>
+<td style="text-align:left;">
+Letters. If no entry, leave blank
+</td>
+<td style="text-align:left;">
+Should match with the entries in the Taxa Attribute tables, which are the same in both the kick net and low gradient attribute tables.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FFG
+</td>
+<td style="text-align:left;">
+Functional Feeding Group: collector-gatherer (CG), collector-filterer (CF), predator (PR), scraper (SC), shredder (SH)
+</td>
+<td style="text-align:left;">
+Five options (select one only): CG, CF, PR, SC, SH. If no attribute, leave blank
+</td>
+<td style="text-align:left;">
+Should match with the entries in the Taxa Attribute tables, which are the same in both the kick net and low gradient attribute tables.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TOLVAL
+</td>
+<td style="text-align:left;">
+0 (most intolerant) to 10 (most tolerant)
+</td>
+<td style="text-align:left;">
+Number. If no attribute, leave blank
+</td>
+<td style="text-align:left;">
+IMPORTANT - Tolerance values are slightly different in the kick net vs low gradient Taxa Attribute tables. Make sure you use the appropriate tolerance values.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LIFE_CYCLE
+</td>
+<td style="text-align:left;">
+univoltine (UNI), semivoltine (SEMI), multivoltine (MULTI)
+</td>
+<td style="text-align:left;">
+Three options (select one only): UNI, SEMI, MULTI. If no attribute, leave blank
+</td>
+<td style="text-align:left;">
+Should match with the entries in the Taxa Attribute tables, which are the same in both the kick net and low gradient attribute tables.
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="app-instructions" class="section level2">
+<h2>App Instructions</h2>
+<p>Once open, the user will see the IBI calculator interface. The user should follow the onscreen instructions as follows:</p>
+<ol style="list-style-type: decimal">
+<li><p>Load file</p>
+<ul>
+<li>An example input file can be downloaded from Github <a href="https://github.com/Blocktt/MassIBItools/tree/master/inst/shiny-examples/MassIBItools/Examples">EXAMPLE LINK</a></li>
+<li>Choose Separator. The separator indicates how the data is stored. Comma indicates the input file is a comma-separated file (.csv). Tab indicates the input file is a tab-separated file (.txt or .tsv). Finally, Semicolon indicates the input file is a semicolon-separated file which is uncommon in the United States but common in Western-European countries. Be certain that the designated separator is not used in any of the text fields (e.g., for multiple FFG, separate with a semicolon).</li>
+<li>Choose Quote. The quote indicates how the data is stored. Double quote is the most common.</li>
+<li>Choose file to upload. Hit the browse button and search for the input file.</li>
+<li>Once uploaded, make sure data is correct in the viewer. If the incorrect Separator or Quote is chosen, you may receive an error or the data may look incorrect in the viewer.</li>
+</ul></li>
+<li><p>Calculate IBI</p></li>
+<li><p>Download results</p>
+<ul>
+<li>Select the button to download a zip file with inputs and results.</li>
+<li>Check ‘results_log.txt’ for any warnings or messages. Note, some warnings are automatically generated by R. Feel free to reach out to Ben Block (<a href="mailto:Ben.Block@tetratech.com" class="email">Ben.Block@tetratech.com</a>) for any questions related to warnings.</li>
+</ul></li>
+<li><p>Use interactive map and plots for data exploration</p>
+<ul>
+<li>Navigate to the top of the page and click on the “Data Explorer” tab.</li>
+<li>Prior to metric scores calculation, a map will not be visible.</li>
+<li>Once metric scores are calculated, a map will become visible.</li>
+<li>Sites are clustered when zoomed out for increased visibility - zoom for detail.</li>
+<li>Sites are color coded by their Index Score value - click on a site for more info.</li>
+<li>The map can be filtered based on INDEX_REGION using the checkbox group in the upper right.</li>
+</ul></li>
+</ol>
+</div>
+<div id="frequently-asked-questions-and-troubleshooting" class="section level2">
+<h2>Frequently asked questions and troubleshooting</h2>
+<ol style="list-style-type: decimal">
+<li>Why am I getting an error saying that I am missing columns even when I am not?
+<ul>
+<li>You may have incorrectly spelled a given column. Try writing the column in all capital letters. Also, some columns (e.g., INDEX_REGION) require an underscore to separate the two words.</li>
+</ul></li>
+<li>Why does my data look strange in the data viewer?
+<ul>
+<li>You likely have the incorrect Separator or Quote selected. Otherwise, there may be commas in text fields when the comma separator is selected.</li>
+</ul></li>
+<li>The IBI calculation is taking forever to calculate, has the app frozen?
+<ul>
+<li>Even though R works remarkably fast, a large dataset will cause the app to slow down. The estimate is approximately 30 seconds for small datasets; however, this could extend to a few minutes for large datasets.</li>
+</ul></li>
+<li>Why is there no map shown in the “Sites and Scores Map” tab?
+<ul>
+<li>The map requires the results of the IBI calculator to render.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+

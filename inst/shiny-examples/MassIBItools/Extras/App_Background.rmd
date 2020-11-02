@@ -1,8 +1,9 @@
 ---
 title: "Background Information"
 date: "`r format(Sys.time(), '%Y-%m-%d %H:%M:%S')`"
+always_allow_html: true
 output:
-  md_document:
+  html_fragment:
     toc: yes
 ---
 
@@ -51,7 +52,10 @@ table1 <- read_excel(file.path(table.dir, table.file), sheet = tab1.dir
                      , na = c("NA", ""), trim_ws = TRUE, skip = 0
                      , col_names = TRUE)  
 
-kable(table1)
+
+table1 %>%
+  kable() %>%
+  kable_styling(full_width = F, position = "left")
 ```
 
 
@@ -68,7 +72,10 @@ table2 <- read_excel(file.path(table.dir, table.file), sheet = tab2.dir
                      , na = c("NA", ""), trim_ws = TRUE, skip = 0
                      , col_names = TRUE)  
 
-kable(table2)
+# kable(table2)
+table2 %>% 
+  kbl() %>% 
+  kable_styling(full_width = F, position = "left")
 ```
 
 ### Table 3. Metrics and scoring formulae for the low gradient IBI (300-count).
@@ -84,5 +91,8 @@ table3 <- read_excel(file.path(table.dir, table.file), sheet = tab3.dir
                      , na = c("NA", ""), trim_ws = TRUE, skip = 0
                      , col_names = TRUE)  
 
-kable(table3)
+# kable(table3)
+table3 %>% 
+  kbl() %>% 
+  kable_styling(full_width = F, position = "left")
 ```
