@@ -37,6 +37,8 @@ shinyUI(navbarPage(theme = shinytheme("united"), "Massachusetts Stream IBI Calcu
                             img(src = "MassDEPlogo.png"),
                             # withMathJax(includeMarkdown("App_Background.md")),
                             # withMathJax(includeMarkdown("App_Background.rmd"))
+                            #https://groups.google.com/g/shiny-discuss/c/0UiiHcdhN4k
+                            #https://stackoverflow.com/questions/34256810/knitr-rmarkdown-pander-minimal-md-html-for-body-body-only
                             includeHTML("App_Background.html"),
                             img(src = "figure1_alt.png", height = 580, width = 1000)
 
