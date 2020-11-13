@@ -3,15 +3,15 @@ title: "MassDEP Stream IBI Summary Report"
 author: "`r Sys.getenv('USERNAME')`"
 date: "`r format(Sys.time(), '%Y-%m-%d %H:%M:%S')`"
 output:
+  word_document:
+    toc: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
   html_document:
     toc: yes
     toc_depth: 3
     toc_float: no
-  pdf_document:
-    toc: yes
-    toc_depth: '3'
-  word_document:
-    toc: yes
 subtitle: Metric Scores and Values
 ---
 ```{r setup, include=FALSE}
@@ -38,8 +38,8 @@ Histograms in the "Plots" section will change depending on the input dataset.
   df_metval <- df_metval
   df_metsc <- df_metsc
 
-  # df_metval <- read.csv("C:/Users/Ben.Block/OneDrive - Tetra Tech, Inc/GitHub/CH_300_results_metval.csv")
-  # df_metsc <- read.csv("C:/Users/Ben.Block/OneDrive - Tetra Tech, Inc/GitHub/CH_300_results_metsc.csv")
+  # df_metval <- read.csv("C:/Users/Ben.Block/OneDrive - Tetra Tech, Inc/GitHub/MassIBI_results_metval.csv")
+  # df_metsc <- read.csv("C:/Users/Ben.Block/OneDrive - Tetra Tech, Inc/GitHub/MassIBI_results_metsc.csv")
   
   # create general index region names
   df_metval$Region_Name <- ifelse(df_metval$INDEX_REGION == "KickIBI_CH_300ct", "CH",
@@ -76,6 +76,7 @@ Histograms in the "Plots" section will change depending on the input dataset.
 library(knitr)
 library(tidyr)
 library(dplyr)
+library(flextable)
 
 options(dplyr.summarise.inform = FALSE)
 
@@ -99,7 +100,12 @@ table1 <- df_scores %>%
   arrange(Index_Nar) %>% 
   rename("Index Narrative" = Index_Nar)
 
-kable(table1)
+# create flextable for output 
+# https://davidgohel.github.io/flextable/articles/layout.html
+ftable1 <- flextable(table1)
+ftable1 <- autofit(ftable1)
+ftable1 <- set_table_properties(ftable1, width = .5, layout = "autofit")
+theme_booktabs(ftable1)
 
 ```
 
@@ -108,6 +114,7 @@ kable(table1)
 library(knitr)
 library(tidyr)
 library(readxl)
+library(flextable)
 
 scores_trim <- df_scores %>% 
   select(INDEX_REGION, Index, counts)
@@ -139,7 +146,11 @@ table2 <- table2 %>% # renames Index_Region to nice names
   mutate(`Index Region` = replace(`Index Region`, `Index Region` == "KickIBI_WH_300ct", "Western Highlands (300ct)")) %>% 
   mutate(`Index Region` = replace(`Index Region`, `Index Region` == "LowGradientIBI", "Low Gradient"))
 
-kable(table2)
+# create flextable for output 
+# https://davidgohel.github.io/flextable/articles/layout.html
+ftable2 <- flextable(table2)
+ftable2 <- autofit(ftable2)
+theme_booktabs(ftable2)
 
 ```
 
@@ -148,6 +159,8 @@ kable(table2)
 ```{r Results_summary_table_3}
 library(readxl)
 library(knitr)
+library(flextable)
+
 # state directories
 table.dir <- "tables"
 table.file <- "Instruction_Tables.xlsx"
@@ -157,13 +170,20 @@ table3 <- read_excel(file.path(table.dir, table.file), sheet = tab3.dir
                      , na = c("NA", ""), trim_ws = TRUE, skip = 0
                      , col_names = TRUE)
 
-kable(table3)
+# create flextable for output 
+# https://davidgohel.github.io/flextable/articles/layout.html
+ftable3 <- flextable(table3)
+ftable3 <- autofit(ftable3)
+ftable3 <- set_table_properties(ftable3, width = .5, layout = "autofit")
+theme_booktabs(ftable3)
 ```
 
 ### Table 4. Metrics in the Central Hills IBI, with scoring formulas. Trend is the direction of metric response with increasing stress.
 ```{r Results_summary_table_4}
 library(readxl)
 library(knitr)
+library(flextable)
+
 # state directories
 table.dir <- "tables"
 table.file <- "Instruction_Tables.xlsx"
@@ -173,13 +193,18 @@ table4 <- read_excel(file.path(table.dir, table.file), sheet = tab4.dir
                      , na = c("NA", ""), trim_ws = TRUE, skip = 0
                      , col_names = TRUE)
 
-kable(table4)
+ftable4 <- flextable(table4)
+ftable4 <- autofit(ftable4)
+ftable4 <- set_table_properties(ftable4, width = .5, layout = "autofit")
+theme_booktabs(ftable4)
 ```
 
 ### Table 5. Metrics in the Low Gradient IBI, with scoring formulas. Trend is the direction of metric response with increasing stress.
 ```{r Results_summary_table_5}
 library(readxl)
 library(knitr)
+library(flextable)
+
 # state directories
 table.dir <- "tables"
 table.file <- "Instruction_Tables.xlsx"
@@ -189,7 +214,10 @@ table5 <- read_excel(file.path(table.dir, table.file), sheet = tab5.dir
                      , na = c("NA", ""), trim_ws = TRUE, skip = 0
                      , col_names = TRUE)
 
-kable(table5)
+ftable5 <- flextable(table5)
+ftable5 <- autofit(ftable5)
+ftable5 <- set_table_properties(ftable5, width = .5, layout = "autofit")
+theme_booktabs(ftable5)
 ```
 
 # PLOTS

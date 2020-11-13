@@ -138,34 +138,6 @@ shinyServer(function(input, output, session) {
           # updateSelectInput(session, "sample.select", choices = as.character(sort(unique(df_input[, "SAMPLEID"]))))
         }) ## observe~END
 
-
-        ############## Test for including rmarkdown in HTML format ###################
-
-        # Help ####
-
-        # output$background_html <- renderUI({
-        #
-        #   fn_html <- file.path(".", "www", "App_Background.html")
-        #
-        #   fe_html <- file.exists(fn_html)
-        #
-        #   if(fe_html==TRUE){
-        #
-        #     return(htmltools::includeHTML(fn_html))
-        #
-        #   } else {
-        #
-        #     return(NULL)
-        #
-        #   }##IF~fe_html~END
-        #
-        # })##help_html~END
-
-
-        ###############################################################################
-
-
-
         #message(getwd())
 
         # Add "Results" folder if missing
