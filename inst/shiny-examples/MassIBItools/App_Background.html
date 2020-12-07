@@ -3,14 +3,16 @@
 
 <div id="background" class="section level1">
 <h1>Background</h1>
-<p>Indices of Biotic Integrity (IBIs) were developed for macroinvertebrate assemblages in wadeable, freshwater, perennial streams in Massachusetts. There are currently three IBIs –</p>
+<p>Indices of Biotic Integrity (IBIs) were developed for macroinvertebrate assemblages in wadeable, freshwater, perennial streams in Massachusetts. There are currently five IBIs –</p>
 <ul>
 <li>Western Highlands kick net IBI (100-count)</li>
+<li>Western Highlands kick net IBI (300-count)</li>
 <li>Central Hills kick net IBI (100-count)</li>
+<li>Central Hills kick net IBI (300-count)</li>
 <li>Statewide low gradient (multihab) IBI (300-count)</li>
 </ul>
 <p>The southeast portion of Massachusetts, which includes the Narragansett/Bristol Lowlands, Cape Cod, and the Islands, had insufficient data to develop an IBI for kick net samples at this time.</p>
-<p>Reports detailing the development of the kick and low gradient IBIs can be found <a href="https://github.com/Blocktt/MassIBItools/tree/master/reports">here</a>. Two additional IBIs (300-count versions of the kick net IBIs) are currently under development.</p>
+<p>Reports detailing the development of the kick and low gradient IBIs can be found <a href="https://github.com/Blocktt/MassIBItools/tree/master/reports">here</a>.</p>
 <div id="intended-application" class="section level2">
 <h2>Intended application</h2>
 <p>The IBIs are intended to be applied to samples collected from freshwater, perennial, wadeable streams in Massachusetts using the MassDEP kick net or multihabitat sampling methods. MassDEP samples are collected between July 1–September 30, using a kick-net with 500 μm mesh and a 46 cm wide opening. Organisms are identified to the lowest practical level in the laboratory.</p>
@@ -19,7 +21,7 @@
 </div>
 <div id="input-metrics-and-scoring-formulae" class="section level2">
 <h2>Input metrics and scoring formulae</h2>
-<p>Kick net IBIs were calibrated for two regions - the Western Highlands (WH) and Central Hills (CH) (shown in Figure 1) – using 100-count samples. The low gradient IBI, which can be applied statewide (as well as in Rhode Island), was calibrated with 300-count samples. Tables 1-3 show the input metrics and scoring formulae for the three IBIs.</p>
+<p>Kick net IBIs were calibrated for two regions - the Western Highlands (WH) and Central Hills (CH) (shown in Figure 1) – using 100-count or 300-count samples. The low gradient IBI, which can be applied statewide (as well as in Rhode Island), was calibrated with 300-count samples. Tables 1-5 show the input metrics and scoring formulae for the three IBIs.</p>
 <div id="table-1.-metrics-and-scoring-formulae-for-the-western-highlands-kick-net-ibi-100-count." class="section level3">
 <h3>Table 1. Metrics and scoring formulae for the Western Highlands kick net IBI (100-count).</h3>
 <table class="table" style="width: auto !important; ">
@@ -106,8 +108,94 @@ Decrease
 </tbody>
 </table>
 </div>
-<div id="table-2.-metrics-and-scoring-formulae-for-the-central-hills-kick-net-ibi-100-count." class="section level3">
-<h3>Table 2. Metrics and scoring formulae for the Central Hills kick net IBI (100-count).</h3>
+<div id="table-2.-metrics-and-scoring-formulae-for-the-western-highlands-kick-net-ibi-300-count." class="section level3">
+<h3>Table 2. Metrics and scoring formulae for the Western Highlands kick net IBI (300-count).</h3>
+<table class="table" style="width: auto !important; ">
+<thead>
+<tr>
+<th style="text-align:left;">
+Metric (abbrev)
+</th>
+<th style="text-align:left;">
+Response to stress
+</th>
+<th style="text-align:left;">
+Scoring formula
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Number of total taxa (nt_total)
+</td>
+<td style="text-align:left;">
+Decrease
+</td>
+<td style="text-align:left;">
+100*(metric)/61.8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+% Plecoptera individuals (pi_Pleco)
+</td>
+<td style="text-align:left;">
+Decrease
+</td>
+<td style="text-align:left;">
+100*(metric)/18.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+% Collector-filterer individuals (pi_ffg_filt)
+</td>
+<td style="text-align:left;">
+Increase
+</td>
+<td style="text-align:left;">
+100*(50.5-metric)/40.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+% Shredder individuals (pi_ffg_shred)
+</td>
+<td style="text-align:left;">
+Decrease
+</td>
+<td style="text-align:left;">
+100*(metric)/23
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+% Intolerant individuals (pi_tv_intol)
+</td>
+<td style="text-align:left;">
+Decrease
+</td>
+<td style="text-align:left;">
+100*(metric)/51.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Becks Biotic Index (x_Becks)
+</td>
+<td style="text-align:left;">
+Decrease
+</td>
+<td style="text-align:left;">
+100*(metric)/50.6
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="table-3.-metrics-and-scoring-formulae-for-the-central-hills-kick-net-ibi-100-count." class="section level3">
+<h3>Table 3. Metrics and scoring formulae for the Central Hills kick net IBI (100-count).</h3>
 <table class="table" style="width: auto !important; ">
 <thead>
 <tr>
@@ -192,8 +280,94 @@ Decrease
 </tbody>
 </table>
 </div>
-<div id="table-3.-metrics-and-scoring-formulae-for-the-low-gradient-ibi-300-count." class="section level3">
-<h3>Table 3. Metrics and scoring formulae for the low gradient IBI (300-count).</h3>
+<div id="table-4.-metrics-and-scoring-formulae-for-the-central-hills-kick-net-ibi-300-count." class="section level3">
+<h3>Table 4. Metrics and scoring formulae for the Central Hills kick net IBI (300-count).</h3>
+<table class="table" style="width: auto !important; ">
+<thead>
+<tr>
+<th style="text-align:left;">
+Metric (abbrev)
+</th>
+<th style="text-align:left;">
+Response to stress
+</th>
+<th style="text-align:left;">
+Scoring formula
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Number of total taxa (nt_total)
+</td>
+<td style="text-align:left;">
+Decrease
+</td>
+<td style="text-align:left;">
+100*(metric)/55.8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+% EPT taxa (pt_EPT)
+</td>
+<td style="text-align:left;">
+Decrease
+</td>
+<td style="text-align:left;">
+100*(metric)/54.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+% Ephemeroptera individuals, excluding Caenidae and Baetidae (pi_Ephem NoCaeBae)
+</td>
+<td style="text-align:left;">
+Decrease
+</td>
+<td style="text-align:left;">
+100*(metric)/13.9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+% Collector-filterer individuals (pi_ffg_filt)
+</td>
+<td style="text-align:left;">
+Increase
+</td>
+<td style="text-align:left;">
+100*(79.9-metric)/66.9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+% Predator taxa (pt_ffg_pred)
+</td>
+<td style="text-align:left;">
+Decrease
+</td>
+<td style="text-align:left;">
+100*(metric)/28.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+% Intolerant taxa (pt_tv_intol)
+</td>
+<td style="text-align:left;">
+Decrease
+</td>
+<td style="text-align:left;">
+100*(metric)/39.1
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="table-5.-metrics-and-scoring-formulae-for-the-low-gradient-ibi-300-count." class="section level3">
+<h3>Table 5. Metrics and scoring formulae for the low gradient IBI (300-count).</h3>
 <table class="table" style="width: auto !important; ">
 <thead>
 <tr>

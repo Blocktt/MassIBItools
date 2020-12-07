@@ -155,7 +155,7 @@ theme_booktabs(ftable2)
 ```
 
 
-### Table 3. Metrics in the Western Highlands IBI, with scoring formulas. Trend is the direction of metric response with increasing stress. 
+### Table 3. Metrics in the Western Highlands 100-count IBI, with scoring formulas. Trend is the direction of metric response with increasing stress. 
 ```{r Results_summary_table_3}
 library(readxl)
 library(knitr)
@@ -178,7 +178,7 @@ ftable3 <- set_table_properties(ftable3, width = .5, layout = "autofit")
 theme_booktabs(ftable3)
 ```
 
-### Table 4. Metrics in the Central Hills IBI, with scoring formulas. Trend is the direction of metric response with increasing stress.
+### Table 4. Metrics in the Western Highlands 300-count IBI, with scoring formulas. Trend is the direction of metric response with increasing stress. 
 ```{r Results_summary_table_4}
 library(readxl)
 library(knitr)
@@ -193,13 +193,15 @@ table4 <- read_excel(file.path(table.dir, table.file), sheet = tab4.dir
                      , na = c("NA", ""), trim_ws = TRUE, skip = 0
                      , col_names = TRUE)
 
+# create flextable for output 
+# https://davidgohel.github.io/flextable/articles/layout.html
 ftable4 <- flextable(table4)
 ftable4 <- autofit(ftable4)
 ftable4 <- set_table_properties(ftable4, width = .5, layout = "autofit")
 theme_booktabs(ftable4)
 ```
 
-### Table 5. Metrics in the Low Gradient IBI, with scoring formulas. Trend is the direction of metric response with increasing stress.
+### Table 5. Metrics in the Central Hills 100-count IBI, with scoring formulas. Trend is the direction of metric response with increasing stress.
 ```{r Results_summary_table_5}
 library(readxl)
 library(knitr)
@@ -218,6 +220,48 @@ ftable5 <- flextable(table5)
 ftable5 <- autofit(ftable5)
 ftable5 <- set_table_properties(ftable5, width = .5, layout = "autofit")
 theme_booktabs(ftable5)
+```
+
+### Table 6. Metrics in the Central Hills 300-count IBI, with scoring formulas. Trend is the direction of metric response with increasing stress.
+```{r Results_summary_table_6}
+library(readxl)
+library(knitr)
+library(flextable)
+
+# state directories
+table.dir <- "tables"
+table.file <- "Instruction_Tables.xlsx"
+tab6.dir <- "Back_table4"
+
+table6 <- read_excel(file.path(table.dir, table.file), sheet = tab6.dir
+                     , na = c("NA", ""), trim_ws = TRUE, skip = 0
+                     , col_names = TRUE)
+
+ftable6 <- flextable(table6)
+ftable6 <- autofit(ftable6)
+ftable6 <- set_table_properties(ftable6, width = .5, layout = "autofit")
+theme_booktabs(ftable6)
+```
+
+### Table 7. Metrics in the Low Gradient IBI, with scoring formulas. Trend is the direction of metric response with increasing stress.
+```{r Results_summary_table_7}
+library(readxl)
+library(knitr)
+library(flextable)
+
+# state directories
+table.dir <- "tables"
+table.file <- "Instruction_Tables.xlsx"
+tab7.dir <- "Back_table5"
+
+table7 <- read_excel(file.path(table.dir, table.file), sheet = tab7.dir
+                     , na = c("NA", ""), trim_ws = TRUE, skip = 0
+                     , col_names = TRUE)
+
+ftable7 <- flextable(table7)
+ftable7 <- autofit(ftable7)
+ftable7 <- set_table_properties(ftable7, width = .5, layout = "autofit")
+theme_booktabs(ftable7)
 ```
 
 # PLOTS

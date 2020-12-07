@@ -14,15 +14,15 @@
 <h2>Preparing the input file</h2>
 <p>MassIBItools requires input files to be in a tabular format, saved as either comma-separated values (CSV) (most commonly used) or tab-separated (.txt or .tsv) files. Table 1 contains a list of required fields. Column names must be capitalized and match the spelling and symbology exactly as shown (some column headings have underscores).</p>
 <p>Click here to view an <a href="https://github.com/Blocktt/MassIBItools/tree/master/inst/shiny-examples/MassIBItools/Examples">EXAMPLE INPUT FILE</a>.</p>
-<p>The input data must be prepared in a way that is consistent with how the data were prepared for the calibration of the IBIs. For example, if you use a different level of taxonomic resolution (family vs. species-level) or trait assignments differ (e.g., Functional Feeding Groups do not match), this will affect the results. To ensure consistency, perform the following steps when preparing your input file:</p>
+<p>It is important that the input data be prepared in a way that is consistent with how the data were prepared for calibration of the IBIs. For example, if you use a different level of taxonomic resolution (family vs. species-level) or trait assignments differ (e.g., Functional Feeding Groups do not match), this will affect the results. To ensure consistency, perform the following steps when preparing your input file:</p>
 <ul>
-<li>Check your taxa list against the ‘FinalID’ field in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">TaxaTranslator table</a>. The use of consistent nomenclature is encouraged.</li>
+<li>Check the taxa names in your input file against the ‘TAXAID’ field in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">TaxaTranslator table</a>. Ideally the names match (but this is not required). The TAXAID field is included in the Taxa Attribute tables, which have trait assignments, phylogeny and other fields required in your input file. Contact Jen Stamp (<a href="mailto:Jen.Stamp@tetratech.com" class="email">Jen.Stamp@tetratech.com</a>) if you need assistance with checking your taxa list and using the Taxa Attribute tables.</li>
 <li>Remove any rows that have 0 individuals (e.g., Large/Rare taxa entries)</li>
 <li>For each taxon, there should only be one entry per sample. For example, if entries are broken out by life stage (e.g., larvae, pupae), they should be ‘collapsed’ into one row per taxon/sample (by summing the individuals and deleting the life stage field)</li>
-<li>Perform random subsampling if needed. For example, if you want to apply a 100-count kick IBI but have a 300-count sample, first reduce the total count of individuals to 100 (±20%)</li>
-<li>Use NonTarget taxa designations and trait assignments (FFG, tolerance value, life cycle) that match with those in the appropriate <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">TaxaAttribute tables</a>. Taxa tolerance values differ slightly in low gradient vs. higher gradient (kick net) streams; thus, we created separate attribute tables for each stream type. Note: the TaxaID field in the attribute tables matches with the ‘FinalID’ field in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">TaxaTranslator table</a> (which is further reason to use consistent nomenclature).</li>
-<li>Mark redundant (non-distinct) taxa in each sample in a way that is consistent with the criteria described in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">ExcludeDecisionCriteria</a> document.</li>
-<li>Make sure you select the correct IBI for each sample (which is entered into the ‘Index_Region’ column).</li>
+<li>Check the total number of individuals. Perform random subsampling if needed. For example, if you want to apply a 100-count kick IBI but have a 300-count sample, first reduce the total count of individuals to 100. We used a 20% target when determining whether to subsample (in other words, we subsampled if &gt;120 total individuals were in a 100-count sample or if &gt;360 total individuals were in a 300-count sample).</li>
+<li>Use NonTarget taxa designations and trait assignments (FFG, tolerance value, life cycle) that match with those in the appropriate <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">TaxaAttribute tables</a>. Taxa tolerance values differ slightly in low gradient vs. higher gradient (kick net) streams; thus, we created separate attribute tables for each stream type.</li>
+<li>Mark redundant (nondistinct) taxa in each sample in a way that is consistent with the criteria described in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">ExcludeDecisionCriteria</a> document.</li>
+<li>Make sure you select the correct IBI for each sample and enter it into the ‘INDEX_REGION’ field. There are five options: KickIBI_CH_100ct, KickIBI_CH_300ct, KickIBI_WH_100ct, KickIBI_WH_300ct, or LowGradientIBI. All low gradient/multihab samples should be run through the (statewide) LowGradientIBI. IBIs for the kick net samples vary depending on the region (Central Hills (CT) or Western Highlands (WH) and subsample size (100 or 300-organism samples). If you have access to GIS software, <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">click here to download a GIS shapefile of the two regions (CT and WH)</a>.</li>
 </ul>
 <p>You are now ready to run your file through the IBI calculator!</p>
 <div id="table-1.-list-of-required-fields.-column-names-must-be-capitalized-and-match-the-spelling-and-symbology-exactly-as-shown." class="section level3">
@@ -31,16 +31,19 @@
 <thead>
 <tr>
 <th style="text-align:left;">
-Required field (in CAPS)
+Column Name
 </th>
 <th style="text-align:left;">
-Description
+Data Type
 </th>
 <th style="text-align:left;">
-Acceptable entries
+Domain (allowable entries)
 </th>
 <th style="text-align:left;">
-Notes
+Null Allowed
+</th>
+<th style="text-align:left;">
+Comment
 </th>
 </tr>
 </thead>
@@ -50,13 +53,16 @@ Notes
 INDEX_NAME
 </td>
 <td style="text-align:left;">
-Entity_Year_Assemblage
+text
 </td>
 <td style="text-align:left;">
-One option: MassDEP_2020_Bugs
+MassDEP_2020_Bugs
 </td>
 <td style="text-align:left;">
-Must match ‘Acceptable entries’ options exactly
+No
+</td>
+<td style="text-align:left;">
+Only one allowable entry (MassDEP_2020_Bugs).
 </td>
 </tr>
 <tr>
@@ -64,13 +70,16 @@ Must match ‘Acceptable entries’ options exactly
 INDEX_REGION
 </td>
 <td style="text-align:left;">
-Specifies which IBI to apply to each sample
+text
 </td>
 <td style="text-align:left;">
-Three options (select one only): KickIBI_CH_100ct, KickIBI_WH_100ct, LowGradientIBI
+KickIBI_CH_100ct, KickIBI_CH_300ct, KickIBI_WH_100ct, KickIBI_WH_300ct, LowGradientIBI
 </td>
 <td style="text-align:left;">
-Must match ‘Acceptable entries’ options exactly. CH = Central Hills, WH = Western Highlands
+No
+</td>
+<td style="text-align:left;">
+Must match one of the five allowable entries (which tells the R code which IBI to apply to each sample).
 </td>
 </tr>
 <tr>
@@ -78,13 +87,16 @@ Must match ‘Acceptable entries’ options exactly. CH = Central Hills, WH = We
 STATIONID
 </td>
 <td style="text-align:left;">
-Unique station identifier
+text
 </td>
 <td style="text-align:left;">
-Text; Example: B0950
+NA
 </td>
 <td style="text-align:left;">
-Corresponds with UniqueID in the MassDEP database
+Yes
+</td>
+<td style="text-align:left;">
+NA
 </td>
 </tr>
 <tr>
@@ -92,13 +104,16 @@ Corresponds with UniqueID in the MassDEP database
 SAMPLEID
 </td>
 <td style="text-align:left;">
-Unique sample identifier
+text
 </td>
 <td style="text-align:left;">
-Text; Example: 2017004
+NA
 </td>
 <td style="text-align:left;">
-Corresponds with BenSampID in the MassDEP database
+No
+</td>
+<td style="text-align:left;">
+Unique sample identifier (typically comprised of the site name, sample date, and replicate number).
 </td>
 </tr>
 <tr>
@@ -106,10 +121,13 @@ Corresponds with BenSampID in the MassDEP database
 LAT
 </td>
 <td style="text-align:left;">
-Latitude
+numeric
 </td>
 <td style="text-align:left;">
-Numeric; in decimal degrees. Example: 41.1864
+real number, in decimal degrees
+</td>
+<td style="text-align:left;">
+No
 </td>
 <td style="text-align:left;">
 NAD83 datum
@@ -120,13 +138,16 @@ NAD83 datum
 LONG
 </td>
 <td style="text-align:left;">
-Longitude
+numeric
 </td>
 <td style="text-align:left;">
-Numeric; in decimal degrees. Example: -73.3429
+real number, in decimal degrees
 </td>
 <td style="text-align:left;">
-NAD83 datum
+No
+</td>
+<td style="text-align:left;">
+NAD83 datum. Longitude values in North America (west of the prime meridian) should be negative .
 </td>
 </tr>
 <tr>
@@ -134,13 +155,16 @@ NAD83 datum
 COLLDATE
 </td>
 <td style="text-align:left;">
-Collection date
+date
 </td>
 <td style="text-align:left;">
-Date; preferred format is Month/Day/Year (4-digit). Example: 8/10/2015
+NA
 </td>
 <td style="text-align:left;">
-Other date formats can be used but Month/Day/Year (4-digit) is recommended
+Yes
+</td>
+<td style="text-align:left;">
+Date on which the sample was collected.
 </td>
 </tr>
 <tr>
@@ -148,13 +172,16 @@ Other date formats can be used but Month/Day/Year (4-digit) is recommended
 COLLMETH
 </td>
 <td style="text-align:left;">
-Collection method
+text
 </td>
 <td style="text-align:left;">
-Text; Example: RBP kicknet
+NA
 </td>
 <td style="text-align:left;">
-Normal MassDEP entries are ‘RBP kicknet’ or ‘RBP multihab’
+Yes
+</td>
+<td style="text-align:left;">
+NA
 </td>
 </tr>
 <tr>
@@ -162,13 +189,16 @@ Normal MassDEP entries are ‘RBP kicknet’ or ‘RBP multihab’
 TAXAID
 </td>
 <td style="text-align:left;">
-Unique taxa identifier
+text
 </td>
 <td style="text-align:left;">
-Text; Example: Rhyacophila atrata
+NA
 </td>
 <td style="text-align:left;">
-The taxa list should match with the FinalID field in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">TaxaTranslator table</a>. Taxa should be identified to the lowest practical taxonomic resolution. If not, results should be interpreted with caution
+No
+</td>
+<td style="text-align:left;">
+Taxonomic identification of organisms in each sample. See <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">TaxaTranslator table</a>.
 </td>
 </tr>
 <tr>
@@ -176,13 +206,16 @@ The taxa list should match with the FinalID field in the <a href="https://github
 N_TAXA
 </td>
 <td style="text-align:left;">
-Number of individuals
+numeric
 </td>
 <td style="text-align:left;">
-Numeric
+non-negative real number
 </td>
 <td style="text-align:left;">
-In some cases, random subsampling may be necessary during the data preparation step (e.g., reducing a 300-count kick sample to 100 organisms before applying a 100-count kickIBI)
+No
+</td>
+<td style="text-align:left;">
+Number of individuals.
 </td>
 </tr>
 <tr>
@@ -190,13 +223,16 @@ In some cases, random subsampling may be necessary during the data preparation s
 EXCLUDE
 </td>
 <td style="text-align:left;">
-Redundant taxa (also referred to as non-distinct taxa) are excluded from richness metric calculations but are counted in the other metrics
+text
 </td>
 <td style="text-align:left;">
-TRUE or FALSE (redundant taxa should be entered as “TRUE”). No blanks
+TRUE, FALSE
 </td>
 <td style="text-align:left;">
-Criteria for designating redundant taxa should be consistent with the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">ExcludeDecisionCriteria document</a>.
+No
+</td>
+<td style="text-align:left;">
+Redundant (non-distinct) taxa should marked “TRUE”. Criteria for designating redundant taxa should be consistent with the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">ExcludeDecisionCriteria document</a>.
 </td>
 </tr>
 <tr>
@@ -204,13 +240,16 @@ Criteria for designating redundant taxa should be consistent with the <a href="h
 NONTARGET
 </td>
 <td style="text-align:left;">
-Non-target taxa are not part of the intended capture list (e.g., Hemiptera, Decapoda, terrestrial). They are excluded from all metric calculations
+text
 </td>
 <td style="text-align:left;">
-TRUE or FALSE (Non-target taxa should be entered as “TRUE”). No blanks
+TRUE, FALSE
 </td>
 <td style="text-align:left;">
-Should match with the entries in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">Taxa Attribute tables</a>, which are the same in both the kick net and low gradient attribute tables.
+No
+</td>
+<td style="text-align:left;">
+Non-target taxa should be marked “TRUE”. Designations should match with those in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">Taxa Attribute tables</a>.
 </td>
 </tr>
 <tr>
@@ -218,13 +257,16 @@ Should match with the entries in the <a href="https://github.com/Blocktt/MassIBI
 PHYLUM
 </td>
 <td style="text-align:left;">
-Taxonomic hierarchy (e.g., Arthropoda)
+text
 </td>
 <td style="text-align:left;">
-Text; If no entry, leave blank
+NA
 </td>
 <td style="text-align:left;">
-Should match with the entries in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">Taxa Attribute tables</a>, which are the same in both the kick net and low gradient attribute tables.
+Yes
+</td>
+<td style="text-align:left;">
+NA
 </td>
 </tr>
 <tr>
@@ -232,13 +274,16 @@ Should match with the entries in the <a href="https://github.com/Blocktt/MassIBI
 CLASS
 </td>
 <td style="text-align:left;">
-Taxonomic hierarchy (e.g., Insecta)
+text
 </td>
 <td style="text-align:left;">
-Text; If no entry, leave blank
+NA
 </td>
 <td style="text-align:left;">
-Should match with the entries in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">Taxa Attribute tables</a>, which are the same in both the kick net and low gradient attribute tables.
+Yes
+</td>
+<td style="text-align:left;">
+This entry affects the non-insect metric calculation for the low gradient IBI. Insect/non-insect designations should match with those in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">Taxa Attribute tables</a>.
 </td>
 </tr>
 <tr>
@@ -246,13 +291,16 @@ Should match with the entries in the <a href="https://github.com/Blocktt/MassIBI
 ORDER
 </td>
 <td style="text-align:left;">
-Taxonomic hierarchy (e.g., Coleoptera)
+text
 </td>
 <td style="text-align:left;">
-Text; If no entry, leave blank
+NA
 </td>
 <td style="text-align:left;">
-Should match with the entries in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">Taxa Attribute tables</a>, which are the same in both the kick net and low gradient attribute tables.
+Yes
+</td>
+<td style="text-align:left;">
+Several IBI metrics are based on Order (e.g., % EPT taxa). Entries should be consistent with the phylogeny in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">Taxa Attribute tables</a>.
 </td>
 </tr>
 <tr>
@@ -260,13 +308,16 @@ Should match with the entries in the <a href="https://github.com/Blocktt/MassIBI
 FAMILY
 </td>
 <td style="text-align:left;">
-Taxonomic hierarchy (e.g., Elmidae)
+text
 </td>
 <td style="text-align:left;">
-Text; If no entry, leave blank
+NA
 </td>
 <td style="text-align:left;">
-Should match with the entries in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">Taxa Attribute tables</a>, which are the same in both the kick net and low gradient attribute tables.
+Yes
+</td>
+<td style="text-align:left;">
+The ‘% Ephemeroptera, excluding Caenidae and Baetidae’ metric (from the CH kick net IBIs) is partly based on Family. Entries should be consistent with the phylogeny in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">Taxa Attribute tables</a>.
 </td>
 </tr>
 <tr>
@@ -274,13 +325,16 @@ Should match with the entries in the <a href="https://github.com/Blocktt/MassIBI
 SUBFAMILY
 </td>
 <td style="text-align:left;">
-Taxonomic hierarchy (e.g., Orthocladiinae)
+text
 </td>
 <td style="text-align:left;">
-Text; If no entry, leave blank
+NA
 </td>
 <td style="text-align:left;">
-Should match with the entries in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">Taxa Attribute tables</a>, which are the same in both the kick net and low gradient attribute tables.
+Yes
+</td>
+<td style="text-align:left;">
+NA
 </td>
 </tr>
 <tr>
@@ -288,13 +342,16 @@ Should match with the entries in the <a href="https://github.com/Blocktt/MassIBI
 TRIBE
 </td>
 <td style="text-align:left;">
-Taxonomic hierarchy (e.g., Chironomini)
+text
 </td>
 <td style="text-align:left;">
-Text; If no entry, leave blank
+NA
 </td>
 <td style="text-align:left;">
-Should match with the entries in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">Taxa Attribute tables</a>, which are the same in both the kick net and low gradient attribute tables.
+Yes
+</td>
+<td style="text-align:left;">
+NA
 </td>
 </tr>
 <tr>
@@ -302,13 +359,16 @@ Should match with the entries in the <a href="https://github.com/Blocktt/MassIBI
 GENUS
 </td>
 <td style="text-align:left;">
-Taxonomic hierarchy (e.g., Rhyacophila)
+text
 </td>
 <td style="text-align:left;">
-Text; If no entry, leave blank
+NA
 </td>
 <td style="text-align:left;">
-Should match with the entries in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">Taxa Attribute tables</a>, which are the same in both the kick net and low gradient attribute tables.
+Yes
+</td>
+<td style="text-align:left;">
+NA
 </td>
 </tr>
 <tr>
@@ -316,13 +376,16 @@ Should match with the entries in the <a href="https://github.com/Blocktt/MassIBI
 FFG
 </td>
 <td style="text-align:left;">
-Functional Feeding Group: collector-gatherer (CG), collector-filterer (CF), predator (PR), scraper (SC), shredder (SH)
+text
 </td>
 <td style="text-align:left;">
-Five options (can select multiple): CG, CF, PR, SC, SH. If no attribute, leave blank
+CG, CF, PR, SC, SH (select one)
 </td>
 <td style="text-align:left;">
-Should match with the entries in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">Taxa Attribute tables</a>, which are the same in both the kick net and low gradient attribute tables.
+Yes
+</td>
+<td style="text-align:left;">
+Primary Functional Feeding Group. One entry only: collector-gatherer (CG), collector-filterer (CF), predator (PR), scraper (SC), or shredder (SH). At least one FFG metric is in each IBI. FFG trait assignments should match with those in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">Taxa Attribute tables</a>.
 </td>
 </tr>
 <tr>
@@ -330,13 +393,16 @@ Should match with the entries in the <a href="https://github.com/Blocktt/MassIBI
 TOLVAL
 </td>
 <td style="text-align:left;">
-Values range from 0 (most intolerant) to 10 (most tolerant). Intolerant taxa 0 to 3. Tolerant taxa 7 to 10
+numeric
 </td>
 <td style="text-align:left;">
-Numeric; If no attribute, leave blank
+number ranging from 0-10
 </td>
 <td style="text-align:left;">
-IMPORTANT - Tolerance values are slightly different in the kick net vs low gradient <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">Taxa Attribute tables</a>. Make sure you use the appropriate tolerance values.
+Yes
+</td>
+<td style="text-align:left;">
+Taxa with tolerance values ranging from 0 to 3 are considered ‘intolerant’ to anthropogenic disturbance and are included in the ‘intolerant’ metric calculations. Those with values ranging from 7 to 10 are included in the ‘tolerant’ metrics. Tolerance value assignments are slightly different in low gradient vs high gradient (kick net method) streams, and should match with those in the appropriate <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">Taxa Attribute tables</a>. Make sure you use the appropriate tolerance values. Use TaxaAttribute_MULTI for multihabitat IBI and TaxaAttribute_KICK for Kick IBIs.
 </td>
 </tr>
 <tr>
@@ -344,13 +410,16 @@ IMPORTANT - Tolerance values are slightly different in the kick net vs low gradi
 LIFE_CYCLE
 </td>
 <td style="text-align:left;">
-univoltine (UNI), semivoltine (SEMI), multivoltine (MULTI)
+text
 </td>
 <td style="text-align:left;">
-Three options (select one only): UNI, SEMI, MULTI. If no attribute, leave blank
+uni, semi, multi (select one)
 </td>
 <td style="text-align:left;">
-Should match with the entries in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">Taxa Attribute tables</a>, which are the same in both the kick net and low gradient attribute tables.
+Yes
+</td>
+<td style="text-align:left;">
+Number of broods or generations of an organism in a year (also referred to as ‘voltinism’): univoltine (UNI), semivoltine (SEMI), or multivoltine (MULTI). One metric (% semivoltine taxa in the low gradient IBI) is based on life cycle. Trait assignments should match with those in the <a href="https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep">Taxa Attribute tables</a>.
 </td>
 </tr>
 </tbody>
