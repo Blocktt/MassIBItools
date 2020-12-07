@@ -17,6 +17,10 @@ knitr::opts_chunk$set(
 cat(paste0("Last Update: ",Sys.time()))
 ```
 
+MassIBItools v0.1.2.920 (2020-12-07)
+================
+* Updated data prep, instructions, and background information per Jen Stamp's (Tt) edits
+
 MassIBItools v0.1.2.915 (2020-11-02)
 ================
 * Added HTML versions of instructions and background tabs

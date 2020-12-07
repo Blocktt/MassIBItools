@@ -3,7 +3,12 @@ NEWS-MassIBItools
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
 
-    #> Last Update: 2020-11-02 14:38:17
+    #> Last Update: 2020-12-07 13:24:36
+
+# MassIBItools v0.1.2.920 (2020-12-07)
+
+  - Updated data prep, instructions, and background information per Jen
+    Stamp’s (Tt) edits
 
 # MassIBItools v0.1.2.915 (2020-11-02)
 

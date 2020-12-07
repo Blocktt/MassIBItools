@@ -31,7 +31,7 @@
 
 
 # Define UI
-shinyUI(navbarPage(theme = shinytheme("united"), "Massachusetts Stream IBI Calculator v0.1.2.915",
+shinyUI(navbarPage(theme = shinytheme("united"), "Massachusetts Stream IBI Calculator v0.1.2.920",
                    tabPanel("Background",
 
                             img(src = "MassDEPlogo.png"),
