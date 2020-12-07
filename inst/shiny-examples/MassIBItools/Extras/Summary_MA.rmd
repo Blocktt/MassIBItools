@@ -109,7 +109,7 @@ theme_booktabs(ftable1)
 
 ```
 
-### Table 2. Index scores summary statistics by Index Region.
+### Table 2. Index scores summary statistics by Index Region. Rows that contain "Stress Sites" and "Reference Sites" are static and always appear regardless of input data set. Essentially, you can use these rows to compare the results of your input dataset to the reference/stress sites used in calibration of each IBI. Note, do not compare across Index Regions as this is not a correct interpretation (e.g., do not compare CH to WH or Low Gradient). Rather, only compare inputs to their equivalent index region results (e.g., CH to CH Stress/Reference Sites).
 ```{r Results_summary_table2, message=FALSE}
 library(knitr)
 library(tidyr)

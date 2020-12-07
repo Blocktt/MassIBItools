@@ -33,6 +33,8 @@ MassIBItools requires input files to be in a tabular format, saved as either com
 
 Click here to view an [EXAMPLE INPUT FILE](https://github.com/Blocktt/MassIBItools/tree/master/inst/shiny-examples/MassIBItools/Examples).
 
+If you are unsure how to download a data file from GitHub, [watch this short video](https://www.youtube.com/watch?v=GIJdfuAoqFI) or contact Ben Block (ben.block@tetratech.com).
+
 It is important that the input data be prepared in a way that is consistent with how the data were prepared for calibration of the IBIs. For example, if you use a different level of taxonomic resolution (family vs. species-level) or trait assignments differ (e.g., Functional Feeding Groups do not match), this will affect the results. To ensure consistency, perform the following steps when preparing your input file:
 
 * Check the taxa names in your input file against the ‘TAXAID’ field in the [TaxaTranslator table](https://github.com/Blocktt/MassIBItools/tree/master/Data_Prep). Ideally the names match (but this is not required). The TAXAID field is included in the Taxa Attribute tables, which have trait assignments, phylogeny and other fields required in your input file. Contact Jen Stamp (Jen.Stamp@tetratech.com) if you need assistance with checking your taxa list and using the Taxa Attribute tables.

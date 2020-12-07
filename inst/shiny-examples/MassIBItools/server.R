@@ -277,7 +277,7 @@ shinyServer(function(input, output, session) {
             df_data$INDEX_REGION_LONG <- ifelse(df_data$INDEX_REGION == "KickIBI_CH_300ct", "Central_Hills_300ct",
                                                 ifelse(df_data$INDEX_REGION == "KickIBI_CH_100ct", "Central_Hills_100ct",
                                                        ifelse(df_data$INDEX_REGION == "KickIBI_WH_300ct", "Western_Highlands_300ct",
-                                                              ifelse(df_data$INDEX_REGION == "KickIBI_WH_100ct", "Western_Highlands_300ct",
+                                                              ifelse(df_data$INDEX_REGION == "KickIBI_WH_100ct", "Western_Highlands_100ct",
                                                                      "Statewide_Low_Gradient"))))
 
             # columns to keep
