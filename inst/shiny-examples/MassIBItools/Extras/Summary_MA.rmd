@@ -140,11 +140,11 @@ IBI_data <- read_excel(file.path(table.dir, table.file), sheet = IBI_tab.dir
 table2 <- rbind(table2_temp, IBI_data)
 
 table2 <- table2 %>% # renames Index_Region to nice names
-  mutate(`Index Region` = replace(`Index Region`, `Index Region` == "KickIBI_CH_100ct", "Central Hills (100 ct)")) %>% 
-  mutate(`Index Region` = replace(`Index Region`, `Index Region` == "KickIBI_CH_300ct", "Central Hills (300 ct)")) %>% 
-  mutate(`Index Region` = replace(`Index Region`, `Index Region` == "KickIBI_WH_100ct", "Western Highlands (100ct)")) %>% 
-  mutate(`Index Region` = replace(`Index Region`, `Index Region` == "KickIBI_WH_300ct", "Western Highlands (300ct)")) %>% 
-  mutate(`Index Region` = replace(`Index Region`, `Index Region` == "LowGradientIBI", "Low Gradient"))
+  mutate(`Index Region` = replace(`Index Region`, `Index Region` == "KickIBI_CH_100ct", "Cent. Hills (100 ct) - Input")) %>% 
+  mutate(`Index Region` = replace(`Index Region`, `Index Region` == "KickIBI_CH_300ct", "Cent. Hills (300 ct) - Input")) %>% 
+  mutate(`Index Region` = replace(`Index Region`, `Index Region` == "KickIBI_WH_100ct", "West. High. (100ct) - Input")) %>% 
+  mutate(`Index Region` = replace(`Index Region`, `Index Region` == "KickIBI_WH_300ct", "West. High. (300ct) - Input")) %>% 
+  mutate(`Index Region` = replace(`Index Region`, `Index Region` == "LowGradientIBI", "Low Gradient - Input"))
 
 # create flextable for output 
 # https://davidgohel.github.io/flextable/articles/layout.html
