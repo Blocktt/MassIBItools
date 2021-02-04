@@ -26,7 +26,7 @@ Indices of Biotic Integrity (IBIs) were developed for macroinvertebrate assembla
 * Central Hills kick net IBI (300-count)
 * Statewide low gradient (multihab) IBI (300-count)
 
-The southeast portion of Massachusetts, which includes the Narragansett/Bristol Lowlands, Cape Cod, and the Islands, had insufficient data to develop an IBI for kick net samples at this time.
+The southeast portion of Massachusetts, which includes the Narragansett/Bristol Lowlands, Cape Cod, and the Islands, had insufficient data to develop an IBI for kick net samples at this time. However, this region is where many streams can be sampled with multihabitat methods and the multihabitat index can be applied for those samples.
 
 Reports detailing the development of the kick and low gradient IBIs can be found [here](https://github.com/Blocktt/MassIBItools/tree/master/reports).
 

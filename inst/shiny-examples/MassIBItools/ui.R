@@ -40,7 +40,7 @@ shinyUI(navbarPage(theme = shinytheme("united"), "Massachusetts Stream IBI Calcu
                             #https://groups.google.com/g/shiny-discuss/c/0UiiHcdhN4k
                             #https://stackoverflow.com/questions/34256810/knitr-rmarkdown-pander-minimal-md-html-for-body-body-only
                             includeHTML("App_Background.html"),
-                            img(src = "figure1_alt.png", height = 580, width = 1000)
+                            img(src = "figure1_alt.png", height = 800, width = 800)
 
                    ), #tabPanel ~END
                    tabPanel("Instructions",
