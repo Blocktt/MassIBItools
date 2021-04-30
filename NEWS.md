@@ -3,33 +3,33 @@ NEWS-MassIBItools
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
 
-    #> Last Update: 2021-02-24 09:24:02
+    #> Last Update: 2021-04-30 11:30:29
 
 # MassIBItools v0.1.2.920 (2020-12-07)
 
-  - Updated data prep, instructions, and background information per Jen
+-   Updated data prep, instructions, and background information per Jen
     Stamp’s (Tt) edits
 
 # MassIBItools v0.1.2.915 (2020-11-02)
 
-  - Added HTML versions of instructions and background tabs
+-   Added HTML versions of instructions and background tabs
 
 # MassIBItools v0.1.2.900 (2020-09-24)
 
-  - Added instructions tab that has background information
+-   Added instructions tab that has background information
 
 # MassIBItools v0.1.1.900 (2020-09-23)
 
-  - Added data explorer tab - includes increased mapping capabilities
+-   Added data explorer tab - includes increased mapping capabilities
     and index scoring plot.
-  - Added generic summary report that downloads when results are
+-   Added generic summary report that downloads when results are
     downloaded.
 
 # MassIBItools v0.1.0.904 (2020-09-11)
 
-  - Created additions to mappping capabilities - site selector, toggle
+-   Created additions to mappping capabilities - site selector, toggle
     of background layers, and region layers.
 
 # MassIBItools v0.1.0.900 (2020-09-08)
 
-  - Forked code from <https://github.com/Blocktt/MassIBItools>
+-   Forked code from <https://github.com/Blocktt/MassIBItools>
